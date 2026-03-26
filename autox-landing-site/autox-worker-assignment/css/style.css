@@ -1,0 +1,388 @@
+/* ALSCCA Autocross Worker Assignment Tool — Dark Theme */
+
+body {
+  padding: var(--space-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: var(--font-size-2xl);
+  color: var(--accent);
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+/* Sections */
+.section {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.section h2 {
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+/* File inputs & controls row */
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.control-group label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.control-group input[type="file"] {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+}
+
+.control-group input[type="text"],
+.control-group input[type="number"],
+.control-group select {
+  padding: 6px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.control-group input[type="text"]:focus,
+.control-group input[type="number"]:focus,
+.control-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.control-group input[type="number"] {
+  width: 60px;
+}
+
+/* Memory indicator */
+.memory-indicator {
+  display: inline-block;
+  padding: var(--space-xs) 10px;
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.memory-indicator.loaded {
+  background: rgba(40, 167, 69, 0.15);
+  color: var(--color-success);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.memory-indicator.empty {
+  background: rgba(255, 193, 7, 0.15);
+  color: var(--color-warning);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.memory-indicator.none {
+  background: rgba(220, 53, 69, 0.15);
+  color: var(--color-danger);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+/* Buttons */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+button {
+  padding: 8px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+button:hover:not(:disabled) {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+button.success {
+  background: var(--color-success);
+  color: #fff;
+  border-color: var(--color-success);
+}
+
+button.success:hover:not(:disabled) {
+  background: var(--color-success-hover);
+}
+
+button.danger {
+  background: transparent;
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+button.danger:hover:not(:disabled) {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+/* Status message */
+.status {
+  min-height: 24px;
+  font-size: var(--font-size-base);
+  padding: var(--space-xs) 0;
+}
+
+.status.success {
+  color: var(--color-success);
+}
+
+.status.error {
+  color: var(--color-danger);
+}
+
+/* Group assignment */
+#group-assignment {
+  display: none;
+}
+
+#group-assignment h3 {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.help-text {
+  font-size: 0.8rem;
+  color: var(--text-dimmed);
+  margin-bottom: var(--space-sm);
+}
+
+.group-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 6px;
+}
+
+.group-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.group-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.group-row select {
+  padding: 3px 6px;
+  font-size: 0.82rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.group-counts {
+  margin-top: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--bg-tertiary);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+}
+
+.ladies-note,
+.novice-note {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+  font-style: italic;
+}
+
+/* Table toolbar */
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.toolbar-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.toolbar-controls select,
+.toolbar-controls input[type="text"] {
+  padding: 3px 6px;
+  font-size: 0.82rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.toolbar-controls input[type="text"] {
+  width: 160px;
+}
+
+.toolbar-controls input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.toolbar-btn {
+  padding: 3px 8px;
+  font-size: 0.78rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.toolbar-btn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.toolbar-sep {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: var(--border-color);
+  margin: 0 var(--space-xs);
+}
+
+.filter-count {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Spreadsheet container */
+#spreadsheet {
+  margin-top: var(--space-xs);
+  overflow: auto;
+}
+
+/* Highlight matching rows during filter */
+.jexcel tbody tr.filter-match td {
+  background-color: rgba(233, 69, 96, 0.15) !important;
+}
+
+/* jspreadsheet dark theme overrides */
+.jexcel {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.jexcel thead td {
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.jexcel tbody td {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.jexcel tbody tr:nth-child(even) td {
+  background-color: var(--bg-secondary) !important;
+}
+
+.jexcel tbody td.jexcel_selected,
+.jexcel tbody td.highlight {
+  background-color: var(--accent-bg) !important;
+}
+
+.jexcel .jexcel_content {
+  background-color: var(--bg-primary);
+}
+
+/* Sample data buttons */
+.sample-btn {
+  padding: var(--space-xs) 10px;
+  font-size: 0.78rem;
+  border: 1px dashed var(--text-muted);
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sample-btn:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--text-secondary);
+  color: var(--text-secondary);
+}
+
+/* Memory controls */
+.memory-controls {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  flex-wrap: wrap;
+}

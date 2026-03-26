@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALSCCA Autocross Worker Assignment</title>
+
+  <!-- jspreadsheet CE (jExcel) -->
+  <script src="https://bossanova.uk/jspreadsheet/v4/jexcel.js"></script>
+  <link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" />
+  <!-- jsuites (required by jspreadsheet) -->
+  <script src="https://jsuites.net/v4/jsuites.js"></script>
+  <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" />
+
+  <!-- jsPDF + autoTable for PDF generation -->
+  <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- Shared design tokens -->
+  <link rel="stylesheet" href="../shared/variables.css" />
+  <!-- App styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <h1>ALSCCA Autocross Worker Assignment</h1>
+  <p class="subtitle">Upload entry list, assign run groups and worker positions, generate PDFs.</p>
+
+  <!-- Setup Section -->
+  <div class="section">
+    <h2>Setup</h2>
+    <div class="controls-row">
+      <div class="control-group">
+        <label>Entry List (CSV)</label>
+        <input type="file" id="csv-file" accept=".csv" />
+        <button id="btn-sample-csv" class="sample-btn">Load Sample Entry List</button>
+      </div>
+      <div class="control-group">
+        <label>Corners</label>
+        <input type="number" id="corner-count" value="4" min="2" max="8" />
+      </div>
+    </div>
+    <div class="controls-row" style="margin-top: 8px;">
+      <div class="control-group" style="flex: 1;">
+        <label>Event Title</label>
+        <input type="text" id="event-title" value="" style="width: 100%; max-width: 500px;" />
+      </div>
+    </div>
+    <div class="controls-row" style="margin-top: 8px;">
+      <div class="control-group">
+        <label>Memory File (JSON)</label>
+        <div class="memory-controls">
+          <input type="file" id="memory-file" accept=".json" />
+          <button id="btn-sample-memory" class="sample-btn">Load Sample Memory</button>
+          <span id="memory-indicator" class="memory-indicator none">Memory: not loaded</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Run Group Assignment -->
+  <div class="section">
+    <div id="group-assignment"></div>
+
+    <div class="button-row">
+      <button id="btn-auto-balance" class="" disabled>Auto-Balance Groups</button>
+      <button id="btn-split" class="primary" disabled>Split Run Groups</button>
+      <button id="btn-assign" class="primary" disabled>Assign Workers</button>
+    </div>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <!-- Editable Spreadsheet -->
+  <div class="section">
+    <div class="table-toolbar">
+      <h2 style="margin: 0;">Entrants &amp; Assignments</h2>
+      <div class="toolbar-controls">
+        <label class="toolbar-label">Sort:</label>
+        <select id="sort-column">
+          <option value="">--</option>
+          <option value="0">Competitor</option>
+          <option value="1">Class</option>
+          <option value="2">PAX</option>
+          <option value="4">Running</option>
+          <option value="5">Working</option>
+          <option value="6">Position</option>
+        </select>
+        <button id="btn-sort-asc" class="toolbar-btn" title="Sort ascending">A-Z</button>
+        <button id="btn-sort-desc" class="toolbar-btn" title="Sort descending">Z-A</button>
+        <span class="toolbar-sep"></span>
+        <label class="toolbar-label">Filter:</label>
+        <input type="text" id="table-filter" placeholder="Type to highlight..." />
+        <span id="filter-count" class="filter-count"></span>
+      </div>
+    </div>
+    <div id="spreadsheet"></div>
+  </div>
+
+  <!-- Output Controls -->
+  <div class="section">
+    <h2>Output</h2>
+    <div class="button-row">
+      <button id="btn-pdf-workers" class="success" disabled>Generate Worker Assignments PDF</button>
+      <button id="btn-pdf-groups" class="success" disabled>Generate Groups Page PDF</button>
+      <button id="btn-download-memory">Save &amp; Download Memory</button>
+      <button id="btn-view-memory">View Memory</button>
+      <button id="btn-clear-memory" class="danger">Clear Memory</button>
+    </div>
+  </div>
+
+  <!-- App scripts (order matters) -->
+  <script src="js/config.js"></script>
+  <script src="js/memory.js"></script>
+  <script src="js/csv.js"></script>
+  <script src="js/groups.js"></script>
+  <script src="js/workers.js"></script>
+  <script src="js/pdf.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

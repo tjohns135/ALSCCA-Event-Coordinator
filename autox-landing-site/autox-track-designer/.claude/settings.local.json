@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(dir:*)",
+      "Bash(python -c:*)",
+      "Bash(del \"G:\\\\My Drive\\\\ClaudeProjectsDrive\\\\autox-track-designer\\\\_path_data.json\")",
+      "Bash(ls:*)",
+      "WebFetch(domain:dev.to)",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

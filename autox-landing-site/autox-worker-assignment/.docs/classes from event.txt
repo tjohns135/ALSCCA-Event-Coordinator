@@ -1,0 +1,94 @@
+Raw Index
+Position 	Class 	PAX 	Car # 	Name 	Car 	Raw Corrected Time
+1 	X 	CAMS 	6 	Chris Jones 	2013 Chevrolet Corvette Z06 	41.461
+2 	X 	CAMS 	16 	Matt Horn 	2013 Chevrolet Corvette Z06 	41.812
+3 	X 	AS 	72 	Nick Lindsay 	2007 Chevrolet Corvette Z06 	41.949
+4 	X 	XB 	161 	Zach Ramos 	2022 Porsche 911 GT3 	41.968
+5 	S1 	AS 	6 	Matt Odle 	2014 Porsche Cayman S 	42.761
+6 	X 	CS 	24 	Jerry Ledford 	2021 Mazda Miata 	42.828
+7 	S2 	CS 	17 	Daniel Sanders 	2024 Mazda Miata 	42.992
+8 	XS 	XB 	17 	Michael Valant 	1993 Honda Civic 	43.005
+9 	S2 	CS 	9 	Charles (Bo) Jinright 	2006 BMW Z4 3.0si 	43.168
+10 	S2 	CS 	1 	Johnny Brewster 	2024 Mazda Miata 	43.235
+11 	ST 	AST 	55 	Tim Foote 	2024 Mazda MX-5 Club RF 	43.435
+12 	S3 	SSC 	60 	Tom Harrington 	2014 Subaru BRZ 	43.603
+13 	S2 	CS 	71 	Joshua Halka 	2000 Porsche Boxster 	43.740
+14 	X 	SSC 	160 	Connor Johnson 	2015 Subaru BRZ 	43.773
+15 	S3 	DS 	53 	Mitch Vaughn 	2022 Toyota GR86 	44.173
+16 	S1 	BS 	77 	Merlin Stimpfl 	2024 Toyota GR Corolla 	44.216
+17 	S1 	SS 	7 	Andy Williams 	2016 Porsche Boxster Spyder 	44.492
+18 	S1 	BS 	14 	Nick Christopher 	2021 Toyota Supra 	44.541
+19 	S3 	GS 	55 	Carville Webb 	2022 Hyundai Elantra N 	44.615
+20 	S1 	BS 	48 	Colby Thomson 	2024 Audi S5 	44.624
+21 	S1 	AS 	9 	Jacob Cicero 	2022 Tesla Model 3 	44.795
+22 	S3 	GS 	155 	Carvel Webb 	2022 Hyundai Elantra N 	44.806
+23 	S3 	DS 	43 	James Mitchell 	2017 Honda Civic Type R 	44.967
+24 	ST 	BST 	7 	Benjamin Callahan 	2002 Chevrolet Corvette 	45.102
+25 	ST 	BST 	5 	Brandon Marquis 	2012 Porsche Cayman S 	45.117
+26 	S1 	SS 	5 	Jeff Jones 	2021 Chevrolet Corvette 	45.178
+27 	CAM 	CAMT 	524 	Michael Melton 	1999 Ford Mustang Cobra 	45.205
+28 	ST 	CST 	22 	Dustin Carroll 	2001 Mazda Miata 	45.223
+29 	ST 	EST 	88 	Joshua Abts 	1997 Mazda Miata 	45.335
+30 	ST 	AST 	42 	Zak Kimes 	2024 Mazda MX-5 Miata Sport 	45.431
+31 	CAM 	CAMT 	35 	Jason Holycross Jr 	1995 Ford mustang 	45.571
+32 	ST 	AST 	862 	Robert Russom 	2019 Mazda Miata 	45.624
+33 	S2 	CS 	20 	Jeff Lee 	2020 Mazda Miata 	45.684
+34 	CAM 	CAMS 	3 	Keith Smith 	2008 Chevrolet Corvette 	45.708
+35 	ST 	CST 	66 	Chris Chatta 	2007 Mazda MX-5 	45.763
+36 	S1 	BS 	26 	Jared LaBarge 	2024 Toyota GR Corolla 	45.772
+37 	N 	CST 	401 	Christopher Alvarez 	2015 Mazda MX-5 Miata Club Hard 	45.847
+38 	S1 	FS 	62 	Mark Rothermel 	2017 Ford Shelby GT350 	46.107
+39 	CAM 	CAMS 	7 	Ethan Jones 	2008 Chevrolet Corvette 	46.121
+40 	N 	SST 	28 	David Edwards 	2021 Toyota GR Supra 	46.162
+41 	S1 	AS 	65 	Richard Mack 	2016 Porsche Cayman GTS 	46.312
+42 	S1 	BS 	730 	Del Williams 	2008 Porsche Cayman S 	46.348
+43 	ST 	CST 	221 	Jim Carroll 	2001 Mazda Miata 	46.475
+44 	ST 	CST 	95 	Jeremy Mote 	2011 Mazda MX-5 	46.575
+45 	ST 	CST 	1 	Tanner Powell 	2007 Mazda Mx-5 	46.605
+46 	ST 	EST 	3 	Brian Anderson 	1988 Chevrolet caviler Z24 	46.667
+47 	CAM 	CAMT 	46 	Darrell Montgomery 	2001 Chevrolet Camaro SS 	46.696
+48 	ST 	CST 	45 	Robert Morrow 	2008 BMW Z4 3.0si 	46.827
+49 	CAM 	CAMS 	82 	Dwayne Custer 	2007 Pontiac Solstice GXP 	46.862
+50 	S3 	GS 	52 	Tyler Johns 	2019 Honda Civic Si 	46.911
+51 	S1 	SS 	27 	Clint Medlock 	2023 Chevrolet Corvette 	47.209
+52 	ST 	GST 	25 	Dhruv Patel 	2024 Volkswagen GTI 	47.224
+53 	S3 	DS 	9 	Josh Kirby 	2017 Volkswagen Golf r 	47.256
+54 	ST 	CST 	6 	Michael Mays 	2006 Mazda Miata 	47.314
+55 	ST 	DST 	122 	John Merrell 	2013 Scion Frs 	47.803
+56 	N 	BST 	12 	Hamza Ibrahim 	2016 BMW 340i 	47.873
+57 	XS 	XA 	99 	Adam Johnson 	1998 Acura integra 	47.900
+58 	S3 	GS 	69 	Lane Downs 	2023 Hyundai Kona N 	48.453
+59 	N 	AS 	170 	David Hauseman 	2015 Porsche Cayman 	48.484
+60 	ST 	CST 	4 	Colin Mitchell 	2007 Mazda Miata 	48.490
+61 	S3 	GS 	13 	James Sonny Picardi 	2024 Volkswagen GTI 	48.622
+62 	ST 	CST 	70 	Mason Hicks 	1994 Mazda Miata 	48.674
+63 	N 	DS 	72 	Justin Larkins 	2016 Scion FRS 	48.822
+64 	S3 	HS 	80 	Mike Wenning 	2024 Mazda 3 	49.036
+65 	ST 	EST 	84 	Glenn Stephenson 	1990 Mazda Miata 	49.240
+66 	S2 	ES 	11 	Gabriel Marrero 	1999 Mazda MX-5 Miata 	49.255
+67 	CAM 	CAMT 	55 	Charlie Richardson 	1976 Chevrolet corvette 	49.473
+68 	CAM 	CAMC 	21 	Nicholas Vegter 	2021 Ford Mustang GT 	49.593
+69 	CAM 	CAMS 	12 	Bret Smith 	2012 Chevrolet Corvette 	50.097
+70 	L 	CS 	207 	Sheryl Lee 	2020 Mazda Miata 	50.244
+71 	N 	SS 	70 	Julio Perez 	2023 Chevrolet Corvette 	50.277
+72 	S1 	FS 	1 	Christopher Morgan 	2019 Nissan 370Z 	50.483
+73 	S1 	SS 	51 	Joshua Toxey 	2025 Hyundai Ioniq 5 N 	50.628
+74 	CAM 	CAMT 	24 	Waters Hudson 	1995 Pontiac Firebird 	51.080
+75 	N 	BS 	62 	Elaine LaBarge 	2024 Toyota GR Corolla 	51.274
+76 	N 	BS 	56 	Ethan Wroblewski 	2010 Chevrolet Corvette 	51.312
+77 	S1 	BS 	34 	Dean Tanner 	2007 Chevrolet Corvette 	51.358
+78 	N 	EST 	4 	Arba McCullough Neto 	1993 Mazda Miata MX-5 	51.495
+79 	N 	CST 	0 	Jack Stembridge 	2000 Honda S2000 	51.577
+80 	S2 	CS 	63 	Brad Generous 	2024 Mazda Miata MX-5 	51.586
+81 	S2 	CS 	36 	Stuart Generous 	2024 Mazda Miata MX-5 	51.839
+82 	N 	ES 	132 	Stephen Underwood 	2003 Mazda Miata 	51.911
+83 	S3 	HS 	27 	Tra Alford 	2006 Mitsubishi Eclipse 	52.264
+84 	N 	XA 	3 	Scott McEachern 	1996 Honda Civic 	52.291
+85 	N 	XA 	115 	Ethan Sharble 	2000 Acura Integra 	52.850
+86 	N 	GS 	73 	James Picardi 	2024 Volkswagen Gti 	52.960
+87 	N 	FS 	14 	Brandon Scott 	2011 Chevrolet Camaro 	53.405
+88 	S2 	ES 	18 	Sparks Morgan 	1990 Mazda Miata 	54.048
+89 	N 	ES 	75 	John Lochran 	2001 Mazda Miata 	56.736
+90 	CAM 	CAMC 	9 	Jonathan Walters 	2009 Ford Shelby GT500 	No Time
+91 	N 	DS 	29 	Adrian BUGNA 	2014 BMW 320i 	No Time
+92 	S3 	DS 	29 	Nicholas Bugna 	2014 BMW 320i 	No Time

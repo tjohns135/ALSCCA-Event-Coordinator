@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/g/My Drive/ClaudeProjectsDrive/autox-worker-assignment/**)"
+    ]
+  }
+}

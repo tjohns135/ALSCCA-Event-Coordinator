@@ -1,0 +1,71 @@
+/* AutoX Suite — Shared Design Tokens */
+:root {
+  /* Background colors */
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #0f3460;
+
+  /* Accent colors */
+  --accent: #e94560;
+  --accent-hover: #d13a54;
+  --accent-light: #ff6b85;
+  --accent-bg: rgba(233, 69, 96, 0.1);
+
+  /* Semantic colors */
+  --color-success: #28a745;
+  --color-success-hover: #218838;
+  --color-danger: #dc3545;
+  --color-danger-hover: #bb2d3b;
+  --color-warning: #ffc107;
+  --color-info: #0d6efd;
+  --color-info-hover: #0b5ed7;
+
+  /* Text colors */
+  --text-primary: #eee;
+  --text-secondary: #ccc;
+  --text-muted: #888;
+  --text-dimmed: #666;
+
+  /* Borders */
+  --border-color: #0f3460;
+  --border-radius: 4px;
+  --border-radius-lg: 6px;
+  --border-radius-xl: 8px;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --font-size-xs: 0.65rem;
+  --font-size-sm: 0.75rem;
+  --font-size-base: 0.85rem;
+  --font-size-md: 0.9rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.4rem;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+
+  /* Overlay */
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* Shared reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}

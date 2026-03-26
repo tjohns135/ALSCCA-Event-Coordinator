@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoX Track Designer</title>
+
+    <!-- Shared design tokens -->
+    <link rel="stylesheet" href="../shared/variables.css" />
+    <!-- App CSS -->
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- React -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- html-to-image for export -->
+    <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
+
+    <!-- Utils -->
+    <script type="text/babel" src="js/utils/svgPanZoom.js"></script>
+    <script type="text/babel" src="js/utils/storage.js"></script>
+    <script type="text/babel" src="js/utils/export.js"></script>
+
+    <!-- Components -->
+    <script type="text/babel" src="js/components/Toolbar.js"></script>
+    <script type="text/babel" src="js/components/Sidebar.js"></script>
+    <script type="text/babel" src="js/components/MapView.js"></script>
+
+    <!-- Main App -->
+    <script type="text/babel" src="js/app.js"></script>
+</body>
+</html>

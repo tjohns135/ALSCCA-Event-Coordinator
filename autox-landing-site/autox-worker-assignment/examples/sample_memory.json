@@ -1,0 +1,7526 @@
+{
+  "participants": {
+    "alicia harrington": {
+      "name": "Alicia Harrington",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Timing 2",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Waiver",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Timing 2",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Timing 2",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Paddock Marshal",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Timing 2",
+          "class": "L",
+          "pax": "SSC"
+        }
+      ],
+      "positions": [
+        "Timing 2",
+        "Waiver",
+        "Paddock Marshal"
+      ],
+      "captainCapable": false
+    },
+    "allyson lux": {
+      "name": "Allyson Lux",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "L",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "L",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "L",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Early Waiver 2",
+          "class": "L",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 4 Worker",
+        "Corner 2 Worker",
+        "Corner 1 Worker",
+        "Early Waiver 2"
+      ],
+      "captainCapable": false
+    },
+    "amanda nevins": {
+      "name": "Amanda Nevins",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Worker",
+          "class": "L",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "L",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Paddock Marshal",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Paddock Marshal"
+      ],
+      "captainCapable": false
+    },
+    "andrew miller": {
+      "name": "Andrew Miller",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Captain",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Captain",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Captain",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Timing 2",
+          "class": "XS",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 3 Captain",
+        "Corner 4 Captain",
+        "Corner 1 Worker",
+        "Timing 2"
+      ],
+      "captainCapable": true
+    },
+    "beau vandiver": {
+      "name": "Beau Vandiver",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Worker",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "bill zorn": {
+      "name": "Bill Zorn",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Waiver",
+          "class": "ST",
+          "pax": "SST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Waiver"
+      ],
+      "captainCapable": false
+    },
+    "brad mintun": {
+      "name": "Brad Mintun",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 4 Captain",
+          "class": "XS",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Captain",
+          "class": "XS",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Waiver",
+          "class": "XS",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 4 Captain",
+        "Waiver"
+      ],
+      "captainCapable": true
+    },
+    "brett ferrel": {
+      "name": "Brett Ferrel",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Timing 1",
+          "class": "ST",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Timing 1",
+          "class": "ST",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Timing 1",
+          "class": "ST",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Timing Big Wig",
+          "class": "ST",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Timing 1",
+          "class": "ST",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Timing 1",
+          "class": "ST",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Timing 1",
+          "class": "ST",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Timing 1",
+          "class": "ST",
+          "pax": "SST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Timing 1",
+          "class": "ST",
+          "pax": "SST"
+        }
+      ],
+      "positions": [
+        "Timing 1",
+        "Timing Big Wig"
+      ],
+      "captainCapable": false
+    },
+    "brock stiver": {
+      "name": "Brock Stiver",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 4 Captain",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Corner 4 Captain",
+        "Corner 4 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": true
+    },
+    "bronson seiler": {
+      "name": "Bronson Seiler",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "bryce lebischak": {
+      "name": "Bryce Lebischak",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 3 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 3 Captain",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": true
+    },
+    "carvel webb": {
+      "name": "Carvel Webb",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Worker Chief",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Worker Chief",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Worker Chief"
+      ],
+      "captainCapable": false
+    },
+    "carville webb": {
+      "name": "Carville Webb",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Early Waiver 1",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Early Waiver 1",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Early Waiver 1"
+      ],
+      "captainCapable": false
+    },
+    "charles (bo) jinright": {
+      "name": "Charles (Bo) Jinright",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Starter",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Announcer",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Starter",
+        "Announcer"
+      ],
+      "captainCapable": false
+    },
+    "clay coleman": {
+      "name": "Clay Coleman",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Captain",
+          "class": "R",
+          "pax": "FSAE"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "R",
+          "pax": "FSAE"
+        }
+      ],
+      "positions": [
+        "Corner 1 Captain",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": true
+    },
+    "clay mccool": {
+      "name": "Clay McCool",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Novice Coach 1",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Novice Coach 1",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Grid 1",
+          "class": "X",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Novice Coach 1",
+        "Grid 1"
+      ],
+      "captainCapable": false
+    },
+    "collin heiniger": {
+      "name": "Collin Heiniger",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CAMT"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "connor lynch": {
+      "name": "Connor Lynch",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Paddock Marshal Early",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Paddock Marshal Early",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Tech 2",
+          "class": "XS",
+          "pax": "XB"
+        }
+      ],
+      "positions": [
+        "Paddock Marshal Early",
+        "Tech 2"
+      ],
+      "captainCapable": false
+    },
+    "dan olson": {
+      "name": "Dan Olson",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "david merola": {
+      "name": "David Merola",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 2 Captain",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Captain",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Captain",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Corner 2 Captain",
+        "Corner 1 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": true
+    },
+    "dorian davis": {
+      "name": "Dorian Davis",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "FS"
+        }
+      ],
+      "positions": [
+        "Announcer"
+      ],
+      "captainCapable": false
+    },
+    "drew cicero": {
+      "name": "Drew Cicero",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Course Setup 2",
+          "class": "S3",
+          "pax": "HS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Course Setup 2",
+          "class": "S3",
+          "pax": "HS"
+        }
+      ],
+      "positions": [
+        "Course Setup 2"
+      ],
+      "captainCapable": false
+    },
+    "edward mitchell": {
+      "name": "Edward Mitchell",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Lunch Waiver",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Lunch Waiver",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Timing 2",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Timing 2",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "SSS",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Captain",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "SSS",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "SSS",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Course Setup 2",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Course Setup 2",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Lunch Waiver",
+        "Timing 2",
+        "SSS",
+        "Corner 1 Captain",
+        "Course Setup 2"
+      ],
+      "captainCapable": true
+    },
+    "eli burchell": {
+      "name": "Eli Burchell",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Late Waiver 1",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Late Waiver 1",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Late Waiver 1",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "gabriel marrero": {
+      "name": "Gabriel Marrero",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Paddock Marshal Late",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Paddock Marshal Late",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Waiver",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Lunch Waiver",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Paddock Marshal Late",
+        "Waiver",
+        "Lunch Waiver"
+      ],
+      "captainCapable": false
+    },
+    "jacob cicero": {
+      "name": "Jacob Cicero",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Course Setup 3",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Course Setup 3",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Early Waiver 1",
+          "class": "S1",
+          "pax": "AS"
+        }
+      ],
+      "positions": [
+        "Course Setup 3",
+        "Corner 4 Worker",
+        "Corner 3 Worker",
+        "Early Waiver 1"
+      ],
+      "captainCapable": false
+    },
+    "james mitchell": {
+      "name": "James Mitchell",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "SSS",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "SSS",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Captain",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Captain",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Captain",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Captain",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Captain",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Captain",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Captain",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Captain",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "SSS",
+        "Corner 2 Captain",
+        "Corner 4 Captain",
+        "Corner 3 Captain",
+        "Corner 1 Captain"
+      ],
+      "captainCapable": true
+    },
+    "jimmy harris": {
+      "name": "Jimmy Harris",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Timing Shadow",
+          "class": "N",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Timing Shadow"
+      ],
+      "captainCapable": false
+    },
+    "john wright": {
+      "name": "John Wright",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "BST"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "john zuber": {
+      "name": "John Zuber",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Captain",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 3 Captain"
+      ],
+      "captainCapable": true
+    },
+    "johnny brewster": {
+      "name": "Johnny Brewster",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "SSS",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "SSS",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "SSS",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "SSS 1",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "SSS",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "SSS",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "SSS",
+        "SSS 1"
+      ],
+      "captainCapable": false
+    },
+    "jonathan foster": {
+      "name": "Jonathan Foster",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Waiver",
+          "class": "XS",
+          "pax": "XB"
+        }
+      ],
+      "positions": [
+        "Waiver"
+      ],
+      "captainCapable": false
+    },
+    "jordan vanderbleek": {
+      "name": "Jordan Vanderbleek",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "joshua abts": {
+      "name": "Joshua Abts",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Tech 2",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Tech 2",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Tech 1",
+          "class": "ST",
+          "pax": "EST"
+        }
+      ],
+      "positions": [
+        "Tech 2",
+        "Tech 1"
+      ],
+      "captainCapable": false
+    },
+    "joshua halka": {
+      "name": "Joshua Halka",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "joshua toxey": {
+      "name": "Joshua Toxey",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Timing 1",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Timing 2",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Timing 1",
+          "class": "S1",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Timing 1",
+        "Timing 2",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "katie merola": {
+      "name": "Katie Merola",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Timing Shadow",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 1 Worker",
+        "Timing Shadow"
+      ],
+      "captainCapable": false
+    },
+    "ken nevins": {
+      "name": "Ken Nevins",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Timing 2",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Timing 2",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Timing 1",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Timing 1",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Timing 1",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Timing 2",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Timing 1",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Timing 2",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Timing 2",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Starter",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Timing 2",
+        "Timing 1",
+        "Starter"
+      ],
+      "captainCapable": false
+    },
+    "kyle blackerby": {
+      "name": "Kyle Blackerby",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 4 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "lane downs": {
+      "name": "Lane Downs",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Waiver",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Waiver",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Waiver",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Paddock Marshal",
+          "class": "S3",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Waiver",
+        "Paddock Marshal"
+      ],
+      "captainCapable": false
+    },
+    "mason hicks": {
+      "name": "Mason Hicks",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Starter",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Starter",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Captain",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Starter",
+        "Corner 2 Worker",
+        "Corner 4 Captain"
+      ],
+      "captainCapable": true
+    },
+    "matthew elmore": {
+      "name": "Matthew Elmore",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Grid 1",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Grid 1",
+          "class": "XS",
+          "pax": "XB"
+        }
+      ],
+      "positions": [
+        "Grid 1",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "merlin stimpfl": {
+      "name": "Merlin Stimpfl",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Paddock Marshal Early",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 3 Worker",
+        "Paddock Marshal Early"
+      ],
+      "captainCapable": false
+    },
+    "michael valant": {
+      "name": "Michael Valant",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 4 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Grid 2",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Paddock Marshal Late",
+          "class": "XS",
+          "pax": "XB"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 3 Worker",
+        "Corner 2 Worker",
+        "Corner 1 Worker",
+        "Grid 2",
+        "Paddock Marshal Late"
+      ],
+      "captainCapable": false
+    },
+    "mitch vaughn": {
+      "name": "Mitch Vaughn",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Course Setup 1",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Course Setup 1",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Course Setup 1",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Course Setup 1",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Course Setup 1"
+      ],
+      "captainCapable": false
+    },
+    "nicholas christopher": {
+      "name": "Nicholas Christopher",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "nicholas vegter": {
+      "name": "Nicholas Vegter",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "nick lindsay": {
+      "name": "Nick Lindsay",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Event Chair",
+          "class": "X",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Event Chair"
+      ],
+      "captainCapable": false
+    },
+    "norah ippolito": {
+      "name": "Norah Ippolito",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "ryan larkins": {
+      "name": "Ryan Larkins",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "DST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "DST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "scot smith": {
+      "name": "Scot Smith",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "AST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 3 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "sean smith": {
+      "name": "Sean Smith",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Grid 2",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "AST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 1 Worker",
+        "Corner 4 Worker",
+        "Grid 2"
+      ],
+      "captainCapable": false
+    },
+    "sonny ippolito": {
+      "name": "Sonny Ippolito",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 2 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Worker",
+          "class": "XS",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "thomas mitchell": {
+      "name": "Thomas Mitchell",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Other",
+          "class": "N",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Timing 2",
+          "class": "N",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Timing 2",
+          "class": "N",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 4 Worker",
+        "Corner 2 Worker",
+        "Other",
+        "Timing 2"
+      ],
+      "captainCapable": false
+    },
+    "tim foote": {
+      "name": "Tim Foote",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Course Setup 4",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Captain",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Course Setup 4",
+        "Corner 3 Captain",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": true
+    },
+    "tom harrington": {
+      "name": "Tom Harrington",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Other 1",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Tech 1",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Paddock Marshal",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Sound",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "SSS",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Grid 2",
+          "class": "S3",
+          "pax": "SSC"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "SSS 2",
+          "class": "S3",
+          "pax": "SSC"
+        }
+      ],
+      "positions": [
+        "Other 1",
+        "Tech 1",
+        "Paddock Marshal",
+        "Sound",
+        "SSS",
+        "Grid 2",
+        "SSS 2"
+      ],
+      "captainCapable": false
+    },
+    "trey hutcheson": {
+      "name": "Trey Hutcheson",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Captain",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Captain",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Captain",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Captain",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Captain",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Captain",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Captain",
+          "class": "S1",
+          "pax": "FS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Captain",
+        "Corner 4 Captain",
+        "Corner 3 Worker",
+        "Corner 2 Captain",
+        "Corner 3 Captain"
+      ],
+      "captainCapable": true
+    },
+    "tyler johns": {
+      "name": "Tyler Johns",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Timing Shadow",
+          "class": "S3",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "S3",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "S3",
+          "pax": "GS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Trailer Setup Support",
+          "class": "S3",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 3 Worker",
+        "Timing Shadow",
+        "Corner 2 Worker",
+        "Corner 4 Worker",
+        "Trailer Setup Support"
+      ],
+      "captainCapable": false
+    },
+    "walter lawrence": {
+      "name": "Walter Lawrence",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "DST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "zachary froehlich": {
+      "name": "Zachary Froehlich",
+      "events": [
+        {
+          "date": "2025-02-16",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 16",
+          "position": "Corner 2 Captain",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Captain",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Timing 2",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Captain",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Timing 2",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Captain",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Captain",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Captain",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Captain",
+        "Timing 2",
+        "Corner 4 Captain",
+        "Corner 3 Captain",
+        "Corner 3 Worker",
+        "Corner 1 Captain"
+      ],
+      "captainCapable": true
+    },
+    "abbott bardin": {
+      "name": "Abbott Bardin",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "adam johnson": {
+      "name": "Adam Johnson",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Tech 3",
+          "class": "XS",
+          "pax": "XA"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Tech 3",
+          "class": "XS",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Tech 3"
+      ],
+      "captainCapable": false
+    },
+    "alex chatta": {
+      "name": "Alex Chatta",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Timing Shadow",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Timing Shadow"
+      ],
+      "captainCapable": false
+    },
+    "andrew wilkerson": {
+      "name": "Andrew Wilkerson",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Captain",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Captain",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Captain",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": true
+    },
+    "brandon marquis": {
+      "name": "Brandon Marquis",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Starter",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Starter",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Captain",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Starter",
+        "Corner 4 Worker",
+        "Corner 3 Worker",
+        "Corner 2 Captain"
+      ],
+      "captainCapable": true
+    },
+    "brian anderson": {
+      "name": "Brian Anderson",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "EST"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 3 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "cameron mcneal": {
+      "name": "Cameron McNeal",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 3 Captain",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Captain",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Captain"
+      ],
+      "captainCapable": true
+    },
+    "chris chatta": {
+      "name": "Chris Chatta",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Grid 1",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Starter",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Grid 1",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Grid 1",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Grid 1",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Grid 1",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Grid 1",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Grid 1",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Grid 1",
+        "Starter"
+      ],
+      "captainCapable": false
+    },
+    "colin mitchell": {
+      "name": "Colin Mitchell",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 2 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "connor johnson": {
+      "name": "Connor Johnson",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "SSS 1",
+          "class": "X",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "SSS 1",
+          "class": "X",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Paddock Marshal",
+          "class": "X",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Captain",
+          "class": "X",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Captain",
+          "class": "X",
+          "pax": "SSC"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Captain",
+          "class": "X",
+          "pax": "SSC"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Worker Chief",
+          "class": "X",
+          "pax": "SSC"
+        }
+      ],
+      "positions": [
+        "SSS 1",
+        "Paddock Marshal",
+        "Corner 1 Captain",
+        "Corner 2 Captain",
+        "Worker Chief"
+      ],
+      "captainCapable": true
+    },
+    "daniel sanders": {
+      "name": "Daniel Sanders",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Captain",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Worker",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 4 Captain"
+      ],
+      "captainCapable": true
+    },
+    "david wilkerson": {
+      "name": "David Wilkerson",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "dwayne custer": {
+      "name": "Dwayne Custer",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Timing 1",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Timing 1",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Timing 1",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Timing 1",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Timing 1",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Timing 1",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Timing 1",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Timing Shadow",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Trailer Lead Setup",
+          "class": "CAM",
+          "pax": "CAMS"
+        }
+      ],
+      "positions": [
+        "Timing 1",
+        "Timing Shadow",
+        "Trailer Lead Setup"
+      ],
+      "captainCapable": false
+    },
+    "ethan wroblewski": {
+      "name": "Ethan Wroblewski",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "BS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "glenn stephenson": {
+      "name": "Glenn Stephenson",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Secondary SSS",
+          "class": "ST",
+          "pax": "EST"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "SSS",
+          "class": "ST",
+          "pax": "EST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Secondary SSS",
+        "SSS"
+      ],
+      "captainCapable": false
+    },
+    "iwan jones": {
+      "name": "Iwan Jones",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Captain",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Captain",
+          "class": "S1",
+          "pax": "AS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 3 Worker",
+        "Corner 3 Captain",
+        "Corner 2 Captain"
+      ],
+      "captainCapable": true
+    },
+    "jeff lee": {
+      "name": "Jeff Lee",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Captain",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Starter",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Starter",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Starter",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 4 Worker",
+        "Corner 3 Worker",
+        "Corner 1 Captain",
+        "Starter"
+      ],
+      "captainCapable": true
+    },
+    "jerry ledford": {
+      "name": "Jerry Ledford",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Grid 1",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Captain",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Captain",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Captain",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Announcer",
+          "class": "X",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Grid 1",
+        "Corner 2 Captain",
+        "Corner 1 Worker",
+        "Corner 3 Captain",
+        "Corner 4 Captain",
+        "Announcer"
+      ],
+      "captainCapable": true
+    },
+    "jonathan walters": {
+      "name": "Jonathan Walters",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Grid 2",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 1 Captain",
+        "Corner 3 Worker",
+        "Grid 2",
+        "Corner 4 Worker",
+        "Corner 2 Captain",
+        "Corner 4 Captain"
+      ],
+      "captainCapable": true
+    },
+    "matt horn": {
+      "name": "Matt Horn",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Captain",
+          "class": "X",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Captain",
+          "class": "X",
+          "pax": "CAMS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Captain",
+        "Corner 1 Captain"
+      ],
+      "captainCapable": true
+    },
+    "matt niblock": {
+      "name": "Matt Niblock",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Timing Shadow",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "GST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Timing Shadow",
+        "Corner 1 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "michael mays": {
+      "name": "Michael Mays",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "robert bardin": {
+      "name": "Robert Bardin",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "sheryl lee": {
+      "name": "Sheryl Lee",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 1 Worker",
+          "class": "L",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "L",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "L",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "L",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "L",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "L",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Spotter",
+          "class": "L",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 4 Worker",
+        "Corner 3 Worker",
+        "Spotter"
+      ],
+      "captainCapable": false
+    },
+    "sparks morgan": {
+      "name": "Sparks Morgan",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Paddock Marshal",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Paddock Marshal",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Waiver",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Waiver",
+          "class": "S2",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 3 Worker",
+        "Paddock Marshal",
+        "Waiver"
+      ],
+      "captainCapable": false
+    },
+    "vera bardin": {
+      "name": "Vera Bardin",
+      "events": [
+        {
+          "date": "2025-03-08",
+          "eventName": "ALSCCA Autocross Pts. 2 - March 8",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "andrew fleming": {
+      "name": "Andrew Fleming",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Captain",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Captain"
+      ],
+      "captainCapable": true
+    },
+    "andrew mcgehee": {
+      "name": "Andrew McGehee",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "AST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "casey hooper": {
+      "name": "Casey Hooper",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "catherine lackey": {
+      "name": "Catherine Lackey",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Captain",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "SSS",
+          "class": "S2",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Corner 1 Captain",
+        "SSS"
+      ],
+      "captainCapable": true
+    },
+    "charlie richardson": {
+      "name": "Charlie Richardson",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Starter",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Starter",
+          "class": "CAM",
+          "pax": "CAMT"
+        }
+      ],
+      "positions": [
+        "Starter"
+      ],
+      "captainCapable": false
+    },
+    "clint medlock": {
+      "name": "Clint Medlock",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Grid 1",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Grid 1",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Starter",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Starter",
+          "class": "S1",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Grid 1",
+        "Starter"
+      ],
+      "captainCapable": false
+    },
+    "darrell montgomery": {
+      "name": "Darrell Montgomery",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Captain",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Starter",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Starter",
+          "class": "CAM",
+          "pax": "CAMT"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 1 Worker",
+        "Corner 4 Captain",
+        "Corner 3 Worker",
+        "Starter"
+      ],
+      "captainCapable": true
+    },
+    "darryl noethlich": {
+      "name": "Darryl Noethlich",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 2 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "david scott": {
+      "name": "David Scott",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Captain",
+          "class": "S1",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 3 Captain"
+      ],
+      "captainCapable": true
+    },
+    "devon williams": {
+      "name": "Devon Williams",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "evan russell": {
+      "name": "Evan Russell",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "halsie bardin": {
+      "name": "Halsie Bardin",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "james mckee": {
+      "name": "James McKee",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "justin richardson": {
+      "name": "Justin Richardson",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "SSS",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Announcer",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "SSS",
+          "class": "S1",
+          "pax": "AS"
+        }
+      ],
+      "positions": [
+        "SSS",
+        "Announcer"
+      ],
+      "captainCapable": false
+    },
+    "kai nguyen": {
+      "name": "Kai Nguyen",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "marty mitchell": {
+      "name": "Marty Mitchell",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Paddock Marshal",
+          "class": "L",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Paddock Marshal"
+      ],
+      "captainCapable": false
+    },
+    "matthew iassogna": {
+      "name": "Matthew Iassogna",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "DST"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "DST"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Waiver",
+          "class": "N",
+          "pax": "DST"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Waiver"
+      ],
+      "captainCapable": false
+    },
+    "michael davis": {
+      "name": "Michael Davis",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "mike wenning": {
+      "name": "Mike Wenning",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Big Boss",
+          "class": "S3",
+          "pax": "HS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Big Boss",
+          "class": "S3",
+          "pax": "HS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Other",
+          "class": "S3",
+          "pax": "HS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Local Legend",
+          "class": "S3",
+          "pax": "HS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Other",
+          "class": "S3",
+          "pax": "HS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Other",
+          "class": "S3",
+          "pax": "HS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Other 1",
+          "class": "S3",
+          "pax": "HS"
+        }
+      ],
+      "positions": [
+        "Big Boss",
+        "Other",
+        "Local Legend",
+        "Other 1"
+      ],
+      "captainCapable": false
+    },
+    "nick christopher": {
+      "name": "Nick Christopher",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "quinton gooden": {
+      "name": "Quinton Gooden",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "ES"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "ryan tolleson": {
+      "name": "Ryan Tolleson",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Paddock Marshal",
+          "class": "X",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "X",
+          "pax": "SST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Captain",
+          "class": "X",
+          "pax": "SST"
+        }
+      ],
+      "positions": [
+        "Paddock Marshal",
+        "Corner 4 Worker",
+        "Corner 3 Captain"
+      ],
+      "captainCapable": true
+    },
+    "samuel mitchell": {
+      "name": "Samuel Mitchell",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "sidney bajjalieh": {
+      "name": "Sidney Bajjalieh",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Grid 2",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Grid 2",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "thomas adams": {
+      "name": "Thomas Adams",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "thomas himes": {
+      "name": "Thomas Himes",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "AST"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "tina brown": {
+      "name": "Tina Brown",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 1 Worker",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "SSS",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Paddock Marshal",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "SSS",
+          "class": "CAM",
+          "pax": "CAMS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "SSS",
+          "class": "CAM",
+          "pax": "CAMS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "SSS",
+        "Paddock Marshal"
+      ],
+      "captainCapable": false
+    },
+    "zach davis": {
+      "name": "Zach Davis",
+      "events": [
+        {
+          "date": "2025-04-12",
+          "eventName": "ALSCCA Autocross Pts. 3 - April 12",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "alan fischer": {
+      "name": "Alan Fischer",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "BST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "BST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "andy williams": {
+      "name": "Andy Williams",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Waiver",
+          "class": "S1",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Waiver"
+      ],
+      "captainCapable": false
+    },
+    "ashley lindsey": {
+      "name": "Ashley Lindsey",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Timing 2",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Timing 2",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Timing 2"
+      ],
+      "captainCapable": false
+    },
+    "ben owings": {
+      "name": "Ben Owings",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "billy bivins": {
+      "name": "Billy Bivins",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Grid 1",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Grid 1",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "brad clarke": {
+      "name": "Brad Clarke",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "SSS",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "SSS",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "SSS"
+      ],
+      "captainCapable": false
+    },
+    "brad clem": {
+      "name": "Brad Clem",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Grid 1",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Grid 1",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Grid 1",
+          "class": "S1",
+          "pax": "AS"
+        }
+      ],
+      "positions": [
+        "Grid 1"
+      ],
+      "captainCapable": false
+    },
+    "brett shinick": {
+      "name": "Brett Shinick",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Paddock Marshal",
+          "class": "CAM",
+          "pax": "CAMS"
+        }
+      ],
+      "positions": [
+        "Paddock Marshal"
+      ],
+      "captainCapable": false
+    },
+    "charles krampert": {
+      "name": "Charles Krampert",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 1 Captain"
+      ],
+      "captainCapable": true
+    },
+    "cody jett": {
+      "name": "Cody Jett",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "cori carter": {
+      "name": "Cori Carter",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "FS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "devin taliaferro": {
+      "name": "Devin Taliaferro",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "X",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "X",
+          "pax": "SST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "donald bond": {
+      "name": "Donald Bond",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Starter",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Captain",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Captain",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Starter",
+        "Corner 3 Worker",
+        "Corner 2 Captain",
+        "Corner 4 Captain"
+      ],
+      "captainCapable": true
+    },
+    "evan haataja": {
+      "name": "Evan Haataja",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "fred thomas": {
+      "name": "Fred Thomas",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Captain",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Starter",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Grid 1",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Captain",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Grid 1",
+          "class": "X",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Captain",
+        "Starter",
+        "Grid 1",
+        "Corner 1 Captain"
+      ],
+      "captainCapable": true
+    },
+    "jackson odle": {
+      "name": "Jackson Odle",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "james layfield": {
+      "name": "James Layfield",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "james martin": {
+      "name": "James Martin",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "joseph watson": {
+      "name": "Joseph Watson",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "joshua cooprider": {
+      "name": "Joshua Cooprider",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Timing Shadow",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Timing Shadow"
+      ],
+      "captainCapable": false
+    },
+    "keenan lewey": {
+      "name": "Keenan Lewey",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "FS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "logan ryan": {
+      "name": "Logan Ryan",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "FS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "mack fraser": {
+      "name": "Mack Fraser",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "XS",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "XS",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "XS",
+          "pax": "XA"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Worker",
+          "class": "XS",
+          "pax": "XA"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Captain",
+          "class": "XS",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 3 Worker",
+        "Corner 1 Worker",
+        "Corner 4 Captain"
+      ],
+      "captainCapable": true
+    },
+    "matt odle": {
+      "name": "Matt Odle",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "AS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "michael taliaferro": {
+      "name": "Michael Taliaferro",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "X",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "X",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "X",
+          "pax": "SST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "X",
+          "pax": "SST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 4 Worker",
+        "Corner 2 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "mike watson": {
+      "name": "Mike Watson",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 4 Captain",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 4 Captain",
+        "Corner 3 Worker",
+        "Corner 2 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": true
+    },
+    "nathan mccrary": {
+      "name": "Nathan Mccrary",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 1 Worker",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Waiver",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Captain",
+          "class": "X",
+          "pax": "GS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Grid 1",
+          "class": "X",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Waiver",
+        "Corner 4 Captain",
+        "Grid 1"
+      ],
+      "captainCapable": true
+    },
+    "shane layfield": {
+      "name": "Shane Layfield",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Grid 2",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Waiver",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Grid 2",
+        "Waiver"
+      ],
+      "captainCapable": false
+    },
+    "tyler meads": {
+      "name": "Tyler Meads",
+      "events": [
+        {
+          "date": "2025-05-17",
+          "eventName": "ALSCCA Autocross Pts. 4 - May 17",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "alex davis": {
+      "name": "Alex Davis",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "daniel oliver": {
+      "name": "Daniel Oliver",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "dean tanner": {
+      "name": "Dean Tanner",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 2 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "elke stoiber": {
+      "name": "Elke Stoiber",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Worker",
+          "class": "L",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "james sonny picardi": {
+      "name": "James Sonny Picardi",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "S3",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jared labarge": {
+      "name": "Jared LaBarge",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Captain",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "SSS Shadow",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 2 Worker",
+        "Corner 1 Captain",
+        "SSS Shadow"
+      ],
+      "captainCapable": true
+    },
+    "jason holycross jr": {
+      "name": "Jason Holycross Jr",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Paddock Marshal",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Waiver",
+          "class": "CAM",
+          "pax": "CAMT"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "CAM",
+          "pax": "CAMT"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Paddock Marshal",
+        "Waiver",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "kerry kerr": {
+      "name": "Kerry Kerr",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Grid 2",
+          "class": "CAM",
+          "pax": "CAMS"
+        }
+      ],
+      "positions": [
+        "Grid 2"
+      ],
+      "captainCapable": false
+    },
+    "matt mccarter": {
+      "name": "Matt Mccarter",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "michael davis jr.": {
+      "name": "Michael Davis Jr.",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "michael robinson": {
+      "name": "Michael Robinson",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Starter",
+          "class": "XS",
+          "pax": "XB"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Starter",
+          "class": "XS",
+          "pax": "XB"
+        }
+      ],
+      "positions": [
+        "Starter"
+      ],
+      "captainCapable": false
+    },
+    "nicholas bugna": {
+      "name": "Nicholas Bugna",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "nicholas lawrence": {
+      "name": "Nicholas Lawrence",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "nick lawrence": {
+      "name": "Nick Lawrence",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "robert bosh": {
+      "name": "Robert Bosh",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "robert clifton": {
+      "name": "Robert Clifton",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "FS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "rodney jones": {
+      "name": "Rodney Jones",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Captain",
+          "class": "S3",
+          "pax": "GS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Captain"
+      ],
+      "captainCapable": true
+    },
+    "shawn baumgartner": {
+      "name": "Shawn Baumgartner",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "thomas filipovic": {
+      "name": "Thomas Filipovic",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "thomas halka": {
+      "name": "Thomas Halka",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "tim roach": {
+      "name": "Tim Roach",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "wesley smith": {
+      "name": "Wesley Smith",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "zak kimes": {
+      "name": "Zak Kimes",
+      "events": [
+        {
+          "date": "2025-06-21",
+          "eventName": "ALSCCA Autocross Pts. 5 - June 21",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "AST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "AST"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 2 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "brent beachtel": {
+      "name": "Brent Beachtel",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Waiver",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Waiver",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Waiver"
+      ],
+      "captainCapable": false
+    },
+    "bryan willingham": {
+      "name": "Bryan Willingham",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "cameron davis": {
+      "name": "Cameron Davis",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "casey hamm": {
+      "name": "Casey Hamm",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "charles bentley": {
+      "name": "Charles Bentley",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "CAM",
+          "pax": "CAMT"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "chris milstead": {
+      "name": "Chris Milstead",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "christopher morgan": {
+      "name": "Christopher Morgan",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Grid 2",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "FS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "S1",
+          "pax": "FS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Grid 2",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "colby thomson": {
+      "name": "Colby Thomson",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Timing Shadow",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Spotter",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Timing Shadow",
+        "Spotter"
+      ],
+      "captainCapable": false
+    },
+    "jacob harding": {
+      "name": "Jacob Harding",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jesse cloud": {
+      "name": "Jesse Cloud",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Grid 2",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Grid 2"
+      ],
+      "captainCapable": false
+    },
+    "john nasir": {
+      "name": "John Nasir",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "lance coley": {
+      "name": "Lance Coley",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "mary florian": {
+      "name": "Mary Florian",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "L",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "matt hale": {
+      "name": "Matt Hale",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Captain",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 3 Captain"
+      ],
+      "captainCapable": true
+    },
+    "michael iler": {
+      "name": "Michael Iler",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "nate strother": {
+      "name": "Nate Strother",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Grid 2",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Grid 2"
+      ],
+      "captainCapable": false
+    },
+    "nathan schrader": {
+      "name": "Nathan Schrader",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "patrick marcum": {
+      "name": "Patrick Marcum",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "patrick mitchell": {
+      "name": "Patrick Mitchell",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "philip rodning": {
+      "name": "Philip Rodning",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 1 Worker",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "robert fitzgerald": {
+      "name": "Robert Fitzgerald",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "ryan cloud": {
+      "name": "Ryan Cloud",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "scott francis": {
+      "name": "Scott Francis",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 4 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "steve caiola": {
+      "name": "Steve Caiola",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "holli hale": {
+      "name": "Holli Hale",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Worker",
+          "class": "L",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "william atkins": {
+      "name": "William Atkins",
+      "events": [
+        {
+          "date": "2025-08-16",
+          "eventName": "ALSCCA Autocross Pts. 7 - August 16",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "adam harkins": {
+      "name": "Adam Harkins",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "XB"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "XB"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "aidan naftel": {
+      "name": "Aidan Naftel",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Timing Shadow",
+          "class": "N",
+          "pax": "ES"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Timing Shadow",
+          "class": "N",
+          "pax": "ES"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Timing Shadow",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "brian harkins": {
+      "name": "Brian Harkins",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "GST"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "chris jones": {
+      "name": "Chris Jones",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Worker",
+          "class": "X",
+          "pax": "CAMS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "david white": {
+      "name": "David White",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Malen Stodghill Grid 2",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Grid 2",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "GST"
+        }
+      ],
+      "positions": [
+        "Malen Stodghill Grid 2",
+        "Grid 2",
+        "Corner 4 Worker",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "edward fisher": {
+      "name": "Edward Fisher",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Captain",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Captain",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Captain",
+          "class": "X",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Novice Coach 1",
+          "class": "X",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Captain",
+        "Corner 3 Captain",
+        "Novice Coach 1"
+      ],
+      "captainCapable": true
+    },
+    "emilee redmond": {
+      "name": "Emilee Redmond",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jack mcewen": {
+      "name": "Jack McEwen",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "GST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jeb watson": {
+      "name": "Jeb Watson",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "CAM",
+          "pax": "CAMC"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "kaleb redmond": {
+      "name": "Kaleb Redmond",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "richard mack": {
+      "name": "Richard Mack",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Waiver",
+          "class": "S1",
+          "pax": "AS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Late Waiver 1",
+          "class": "S1",
+          "pax": "AS"
+        }
+      ],
+      "positions": [
+        "Waiver",
+        "Late Waiver 1"
+      ],
+      "captainCapable": false
+    },
+    "sang hyun lee": {
+      "name": "Sang Hyun Lee",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "thomas heege": {
+      "name": "Thomas Heege",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Worker",
+          "class": "S2",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "tyler johnson": {
+      "name": "Tyler Johnson",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "tyren ducre": {
+      "name": "Tyren Ducre",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "wes bayliss": {
+      "name": "Wes Bayliss",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "XB"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "dustin carroll": {
+      "name": "Dustin Carroll",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jim carroll": {
+      "name": "Jim Carroll",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 2 Worker",
+          "class": "ST",
+          "pax": "CST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker",
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "josh kirby": {
+      "name": "Josh Kirby",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 3 Worker",
+          "class": "S3",
+          "pax": "DS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "scott garrett": {
+      "name": "Scott Garrett",
+      "events": [
+        {
+          "date": "2025-09-20",
+          "eventName": "ALSCCA Autocross Pts. 8 - September 20",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "charles walton iv": {
+      "name": "Charles Walton IV",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "SS"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "S1",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "chaisit tongsuvone": {
+      "name": "Chaisit Tongsuvone",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "heath patterson": {
+      "name": "Heath Patterson",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "HS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jack hudson": {
+      "name": "Jack Hudson",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jim farris": {
+      "name": "Jim Farris",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "SSS",
+          "class": "S1",
+          "pax": "BS"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Paddock Marshal",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "SSS",
+        "Paddock Marshal"
+      ],
+      "captainCapable": false
+    },
+    "ty burgin": {
+      "name": "Ty Burgin",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "dhruv patel": {
+      "name": "Dhruv Patel",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 4 Worker",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Course Setup 5",
+          "class": "ST",
+          "pax": "GST"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker",
+        "Course Setup 5"
+      ],
+      "captainCapable": false
+    },
+    "karen mitchell": {
+      "name": "Karen Mitchell",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 1 Worker",
+          "class": "L",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "arturo stenger": {
+      "name": "Arturo Stenger",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "gary nash": {
+      "name": "Gary Nash",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "malen stodghill": {
+      "name": "Malen Stodghill",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Grid 2",
+          "class": "ST",
+          "pax": "GST"
+        },
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "GST"
+        }
+      ],
+      "positions": [
+        "Grid 2",
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "timothy alford": {
+      "name": "Timothy Alford",
+      "events": [
+        {
+          "date": "2025-10-25",
+          "eventName": "ALSCCA Autocross Pts. 9 - October 25",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "HS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "brian freeman": {
+      "name": "Brian Freeman",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "cade owens": {
+      "name": "Cade Owens",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "charles ping": {
+      "name": "Charles Ping",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "FS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "cody odom": {
+      "name": "Cody Odom",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "delanie calhoun": {
+      "name": "Delanie Calhoun",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "elaine labarge": {
+      "name": "Elaine LaBarge",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "haley richardson": {
+      "name": "Haley Richardson",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "HS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jana smith": {
+      "name": "Jana Smith",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Grid 2",
+          "class": "S1",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Grid 2"
+      ],
+      "captainCapable": false
+    },
+    "joey owens": {
+      "name": "Joey Owens",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "justin owens": {
+      "name": "Justin Owens",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "ravi mann": {
+      "name": "Ravi Mann",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "scott millhouse": {
+      "name": "Scott Millhouse",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "CAMS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "seth owens": {
+      "name": "Seth Owens",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "trent self": {
+      "name": "Trent Self",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "trevor darling": {
+      "name": "Trevor Darling",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "william carpenter": {
+      "name": "William Carpenter",
+      "events": [
+        {
+          "date": "2025-11-15",
+          "eventName": "ALSCCA Autocross Pts. 10 - November 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "arba mccullough neto": {
+      "name": "Arba McCullough Neto",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "benjamin callahan": {
+      "name": "Benjamin Callahan",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Other 3",
+          "class": "ST",
+          "pax": "BST"
+        }
+      ],
+      "positions": [
+        "Other 3"
+      ],
+      "captainCapable": false
+    },
+    "bharatwaj bhaskar": {
+      "name": "Bharatwaj Bhaskar",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "BST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "caden grzelak": {
+      "name": "Caden Grzelak",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "david edwards": {
+      "name": "David Edwards",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "SST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "del williams": {
+      "name": "Del Williams",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Course Setup 3",
+          "class": "S1",
+          "pax": "BS"
+        }
+      ],
+      "positions": [
+        "Course Setup 3"
+      ],
+      "captainCapable": false
+    },
+    "dillon hagan": {
+      "name": "Dillon Hagan",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "SSC"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "dylan phillips": {
+      "name": "Dylan Phillips",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "eric grzelak": {
+      "name": "Eric Grzelak",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "grant lieberman": {
+      "name": "Grant Lieberman",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "SST"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "harrison mcclendon": {
+      "name": "Harrison McClendon",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "EST"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "jack stembridge": {
+      "name": "Jack Stembridge",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "CS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "john merrell": {
+      "name": "John Merrell",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "DST"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "julio perez": {
+      "name": "Julio Perez",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "SS"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "kurtis graben": {
+      "name": "Kurtis Graben",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "ST",
+          "pax": "CST"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "michael hagan": {
+      "name": "Michael Hagan",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "SSC"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "parker grzelak": {
+      "name": "Parker Grzelak",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "S3",
+          "pax": "DS"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "robert hindi": {
+      "name": "Robert Hindi",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 1 Worker",
+          "class": "N",
+          "pax": "ES"
+        }
+      ],
+      "positions": [
+        "Corner 1 Worker"
+      ],
+      "captainCapable": false
+    },
+    "rohan nair": {
+      "name": "Rohan Nair",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 4 Worker",
+          "class": "N",
+          "pax": "XB"
+        }
+      ],
+      "positions": [
+        "Corner 4 Worker"
+      ],
+      "captainCapable": false
+    },
+    "scott mceachern": {
+      "name": "Scott McEachern",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "N",
+          "pax": "XA"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    },
+    "tra alford": {
+      "name": "Tra Alford",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 3 Worker",
+          "class": "N",
+          "pax": "HS"
+        }
+      ],
+      "positions": [
+        "Corner 3 Worker"
+      ],
+      "captainCapable": false
+    },
+    "waters hudson": {
+      "name": "Waters Hudson",
+      "events": [
+        {
+          "date": "2026-02-15",
+          "eventName": "ALSCCA Autocross Pts. 1 - February 15",
+          "position": "Corner 2 Worker",
+          "class": "CAM",
+          "pax": "CAMT"
+        }
+      ],
+      "positions": [
+        "Corner 2 Worker"
+      ],
+      "captainCapable": false
+    }
+  },
+  "lastUpdated": "2026-03-16T05:04:20.286Z",
+  "events": [
+    {
+      "id": "2025-1",
+      "date": "2025-02-16",
+      "name": "ALSCCA Autocross Pts. 1 - February 16"
+    },
+    {
+      "id": "2025-2",
+      "date": "2025-03-08",
+      "name": "ALSCCA Autocross Pts. 2 - March 8"
+    },
+    {
+      "id": "2025-3",
+      "date": "2025-04-12",
+      "name": "ALSCCA Autocross Pts. 3 - April 12"
+    },
+    {
+      "id": "2025-4",
+      "date": "2025-05-17",
+      "name": "ALSCCA Autocross Pts. 4 - May 17"
+    },
+    {
+      "id": "2025-5",
+      "date": "2025-06-21",
+      "name": "ALSCCA Autocross Pts. 5 - June 21"
+    },
+    {
+      "id": "2025-7",
+      "date": "2025-08-16",
+      "name": "ALSCCA Autocross Pts. 7 - August 16"
+    },
+    {
+      "id": "2025-8",
+      "date": "2025-09-20",
+      "name": "ALSCCA Autocross Pts. 8 - September 20"
+    },
+    {
+      "id": "2025-9",
+      "date": "2025-10-25",
+      "name": "ALSCCA Autocross Pts. 9 - October 25"
+    },
+    {
+      "id": "2025-10",
+      "date": "2025-11-15",
+      "name": "ALSCCA Autocross Pts. 10 - November 15"
+    },
+    {
+      "id": "2026-1",
+      "date": "2026-02-15",
+      "name": "ALSCCA Autocross Pts. 1 - February 15"
+    }
+  ]
+}

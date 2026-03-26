@@ -1,0 +1,99 @@
+/* Landing Page Styles */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-lg);
+}
+
+.landing {
+  max-width: 800px;
+  width: 100%;
+  padding: var(--space-xl) 0;
+}
+
+/* Header */
+.landing-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.landing-header h1 {
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+}
+
+.landing-header p {
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* App cards */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+}
+
+.app-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  padding: var(--space-xl);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.app-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.app-card h2 {
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.app-card p {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-lg);
+}
+
+.app-card .card-tag {
+  display: inline-block;
+  font-size: var(--font-size-sm);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--border-radius);
+  padding: 2px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Footer */
+.landing-footer {
+  text-align: center;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-dimmed);
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 640px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+}

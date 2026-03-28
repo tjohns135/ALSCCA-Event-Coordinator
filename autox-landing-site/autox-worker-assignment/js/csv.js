@@ -47,6 +47,12 @@ const CSV = {
         pax: (fields[colMap.pax] || '').trim().toUpperCase(),
         number: (fields[colMap.number] || '').trim(),
         sccaMember: (fields[colMap.sccaMember] || '').trim(),
+        // New MotorsportReg columns (metadata, not displayed in spreadsheet)
+        preference1: colMap.preference1 !== undefined ? (fields[colMap.preference1] || '').trim() : '',
+        eventPreference: colMap.eventPreference !== undefined ? (fields[colMap.eventPreference] || '').trim() : '',
+        vehicle: colMap.vehicle !== undefined ? (fields[colMap.vehicle] || '').trim() : '',
+        phone: colMap.phone !== undefined ? (fields[colMap.phone] || '').trim() : '',
+        trailer: colMap.trailer !== undefined ? (fields[colMap.trailer] || '').trim() : '',
         // These get filled in by group splitting and worker assignment
         classPaxNum: '', // formatted as Class_PAX_#
         running: '',
@@ -102,15 +108,21 @@ const CSV = {
 
     for (let i = 0; i < header.length; i++) {
       const col = normalize(header[i]);
-      if (col === 'competitor' || col === 'name') map.competitor = i;
+      if (col === 'competitor' || col === 'name' || col.includes('fullname')) map.competitor = i;
       else if (col === 'class') map.class = i;
-      else if (col === 'pax') map.pax = i;
+      else if (col === 'pax' || col === 'modifierpax') map.pax = i;
       else if (col === '' || col === 'number' || col === 'carno' || col === 'carnum' || col === 'no') {
         if (header[i].trim() === '#' || col === 'number' || col === 'carno' || col === 'carnum' || col === 'no') {
           map.number = i;
         }
       }
       else if (col === 'sccamember' || col === 'member') map.sccaMember = i;
+      // New MotorsportReg columns
+      else if (col === 'preference1') map.preference1 = i;
+      else if (col === 'eventpreference') map.eventPreference = i;
+      else if (col.includes('vehicle') || col.includes('yearmakemodel')) map.vehicle = i;
+      else if (col.includes('phone') || col.includes('mobile')) map.phone = i;
+      else if (col === 'trailer') map.trailer = i;
     }
 
     // Handle '#' specifically

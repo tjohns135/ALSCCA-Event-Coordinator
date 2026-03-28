@@ -46,11 +46,13 @@
 ## L (Ladies)
 - Open — Any PAX allowed
 - Not present at every event
-- Always Run 1st when present
+- **Follow mode** (default): grouped with their PAX class's run group
+- **Separate mode**: treated as their own class for run group assignment
 
 ## N (Novice)
 - Open — Any PAX allowed
-- Grouped with their PAX class's run group (e.g., N_CST runs with ST)
+- **Follow mode** (default): grouped with their PAX class's run group (e.g., N_CST runs with ST)
+- **Separate mode**: treated as their own class for run group assignment
 
 ## R (Race Tire)
 - Primarily FSAE cars

@@ -13,7 +13,7 @@ const PDF = {
   /**
    * Generate the Worker Assignments PDF (check-in list)
    */
-  generateWorkerAssignments(entrants, groupAssignments, eventTitle, hasLadies) {
+  generateWorkerAssignments(entrants, groupAssignments, eventTitle, hasLadies, options) {
     const JSPDF = this._getJsPDF();
     const doc = new JSPDF('portrait', 'pt', 'letter');
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -25,8 +25,8 @@ const PDF = {
     doc.setFont('helvetica', 'italic');
     doc.text('Sorted by First Name', pageWidth / 2, 44, { align: 'center' });
 
-    const g1Header = Groups.buildGroupHeader(groupAssignments, 1, hasLadies, entrants);
-    const g2Header = Groups.buildGroupHeader(groupAssignments, 2, hasLadies, entrants);
+    const g1Header = Groups.buildGroupHeader(groupAssignments, 1, hasLadies, entrants, options);
+    const g2Header = Groups.buildGroupHeader(groupAssignments, 2, hasLadies, entrants, options);
 
     let y = 62;
     doc.setFontSize(10);
@@ -79,7 +79,7 @@ const PDF = {
   /**
    * Generate the Groups Page PDF (worker position grid)
    */
-  generateGroupsPage(entrants, groupAssignments, eventTitle, cornerCount, hasLadies) {
+  generateGroupsPage(entrants, groupAssignments, eventTitle, cornerCount, hasLadies, options) {
     const JSPDF = this._getJsPDF();
     const doc = new JSPDF('portrait', 'pt', 'letter');
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -95,8 +95,8 @@ const PDF = {
     let y = 40;
     y = this._drawEarlySection(doc, earlyGrid, y);
 
-    const g1Header = Groups.buildGroupHeader(groupAssignments, 1, hasLadies, entrants);
-    const g2Header = Groups.buildGroupHeader(groupAssignments, 2, hasLadies, entrants);
+    const g1Header = Groups.buildGroupHeader(groupAssignments, 1, hasLadies, entrants, options);
+    const g2Header = Groups.buildGroupHeader(groupAssignments, 2, hasLadies, entrants, options);
 
     y += 8;
     doc.setFontSize(8);
@@ -171,9 +171,17 @@ const PDF = {
     doc.text(title, 20, y);
     y += 4;
 
-    // Specialized positions
-    const specialized = CONFIG.workerPositions.specialized;
-    const specData = specialized.map((pos) => {
+    // Build session-specific position list from essential + experienced + shadow
+    const sessionNum = workSession === 'Work 1st' ? 1 : 2;
+    const sessionPositions = [
+      ...CONFIG.workerPositions.essential,
+      ...CONFIG.workerPositions.experienced,
+      ...CONFIG.workerPositions.shadow,
+    ]
+      .filter((p) => p.session === sessionNum)
+      .map((p) => p.name);
+
+    const specData = sessionPositions.map((pos) => {
       const worker = workers.find((w) => w.position === pos);
       return [pos, worker ? worker.competitor : ''];
     });
@@ -206,60 +214,58 @@ const PDF = {
 
     const specEndY = doc.lastAutoTable.finalY;
 
-    // Draw corners to the right — workers in same columns as captain name
+    // Draw corners in 2-column layout: [Corner 1][Corner 2] then [Corner 3][Corner 4]
     let cornerY = y;
     const cornerStartX = 190;
     const cornerWidth = doc.internal.pageSize.getWidth() - cornerStartX - 20;
+    const colWidth = (cornerWidth - 6) / 2; // 6px gap between columns
 
     for (let c = 0; c < cornerData.length; c += 2) {
       const left = cornerData[c];
       const right = cornerData[c + 1];
+      let rowEndY = cornerY;
 
-      // Each corner gets 2 name columns. Captain name spans both.
-      // Workers fill left-to-right across the 2 columns, then next row.
-      // Layout: [Corner1_Label | Corner1_Name | Corner2_Label | Corner2_Name]
-      // Then worker rows: [name1 | name2 | name3 | name4]
-
-      const headerRow = [
-        `Corner ${left.corner} Captain:`,
-        left.captain,
-        right ? `Corner ${right.corner} Captain:` : '',
-        right ? right.captain : '',
-      ];
-
-      // Distribute workers into pairs (2 columns per corner)
+      // Left corner table
       const leftPairs = [];
       for (let w = 0; w < left.workers.length; w += 2) {
         leftPairs.push([left.workers[w] || '', left.workers[w + 1] || '']);
       }
-
-      const rightPairs = [];
-      if (right) {
-        for (let w = 0; w < right.workers.length; w += 2) {
-          rightPairs.push([right.workers[w] || '', right.workers[w + 1] || '']);
-        }
-      }
-
-      const maxRows = Math.max(leftPairs.length, rightPairs.length, 1);
-      const bodyData = [];
-      for (let r = 0; r < maxRows; r++) {
-        const lp = leftPairs[r] || ['', ''];
-        const rp = rightPairs[r] || ['', ''];
-        bodyData.push([lp[0], lp[1], rp[0], rp[1]]);
-      }
+      if (leftPairs.length === 0) leftPairs.push(['', '']);
 
       doc.autoTable({
         startY: cornerY,
-        head: [headerRow],
-        body: bodyData,
+        head: [[`Corner ${left.corner} Captain:`, left.captain]],
+        body: leftPairs,
         styles: { fontSize: 7, cellPadding: 2, lineWidth: 0.5, lineColor: [0, 0, 0] },
         headStyles: { fillColor: [240, 240, 240], textColor: [0, 0, 0], fontStyle: 'bold' },
         margin: { left: cornerStartX },
-        tableWidth: cornerWidth,
+        tableWidth: colWidth,
         theme: 'grid',
       });
+      rowEndY = Math.max(rowEndY, doc.lastAutoTable.finalY);
 
-      cornerY = doc.lastAutoTable.finalY + 4;
+      // Right corner table (if exists)
+      if (right) {
+        const rightPairs = [];
+        for (let w = 0; w < right.workers.length; w += 2) {
+          rightPairs.push([right.workers[w] || '', right.workers[w + 1] || '']);
+        }
+        if (rightPairs.length === 0) rightPairs.push(['', '']);
+
+        doc.autoTable({
+          startY: cornerY,
+          head: [[`Corner ${right.corner} Captain:`, right.captain]],
+          body: rightPairs,
+          styles: { fontSize: 7, cellPadding: 2, lineWidth: 0.5, lineColor: [0, 0, 0] },
+          headStyles: { fillColor: [240, 240, 240], textColor: [0, 0, 0], fontStyle: 'bold' },
+          margin: { left: cornerStartX + colWidth + 6 },
+          tableWidth: colWidth,
+          theme: 'grid',
+        });
+        rowEndY = Math.max(rowEndY, doc.lastAutoTable.finalY);
+      }
+
+      cornerY = rowEndY + 4;
     }
 
     return Math.max(specEndY, cornerY);

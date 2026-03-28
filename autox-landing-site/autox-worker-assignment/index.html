@@ -26,24 +26,32 @@
   <h1>ALSCCA Autocross Worker Assignment</h1>
   <p class="subtitle">Upload entry list, assign run groups and worker positions, generate PDFs.</p>
 
+  <!-- Event Title -->
+  <div class="section">
+    <h2>Event Title</h2>
+    <div class="event-title-row">
+      <div class="control-group">
+        <label>Event Title</label>
+        <input type="text" id="event-name" placeholder="ALSCCA Autocross Pts. #" />
+      </div>
+      <div class="control-group">
+        <label>Event Date</label>
+        <input type="date" id="event-date" />
+      </div>
+    </div>
+  </div>
+
   <!-- Setup Section -->
   <div class="section">
     <h2>Setup</h2>
     <div class="controls-row">
       <div class="control-group">
         <label>Entry List (CSV)</label>
-        <input type="file" id="csv-file" accept=".csv" />
-        <button id="btn-sample-csv" class="sample-btn">Load Sample Entry List</button>
-      </div>
-      <div class="control-group">
-        <label>Corners</label>
-        <input type="number" id="corner-count" value="4" min="2" max="8" />
-      </div>
-    </div>
-    <div class="controls-row" style="margin-top: 8px;">
-      <div class="control-group" style="flex: 1;">
-        <label>Event Title</label>
-        <input type="text" id="event-title" value="" style="width: 100%; max-width: 500px;" />
+        <div class="csv-controls">
+          <input type="file" id="csv-file" accept=".csv" />
+          <span id="csv-file-label" class="file-label"></span>
+          <button id="btn-sample-csv" class="sample-btn">Load Sample Entry List</button>
+        </div>
       </div>
     </div>
     <div class="controls-row" style="margin-top: 8px;">
@@ -51,10 +59,25 @@
         <label>Memory File (JSON)</label>
         <div class="memory-controls">
           <input type="file" id="memory-file" accept=".json" />
+          <span id="memory-file-label" class="file-label"></span>
           <button id="btn-sample-memory" class="sample-btn">Load Sample Memory</button>
           <span id="memory-indicator" class="memory-indicator none">Memory: not loaded</span>
         </div>
+        <div class="memory-actions">
+          <button id="btn-view-memory">View Memory</button>
+          <button id="btn-clear-memory" class="danger">Clear Memory</button>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- PAX / Class Configuration (collapsible) -->
+  <div class="section collapsible" id="pax-class-section">
+    <h2 class="collapsible-header">PAX / Class Configuration <span class="collapse-icon">&#9656;</span></h2>
+    <div class="collapsible-body" style="display:none;">
+      <div id="class-mode-toggles"></div>
+      <div id="pax-class-grid" class="pax-class-grid"></div>
+      <button id="btn-reset-pax" class="sample-btn" style="margin-top: var(--space-sm);">Reset to Defaults</button>
     </div>
   </div>
 
@@ -62,13 +85,25 @@
   <div class="section">
     <div id="group-assignment"></div>
 
-    <div class="button-row">
-      <button id="btn-auto-balance" class="" disabled>Auto-Balance Groups</button>
-      <button id="btn-split" class="primary" disabled>Split Run Groups</button>
+    <div class="button-row" style="align-items: flex-end;">
+      <button id="btn-auto-balance" disabled>Balance Run Groups</button>
       <button id="btn-assign" class="primary" disabled>Assign Workers</button>
+      <div class="inline-control">
+        <label>Corners</label>
+        <input type="number" id="corner-count" value="4" min="2" max="8" />
+      </div>
     </div>
 
     <div id="status" class="status"></div>
+  </div>
+
+  <!-- Manual Assignments -->
+  <div class="section collapsible" id="manual-assignment-section" style="display:none;">
+    <h2 class="collapsible-header">Manual Assignments <span class="collapse-icon">&#9656;</span></h2>
+    <div class="collapsible-body" style="display:none;">
+      <p class="help-text">Assign workers to manual positions. These are excluded from the automatic algorithm.</p>
+      <div id="manual-assignments-table"></div>
+    </div>
   </div>
 
   <!-- Editable Spreadsheet -->
@@ -88,10 +123,6 @@
         </select>
         <button id="btn-sort-asc" class="toolbar-btn" title="Sort ascending">A-Z</button>
         <button id="btn-sort-desc" class="toolbar-btn" title="Sort descending">Z-A</button>
-        <span class="toolbar-sep"></span>
-        <label class="toolbar-label">Filter:</label>
-        <input type="text" id="table-filter" placeholder="Type to highlight..." />
-        <span id="filter-count" class="filter-count"></span>
       </div>
     </div>
     <div id="spreadsheet"></div>
@@ -104,8 +135,6 @@
       <button id="btn-pdf-workers" class="success" disabled>Generate Worker Assignments PDF</button>
       <button id="btn-pdf-groups" class="success" disabled>Generate Groups Page PDF</button>
       <button id="btn-download-memory">Save &amp; Download Memory</button>
-      <button id="btn-view-memory">View Memory</button>
-      <button id="btn-clear-memory" class="danger">Clear Memory</button>
     </div>
   </div>
 

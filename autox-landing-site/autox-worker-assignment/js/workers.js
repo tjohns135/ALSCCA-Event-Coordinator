@@ -1,83 +1,87 @@
 /**
  * Worker assignment logic
- * Assigns worker positions based on experience, history, and fairness
+ * Assigns worker positions based on experience tiers:
+ *   1. Essential (Timing, Safety Steward) — most experienced, session-specific
+ *   2. Experienced (Starter, Spotter, Grid, Corner Captains) — most experienced
+ *   3. Corner Workers — most experienced first, round-robin across corners
+ *
+ * Manual/early assignments are excluded from the algorithm pool.
  */
 
 const Workers = {
   /**
    * Auto-assign worker positions to entrants who don't already have one.
+   * Entrants with positions already set (manual assignments) are skipped.
    * @param {Array} entrants - array of entrant objects (already have running/working set)
-   * @param {number} cornerCount - number of corners (default 4)
+   * @param {number} cornerCount - number of corners (default from config)
    */
   assign(entrants, cornerCount) {
     cornerCount = cornerCount || CONFIG.workerPositions.corner.defaultCornerCount;
 
-    // Separate by work session
+    // Build sorting pool: only work session entrants without a position
     const work1st = entrants.filter((e) => e.working === 'Work 1st' && !e.position);
     const work2nd = entrants.filter((e) => e.working === 'Work 2nd' && !e.position);
 
-    // Assign specialized positions first, then fill corners
-    this._assignSession(work1st, cornerCount);
-    this._assignSession(work2nd, cornerCount);
-  },
-
-  /**
-   * Assign positions for a single work session
-   */
-  _assignSession(workers, cornerCount) {
-    if (workers.length === 0) return;
-
-    const unassigned = [...workers];
-    const specialized = [...CONFIG.workerPositions.specialized];
-
-    // Assign specialized positions to experienced workers
-    for (const position of specialized) {
-      if (unassigned.length === 0) break;
-
-      const best = this._findBestForPosition(unassigned, position);
+    // Phase 1: Essential positions (most experienced wins)
+    for (const pos of CONFIG.workerPositions.essential) {
+      const pool = pos.session === 1 ? work1st : work2nd;
+      const best = this._findMostExperienced(pool, pos.name);
       if (best) {
-        best.position = position;
-        unassigned.splice(unassigned.indexOf(best), 1);
+        best.position = pos.name;
       }
     }
 
-    // Assign corner captains
-    for (let c = 1; c <= cornerCount; c++) {
-      if (unassigned.length === 0) break;
-      const captain = this._findBestForPosition(unassigned, 'Captain');
-      if (captain) {
-        captain.position = `Corner ${c} Captain`;
-        unassigned.splice(unassigned.indexOf(captain), 1);
+    // Phase 2: Experienced positions (most experienced wins)
+    for (const pos of CONFIG.workerPositions.experienced) {
+      const pool = pos.session === 1 ? work1st : work2nd;
+      const best = this._findMostExperienced(pool, pos.name);
+      if (best) {
+        best.position = pos.name;
       }
     }
 
-    // Remaining workers go to corners, distributed evenly
-    let cornerIdx = 0;
-    for (const worker of unassigned) {
-      const corner = (cornerIdx % cornerCount) + 1;
-      worker.position = `Corner ${corner} Worker`;
-      cornerIdx++;
+    // Phase 3: Corner Captains (most experienced wins)
+    for (const pool of [work1st, work2nd]) {
+      for (let c = 1; c <= cornerCount; c++) {
+        const best = this._findMostExperienced(pool, 'Captain');
+        if (best) {
+          best.position = `Corner ${c} Captain`;
+        }
+      }
+    }
+
+    // Phase 4: Corner Workers — most experienced first, round-robin, no cap
+    for (const pool of [work1st, work2nd]) {
+      const remaining = pool.filter((e) => !e.position);
+
+      // Sort by most experienced first: event count desc, then alphabetical
+      remaining.sort((a, b) => {
+        const aEvents = Memory.getEventCount(a.competitor);
+        const bEvents = Memory.getEventCount(b.competitor);
+        if (aEvents !== bEvents) return bEvents - aEvents;
+        return a.competitor.localeCompare(b.competitor);
+      });
+
+      // Round-robin across corners until pool is empty
+      for (let i = 0; i < remaining.length; i++) {
+        const corner = (i % cornerCount) + 1;
+        remaining[i].position = `Corner ${corner} Worker`;
+      }
     }
   },
 
   /**
-   * Find the best candidate for a specialized position.
-   * Prefers workers with experience in that position.
-   * Falls back to most experienced worker overall.
-   * Novices only get corner worker positions.
+   * Find the most experienced unassigned candidate for a position.
+   * Excludes novices (class N) from specialized/captain positions.
+   * Ranks by: position-specific experience → total events → alphabetical.
    */
-  _findBestForPosition(candidates, position) {
-    // For specialized positions, skip novices
-    const eligible = position === 'Captain'
-      ? candidates.filter((c) => c.class !== 'N')
-      : candidates.filter((c) => c.class !== 'N');
-
+  _findMostExperienced(pool, positionName) {
+    const eligible = pool.filter((e) => !e.position && e.class !== 'N');
     if (eligible.length === 0) return null;
 
-    // Sort by: has done this position before > most events > alphabetical
     eligible.sort((a, b) => {
-      const aCount = Memory.getPositionCount(a.competitor, position);
-      const bCount = Memory.getPositionCount(b.competitor, position);
+      const aCount = Memory.getPositionCount(a.competitor, positionName);
+      const bCount = Memory.getPositionCount(b.competitor, positionName);
       if (aCount !== bCount) return bCount - aCount;
 
       const aEvents = Memory.getEventCount(a.competitor);

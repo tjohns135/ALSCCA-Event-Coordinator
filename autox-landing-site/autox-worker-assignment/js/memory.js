@@ -151,10 +151,44 @@ const Memory = {
     }
   },
 
+  // Alias map: new name base → old name patterns to also count
+  _positionAliases: {
+    'Safety Steward': ['SSS'],
+    'Safety Steward Shadow': ['SSS Shadow'],
+  },
+
+  /**
+   * Check if a historical position matches a query position.
+   * Handles renamed positions (SSS → Safety Steward) and
+   * numbered variants (Starter 1/2 match old "Starter").
+   */
+  _matchesPosition(historicalPosition, queryPosition) {
+    if (historicalPosition === queryPosition) return true;
+
+    // Strip trailing number to get base name (e.g., "Safety Steward 1" → "Safety Steward")
+    const queryBase = queryPosition.replace(/\s+\d+$/, '');
+    const histBase = historicalPosition.replace(/\s+\d+$/, '');
+
+    // Same base name matches (e.g., "Timing 1" query matches "Timing 1" history)
+    if (histBase === queryBase) return true;
+
+    // Check aliases: does the query base have old names that match?
+    const oldNames = this._positionAliases[queryBase];
+    if (oldNames) {
+      for (const oldName of oldNames) {
+        if (historicalPosition === oldName || histBase === oldName) return true;
+      }
+    }
+
+    return false;
+  },
+
   getPositionCount(name, positionType) {
     const p = this.getParticipant(name);
     if (!p) return 0;
-    return p.events.filter((e) => e.position && e.position.includes(positionType)).length;
+    return p.events.filter(
+      (e) => e.position && this._matchesPosition(e.position, positionType)
+    ).length;
   },
 
   getEventCount(name) {
@@ -203,12 +237,11 @@ const Memory = {
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; }
   h1 { font-size: 1.2rem; margin-bottom: 4px; }
   .info { font-size: 0.85rem; color: #666; margin-bottom: 12px; }
-  #search { padding: 6px 10px; margin-bottom: 8px; width: 300px; font-size: 0.85rem; border: 1px solid #ccc; border-radius: 3px; }
+
 </style>
 </head><body>
 <h1>ALSCCA Participant Memory</h1>
 <p class="info">Last updated: ${this.data.lastUpdated || 'never'} | ${rows.length} participants</p>
-<input type="text" id="search" placeholder="Search by name..." oninput="filterTable(this.value)" />
 <div id="spreadsheet"></div>
 <script>
 var allData = ${JSON.stringify(rows.map((r) => [
@@ -233,16 +266,6 @@ var table = jspreadsheet(document.getElementById('spreadsheet'), {
   tableHeight: (window.innerHeight - 120) + 'px',
   search: true,
 });
-
-function filterTable(query) {
-  if (!query) {
-    table.setData(allData);
-    return;
-  }
-  var q = query.toLowerCase();
-  var filtered = allData.filter(function(row) { return row[0].toLowerCase().includes(q); });
-  table.setData(filtered);
-}
 </script>
 </body></html>`;
 

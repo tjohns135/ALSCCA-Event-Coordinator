@@ -21,6 +21,12 @@ body {
   border-bottom: 1px solid var(--border-color);
 }
 
+.landing-logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: var(--space-sm);
+}
+
 .landing-header h1 {
   font-size: 2rem;
   color: var(--accent);
@@ -88,8 +94,16 @@ body {
   margin-top: var(--space-xl);
   padding-top: var(--space-xl);
   border-top: 1px solid var(--border-color);
-  color: var(--text-dimmed);
   font-size: var(--font-size-sm);
+}
+
+.landing-footer a {
+  color: var(--text-dimmed);
+  text-decoration: none;
+}
+
+.landing-footer a:hover {
+  color: var(--accent);
 }
 
 @media (max-width: 640px) {

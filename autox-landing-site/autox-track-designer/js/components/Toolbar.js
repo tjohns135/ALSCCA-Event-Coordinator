@@ -73,8 +73,23 @@ function Toolbar({ activeTool, onToolChange }) {
             name: 'Start',
             icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="10" width="18" height="4" fill="#22C55E" stroke="#22C55E" rx="1"/>
-                    <text x="12" y="21" fontSize="6" fill="currentColor" textAnchor="middle">START</text>
+                    <circle cx="5" cy="12" r="3" fill="#22C55E" stroke="none"/>
+                    <line x1="5" y1="12" x2="19" y2="12" stroke="#22C55E" strokeWidth="2"/>
+                    <circle cx="19" cy="12" r="3" fill="#22C55E" stroke="none"/>
+                    <text x="12" y="21" fontSize="6" fill="currentColor" textAnchor="middle" stroke="none">START</text>
+                </svg>
+            )
+        },
+        {
+            id: 'timing-start',
+            name: 'Timing',
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="6" cy="9" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="18" cy="9" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="6" cy="15" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="18" cy="15" r="2.5" fill="currentColor" stroke="none"/>
+                    <text x="12" y="22" fontSize="5" fill="currentColor" textAnchor="middle" stroke="none">TIMING</text>
                 </svg>
             )
         },
@@ -83,14 +98,17 @@ function Toolbar({ activeTool, onToolChange }) {
             name: 'Finish',
             icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="10" width="18" height="4" fill="white" stroke="currentColor"/>
-                    <rect x="3" y="10" width="3" height="2" fill="black"/>
-                    <rect x="9" y="10" width="3" height="2" fill="black"/>
-                    <rect x="15" y="10" width="3" height="2" fill="black"/>
-                    <rect x="6" y="12" width="3" height="2" fill="black"/>
-                    <rect x="12" y="12" width="3" height="2" fill="black"/>
-                    <rect x="18" y="12" width="3" height="2" fill="black"/>
-                    <text x="12" y="21" fontSize="6" fill="currentColor" textAnchor="middle">FINISH</text>
+                    <circle cx="4" cy="9" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="8" cy="9" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="12" cy="9" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="9" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="20" cy="9" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="4" cy="15" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="8" cy="15" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="12" cy="15" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="16" cy="15" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="20" cy="15" r="1.5" fill="currentColor" stroke="none"/>
+                    <text x="12" y="22" fontSize="5" fill="currentColor" textAnchor="middle" stroke="none">FINISH</text>
                 </svg>
             )
         },
@@ -158,6 +176,7 @@ function Toolbar({ activeTool, onToolChange }) {
                 {activeTool === 'cone-pointer' && 'Click to place pointer (cone + guide)'}
                 {activeTool === 'cone-guide' && 'Click to place guide cone'}
                 {activeTool === 'start' && 'Click to place start line'}
+                {activeTool === 'timing-start' && 'Click to place timing start'}
                 {activeTool === 'finish' && 'Click to place finish line'}
                 {activeTool === 'car' && 'Click to place car (max 1)'}
                 {activeTool === 'corner-number' && 'Click to place corner number (max 6)'}

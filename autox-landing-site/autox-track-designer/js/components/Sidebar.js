@@ -14,7 +14,8 @@ function Sidebar({
     onConeDeselect,
     selectedCornerNumber,
     onCornerNumberChange,
-    onCornerNumberDeselect
+    onCornerNumberDeselect,
+    onShowHelp
 }) {
     const importInputRef = React.useRef(null);
 
@@ -36,6 +37,7 @@ function Sidebar({
     const pointerCount = course.cones?.filter(c => c.type === 'pointer').length || 0;
     const guideCount = course.cones?.filter(c => c.type === 'guide').length || 0;
     const hasStart = !!course.startMarker;
+    const hasTimingStart = !!course.timingStartMarker;
     const hasFinish = !!course.finishMarker;
     const hasCar = !!course.carMarker;
     const cornerNumberCount = (course.cornerNumbers || []).length;
@@ -43,7 +45,16 @@ function Sidebar({
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <h1>AutoX Track Designer</h1>
+                <div className="sidebar-title-row">
+                    <h1>AutoX Track Designer</h1>
+                    <button className="help-btn" onClick={onShowHelp} title="Help">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </button>
+                </div>
                 <p>Design autocross courses with ease</p>
                 <input
                     type="text"
@@ -173,6 +184,10 @@ function Sidebar({
                 <div className="stat-item">
                     <span className="stat-label">Start Line</span>
                     <span className="stat-value">{hasStart ? 'Placed' : 'Not set'}</span>
+                </div>
+                <div className="stat-item">
+                    <span className="stat-label">Timing Start</span>
+                    <span className="stat-value">{hasTimingStart ? 'Placed' : 'Not set'}</span>
                 </div>
                 <div className="stat-item">
                     <span className="stat-label">Finish Line</span>

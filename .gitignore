@@ -13,5 +13,11 @@ Desktop.ini
 # Node (in case added later)
 node_modules/
 
+# Claude Code
+.claude/
+
+# Internal docs
+autox-landing-site/autox-worker-assignment/.docs/
+
 # Misc
 *.log

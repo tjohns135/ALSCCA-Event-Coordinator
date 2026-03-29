@@ -13,6 +13,7 @@ function App() {
     const [activeTool, setActiveTool] = React.useState('cone-standard');
     const [toast, setToast] = React.useState(null);
     const [showNewCourseModal, setShowNewCourseModal] = React.useState(false);
+    const [showHelpModal, setShowHelpModal] = React.useState(false);
 
     // Selection state
     const [selectedConeId, setSelectedConeId] = React.useState(null);
@@ -117,6 +118,13 @@ function App() {
         }));
     };
 
+    const handleTimingStartMarkerSet = (position) => {
+        setCourse(prev => ({
+            ...prev,
+            timingStartMarker: position ? { x: position.x, y: position.y, rotation: prev.timingStartMarker?.rotation || 0 } : null
+        }));
+    };
+
     const handleFinishMarkerSet = (position) => {
         setCourse(prev => ({
             ...prev,
@@ -131,6 +139,13 @@ function App() {
         }));
     };
 
+    const handleTimingStartMarkerMove = (position) => {
+        setCourse(prev => ({
+            ...prev,
+            timingStartMarker: prev.timingStartMarker ? { ...prev.timingStartMarker, x: position.x, y: position.y } : null
+        }));
+    };
+
     const handleFinishMarkerMove = (position) => {
         setCourse(prev => ({
             ...prev,
@@ -142,6 +157,13 @@ function App() {
         setCourse(prev => ({
             ...prev,
             startMarker: prev.startMarker ? { ...prev.startMarker, rotation } : null
+        }));
+    };
+
+    const handleTimingStartRotationChange = (rotation) => {
+        setCourse(prev => ({
+            ...prev,
+            timingStartMarker: prev.timingStartMarker ? { ...prev.timingStartMarker, rotation } : null
         }));
     };
 
@@ -265,6 +287,7 @@ function App() {
             ...prev,
             cones: [],
             startMarker: null,
+            timingStartMarker: null,
             finishMarker: null,
             carMarker: null,
             cornerNumbers: []
@@ -330,6 +353,9 @@ function App() {
                     setActiveTool('start');
                     break;
                 case '2':
+                    setActiveTool('timing-start');
+                    break;
+                case '3':
                     setActiveTool('finish');
                     break;
                 case 'e':
@@ -363,6 +389,7 @@ function App() {
                 selectedCornerNumber={selectedCornerNumber}
                 onCornerNumberChange={handleCornerNumberChange}
                 onCornerNumberDeselect={handleCornerNumberDeselect}
+                onShowHelp={() => setShowHelpModal(true)}
             />
 
             <div className="main-content">
@@ -373,8 +400,10 @@ function App() {
                     onConeMove={handleConeMove}
                     onConeDelete={handleConeDelete}
                     onStartMarkerSet={handleStartMarkerSet}
+                    onTimingStartMarkerSet={handleTimingStartMarkerSet}
                     onFinishMarkerSet={handleFinishMarkerSet}
                     onStartMarkerMove={handleStartMarkerMove}
+                    onTimingStartMarkerMove={handleTimingStartMarkerMove}
                     onFinishMarkerMove={handleFinishMarkerMove}
                     onCarMarkerSet={handleCarMarkerSet}
                     onCarMarkerMove={handleCarMarkerMove}
@@ -393,6 +422,7 @@ function App() {
                     onDeselectAll={handleDeselectAll}
                     onConeRotationChange={handleConeRotationChange}
                     onStartRotationChange={handleStartRotationChange}
+                    onTimingStartRotationChange={handleTimingStartRotationChange}
                     onFinishRotationChange={handleFinishRotationChange}
                     onCarRotationChange={handleCarRotationChange}
                 />
@@ -423,6 +453,53 @@ function App() {
                                 onClick={confirmNewCourse}
                             >
                                 Create New
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Help Modal */}
+            {showHelpModal && (
+                <div className="modal-overlay" onClick={() => setShowHelpModal(false)}>
+                    <div className="modal help-modal" onClick={(e) => e.stopPropagation()}>
+                        <h2>How to Use</h2>
+                        <div className="help-content">
+                            <h4>Placing Elements</h4>
+                            <p>Select a tool from the sidebar, then click on the map to place it.</p>
+                            <ul>
+                                <li><strong>Standard Cone</strong> — basic course marker</li>
+                                <li><strong>Pointer Cone</strong> — directional cone (click to select, drag handle to rotate)</li>
+                                <li><strong>Guide Cone</strong> — guide marker with rotation</li>
+                                <li><strong>Start / Timing Start / Finish</strong> — lane markers with rotation handles</li>
+                                <li><strong>Car</strong> — show vehicle position and heading</li>
+                                <li><strong>Corner #</strong> — numbered corner markers (max 6)</li>
+                            </ul>
+                            <h4>Editing</h4>
+                            <ul>
+                                <li><strong>Select tool</strong> — drag items to reposition</li>
+                                <li><strong>Rotate</strong> — click a pointer/guide cone or marker, then drag its rotation handle</li>
+                                <li><strong>Eraser</strong> — click any element to delete it</li>
+                                <li><strong>Right-click</strong> a cone to delete it</li>
+                            </ul>
+                            <h4>Navigation</h4>
+                            <ul>
+                                <li><strong>Pan</strong> — click and drag empty space (with Select tool)</li>
+                                <li><strong>Zoom</strong> — scroll wheel</li>
+                            </ul>
+                            <h4>Keyboard Shortcuts</h4>
+                            <ul>
+                                <li><strong>S</strong> — Select tool</li>
+                                <li><strong>C</strong> — Standard Cone</li>
+                                <li><strong>1 / 2 / 3</strong> — Start / Timing Start / Finish</li>
+                                <li><strong>E</strong> — Eraser</li>
+                                <li><strong>Esc</strong> — Deselect all</li>
+                            </ul>
+                            <h4>Export</h4>
+                            <p>Use <strong>Export PNG</strong> to save an image or <strong>Save/Load JSON</strong> to back up and restore courses. Your work auto-saves to the browser.</p>
+                        </div>
+                        <div className="modal-buttons">
+                            <button className="modal-btn confirm" onClick={() => setShowHelpModal(false)}>
+                                Got it
                             </button>
                         </div>
                     </div>

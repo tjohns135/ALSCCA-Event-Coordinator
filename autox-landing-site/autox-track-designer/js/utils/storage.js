@@ -24,6 +24,9 @@ const StorageUtils = {
         if (course.startMarker && course.startMarker.rotation === undefined) {
             course.startMarker.rotation = 0;
         }
+        if (course.timingStartMarker && course.timingStartMarker.rotation === undefined) {
+            course.timingStartMarker.rotation = 0;
+        }
         if (course.finishMarker && course.finishMarker.rotation === undefined) {
             course.finishMarker.rotation = 0;
         }
@@ -42,6 +45,7 @@ const StorageUtils = {
                 }
                 // Ensure new fields exist
                 if (course.carMarker === undefined) course.carMarker = null;
+                if (course.timingStartMarker === undefined) course.timingStartMarker = null;
                 if (!Array.isArray(course.cornerNumbers)) course.cornerNumbers = [];
                 this._ensureMarkerRotation(course);
                 return course;
@@ -61,6 +65,7 @@ const StorageUtils = {
             name: 'New Course',
             cones: [],
             startMarker: null,
+            timingStartMarker: null,
             finishMarker: null,
             carMarker: null,
             cornerNumbers: [],
@@ -102,6 +107,7 @@ const StorageUtils = {
                     }
                     // Ensure new fields exist
                     if (course.carMarker === undefined) course.carMarker = null;
+                    if (course.timingStartMarker === undefined) course.timingStartMarker = null;
                     if (!Array.isArray(course.cornerNumbers)) course.cornerNumbers = [];
                     self._ensureMarkerRotation(course);
                     resolve(course);

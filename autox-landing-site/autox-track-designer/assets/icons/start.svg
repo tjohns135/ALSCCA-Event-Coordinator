@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="4" y="4" width="4" height="26" fill="#333"/>
-  <path d="M8 4 L28 4 L28 18 L8 18 Z" fill="#22C55E"/>
-  <text x="18" y="14" font-family="Arial" font-size="10" fill="white" text-anchor="middle" font-weight="bold">GO</text>
-</svg>

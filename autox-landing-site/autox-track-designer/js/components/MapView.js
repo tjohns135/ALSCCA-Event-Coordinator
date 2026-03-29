@@ -35,8 +35,10 @@ function MapView({
     onConeMove,
     onConeDelete,
     onStartMarkerSet,
+    onTimingStartMarkerSet,
     onFinishMarkerSet,
     onStartMarkerMove,
+    onTimingStartMarkerMove,
     onFinishMarkerMove,
     onCarMarkerSet,
     onCarMarkerMove,
@@ -55,6 +57,7 @@ function MapView({
     onDeselectAll,
     onConeRotationChange,
     onStartRotationChange,
+    onTimingStartRotationChange,
     onFinishRotationChange,
     onCarRotationChange
 }) {
@@ -90,25 +93,11 @@ function MapView({
         return Math.max(realSize, minSize);
     };
 
-    const displayRadius = React.useMemo(() => {
-        return getMinDisplaySize(coneRadius, 4);
-    }, [viewBox.w, coneRadius, mounted]);
-
-    const displayLineLength = React.useMemo(() => {
-        return getMinDisplaySize(lineLength, 30);
-    }, [viewBox.w, lineLength, mounted]);
-
-    const displayCarWidth = React.useMemo(() => {
-        return getMinDisplaySize(REAL_LIFE_CAR_WIDTH, 20);
-    }, [viewBox.w, mounted]);
-
-    const displayCarHeight = React.useMemo(() => {
-        return getMinDisplaySize(REAL_LIFE_CAR_HEIGHT, 10);
-    }, [viewBox.w, mounted]);
-
-    const displayCornerRadius = React.useMemo(() => {
-        return getMinDisplaySize(REAL_LIFE_CORNER_RADIUS, 15);
-    }, [viewBox.w, mounted]);
+    const displayRadius = coneRadius * 2.5;
+    const displayLineLength = lineLength * 2.5;
+    const displayCarWidth = REAL_LIFE_CAR_WIDTH * 2.5;
+    const displayCarHeight = REAL_LIFE_CAR_HEIGHT * 2.5;
+    const displayCornerRadius = REAL_LIFE_CORNER_RADIUS * 2.5;
 
     // (handle sizes now computed proportionally per element in renderRotationHandles)
 
@@ -185,6 +174,9 @@ function MapView({
             case 'start':
                 onStartMarkerSet({ x, y });
                 break;
+            case 'timing-start':
+                onTimingStartMarkerSet({ x, y });
+                break;
             case 'finish':
                 onFinishMarkerSet({ x, y });
                 break;
@@ -195,7 +187,7 @@ function MapView({
                 onCornerNumberAdd({ x, y });
                 break;
         }
-    }, [onConeAdd, onStartMarkerSet, onFinishMarkerSet, onCarMarkerSet, onCornerNumberAdd, onDeselectAll]);
+    }, [onConeAdd, onStartMarkerSet, onTimingStartMarkerSet, onFinishMarkerSet, onCarMarkerSet, onCornerNumberAdd, onDeselectAll]);
 
     // Cone pointer events
     const handleConePointerDown = React.useCallback((e, coneId) => {
@@ -234,6 +226,7 @@ function MapView({
         const tool = activeToolRef.current;
         if (tool === 'eraser') {
             if (markerId === 'start') onStartMarkerSet(null);
+            if (markerId === 'timing-start') onTimingStartMarkerSet(null);
             if (markerId === 'finish') onFinishMarkerSet(null);
             return;
         }
@@ -241,7 +234,9 @@ function MapView({
         const svgEl = svgRef.current;
         if (!svgEl) return;
         const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
-        const marker = markerId === 'start' ? course.startMarker : course.finishMarker;
+        const marker = markerId === 'start' ? course.startMarker
+            : markerId === 'timing-start' ? course.timingStartMarker
+            : course.finishMarker;
         if (!marker) return;
 
         draggingRef.current = {
@@ -254,7 +249,7 @@ function MapView({
             moved: false
         };
         e.currentTarget.closest('svg').setPointerCapture(e.pointerId);
-    }, [course.startMarker, course.finishMarker, onStartMarkerSet, onFinishMarkerSet]);
+    }, [course.startMarker, course.timingStartMarker, course.finishMarker, onStartMarkerSet, onTimingStartMarkerSet, onFinishMarkerSet]);
 
     // Car pointer events
     const handleCarPointerDown = React.useCallback((e) => {
@@ -347,9 +342,11 @@ function MapView({
             if (drag.target === 'cone') {
                 onConeRotationChange(drag.id, rotation);
             } else if (drag.target === 'start') {
-                onStartRotationChange(rotation);
+                onStartRotationChange(((rotation + 90) % 360 + 360) % 360);
+            } else if (drag.target === 'timing-start') {
+                onTimingStartRotationChange(((rotation + 90) % 360 + 360) % 360);
             } else if (drag.target === 'finish') {
-                onFinishRotationChange(rotation);
+                onFinishRotationChange(((rotation - 180) % 360 + 360) % 360);
             } else if (drag.target === 'car') {
                 onCarRotationChange(rotation);
             }
@@ -370,14 +367,15 @@ function MapView({
             onConeMove(drag.id, { x: newX, y: newY });
         } else if (drag.type === 'marker') {
             if (drag.id === 'start') onStartMarkerMove({ x: newX, y: newY });
+            if (drag.id === 'timing-start') onTimingStartMarkerMove({ x: newX, y: newY });
             if (drag.id === 'finish') onFinishMarkerMove({ x: newX, y: newY });
         } else if (drag.type === 'car') {
             onCarMarkerMove({ x: newX, y: newY });
         } else if (drag.type === 'cornerNumber') {
             onCornerNumberMove(drag.id, { x: newX, y: newY });
         }
-    }, [onConeMove, onStartMarkerMove, onFinishMarkerMove, onCarMarkerMove, onCornerNumberMove,
-        onConeRotationChange, onStartRotationChange, onFinishRotationChange, onCarRotationChange]);
+    }, [onConeMove, onStartMarkerMove, onTimingStartMarkerMove, onFinishMarkerMove, onCarMarkerMove, onCornerNumberMove,
+        onConeRotationChange, onStartRotationChange, onTimingStartRotationChange, onFinishRotationChange, onCarRotationChange]);
 
     const handlePointerUpDrag = React.useCallback((e) => {
         const drag = draggingRef.current;
@@ -432,6 +430,7 @@ function MapView({
             case 'cone-pointer':
             case 'cone-guide':
             case 'start':
+            case 'timing-start':
             case 'finish':
             case 'car':
             case 'corner-number':
@@ -444,7 +443,7 @@ function MapView({
         }
     };
 
-    // Render start/finish line
+    // Render start/timing-start/finish marker
     const renderMarkerLine = (marker, type, color) => {
         if (!marker) return null;
         const rotation = marker.rotation || 0;
@@ -453,70 +452,126 @@ function MapView({
         const dx = halfLen * Math.cos(rad);
         const dy = halfLen * Math.sin(rad);
         const perpRad = rad + Math.PI / 2;
-        const textOffset = getMinDisplaySize(0.5, 8);
-        const textX = marker.x + textOffset * Math.cos(perpRad);
-        const textY = marker.y + textOffset * Math.sin(perpRad);
         const isMarkerSelected = selectedMarker === type;
 
         const strokeWidth = Math.max(0.5, displayRadius * 0.5);
         const fontSize = Math.max(2, displayRadius * 1.5);
-        const label = type === 'start' ? 'START' : 'FINISH';
+        const coneR = displayRadius * 1.3;
         const markerId = type;
 
-        if (type === 'finish') {
-            const numSegments = 8;
-            const segDx = (dx * 2) / numSegments;
-            const segDy = (dy * 2) / numSegments;
-            const segments = [];
-            for (let i = 0; i < numSegments; i++) {
-                const sx = marker.x - dx + segDx * i;
-                const sy = marker.y - dy + segDy * i;
-                const ex = sx + segDx;
-                const ey = sy + segDy;
-                segments.push(
-                    React.createElement('line', {
-                        key: `finish-seg-${i}`,
-                        x1: sx, y1: sy, x2: ex, y2: ey,
-                        stroke: i % 2 === 0 ? '#333' : '#fff',
-                        strokeWidth: strokeWidth,
-                        strokeLinecap: 'butt'
+        const elements = [];
+        let label, textColor = color;
+        let rowGap = 0;
+
+        if (type === 'start') {
+            label = 'START';
+            // Green line between two cones
+            elements.push(
+                React.createElement('line', {
+                    key: 'start-line',
+                    x1: marker.x - dx, y1: marker.y - dy,
+                    x2: marker.x + dx, y2: marker.y + dy,
+                    stroke: '#22C55E',
+                    strokeWidth: strokeWidth,
+                    strokeLinecap: 'round'
+                }),
+                // Left cone
+                React.createElement('circle', {
+                    key: 'start-cone-l',
+                    cx: marker.x - dx, cy: marker.y - dy,
+                    r: coneR, fill: '#333'
+                }),
+                // Right cone
+                React.createElement('circle', {
+                    key: 'start-cone-r',
+                    cx: marker.x + dx, cy: marker.y + dy,
+                    r: coneR, fill: '#333'
+                })
+            );
+        } else if (type === 'timing-start') {
+            label = 'TIMING START';
+            textColor = '#F59E0B';
+            // 2 rows of 2 cones each (4 total)
+            rowGap = displayLineLength * 0.15;
+            const perpDx = rowGap * Math.cos(perpRad);
+            const perpDy = rowGap * Math.sin(perpRad);
+
+            for (let row = 0; row < 2; row++) {
+                const sign = row === 0 ? 1 : -1;
+                const rpx = sign * perpDx;
+                const rpy = sign * perpDy;
+                if (row === 0) {
+                    elements.push(
+                        React.createElement('line', {
+                            key: 'ts-line',
+                            x1: marker.x - dx + rpx, y1: marker.y - dy + rpy,
+                            x2: marker.x + dx + rpx, y2: marker.y + dy + rpy,
+                            stroke: '#F59E0B',
+                            strokeWidth: strokeWidth,
+                            strokeLinecap: 'round'
+                        })
+                    );
+                }
+                elements.push(
+                    React.createElement('circle', {
+                        key: `ts-r${row}-c0`,
+                        cx: marker.x - dx + rpx, cy: marker.y - dy + rpy,
+                        r: coneR, fill: '#333'
+                    }),
+                    React.createElement('circle', {
+                        key: `ts-r${row}-c1`,
+                        cx: marker.x + dx + rpx, cy: marker.y + dy + rpy,
+                        r: coneR, fill: '#333'
                     })
                 );
             }
-            return React.createElement('g', {
-                key: `marker-${type}`,
-                'data-interactive': 'true',
-                style: { cursor: 'move' },
-                onPointerDown: (e) => handleMarkerPointerDown(e, markerId),
-            },
-                // Selection highlight
-                isMarkerSelected && React.createElement('circle', {
-                    cx: marker.x, cy: marker.y,
-                    r: displayLineLength * 0.4,
-                    fill: '#333', opacity: 0.15
-                }),
+        } else if (type === 'finish') {
+            label = 'FINISH';
+            // 2 rows of 5 cones each (10 total)
+            rowGap = displayLineLength * 0.3;
+            const perpDx = rowGap * Math.cos(perpRad);
+            const perpDy = rowGap * Math.sin(perpRad);
+            const numCones = 10;
+
+            // Line between rows at the first cone position
+            elements.push(
                 React.createElement('line', {
-                    x1: marker.x - dx, y1: marker.y - dy,
-                    x2: marker.x + dx, y2: marker.y + dy,
-                    stroke: '#fff', strokeWidth: strokeWidth + 0.5
-                }),
-                ...segments,
-                React.createElement('line', {
-                    x1: marker.x - dx, y1: marker.y - dy,
-                    x2: marker.x + dx, y2: marker.y + dy,
-                    stroke: '#333', strokeWidth: 0.3, fill: 'none'
-                }),
-                React.createElement('text', {
-                    x: textX, y: textY,
-                    fontSize: fontSize,
-                    fill: '#333',
-                    textAnchor: 'middle',
-                    dominantBaseline: 'hanging',
-                    fontWeight: 'bold',
-                    fontFamily: 'Arial, sans-serif'
-                }, label)
+                    key: 'fin-line',
+                    x1: marker.x - dx + perpDx, y1: marker.y - dy + perpDy,
+                    x2: marker.x - dx - perpDx, y2: marker.y - dy - perpDy,
+                    stroke: '#EF4444',
+                    strokeWidth: strokeWidth,
+                    strokeLinecap: 'round'
+                })
             );
+
+            for (let row = 0; row < 2; row++) {
+                const sign = row === 0 ? 1 : -1;
+                const rpx = sign * perpDx;
+                const rpy = sign * perpDy;
+                for (let i = 0; i < numCones; i++) {
+                    const t = i / (numCones - 1);
+                    const cx = marker.x - dx + 5 * dx * t + rpx;
+                    const cy = marker.y - dy + 5 * dy * t + rpy;
+                    elements.push(
+                        React.createElement('circle', {
+                            key: `fin-r${row}-c${i}`,
+                            cx, cy,
+                            r: coneR, fill: '#333'
+                        })
+                    );
+                }
+            }
         }
+
+        // Text offset: clear the row gap + base offset
+        const baseTextOffset = getMinDisplaySize(0.5, 8);
+        const textOffset = rowGap + baseTextOffset;
+        const textX = marker.x + textOffset * Math.cos(perpRad);
+        const textY = marker.y + textOffset * Math.sin(perpRad);
+
+        // Selection highlight radius accounts for row gap
+        const highlightR = displayLineLength * 0.4 + rowGap;
 
         return React.createElement('g', {
             key: `marker-${type}`,
@@ -524,27 +579,21 @@ function MapView({
             style: { cursor: 'move' },
             onPointerDown: (e) => handleMarkerPointerDown(e, markerId),
         },
-            // Selection highlight
             isMarkerSelected && React.createElement('circle', {
                 cx: marker.x, cy: marker.y,
-                r: displayLineLength * 0.4,
-                fill: color, opacity: 0.15
+                r: highlightR,
+                fill: textColor, opacity: 0.15
             }),
-            React.createElement('line', {
-                x1: marker.x - dx, y1: marker.y - dy,
-                x2: marker.x + dx, y2: marker.y + dy,
-                stroke: color,
-                strokeWidth: strokeWidth,
-                strokeLinecap: 'round'
-            }),
+            ...elements,
             React.createElement('text', {
                 x: textX, y: textY,
                 fontSize: fontSize,
-                fill: color,
+                fill: textColor,
                 textAnchor: 'middle',
                 dominantBaseline: 'hanging',
                 fontWeight: 'bold',
-                fontFamily: 'Arial, sans-serif'
+                fontFamily: 'Arial, sans-serif',
+                transform: `rotate(${rotation} ${textX} ${textY})`
             }, label)
         );
     };
@@ -733,23 +782,33 @@ function MapView({
             ));
         }
 
-        // Selected start marker rotation handle — proportional to displayLineLength
+        // Selected start marker rotation handle — rotated 90° CCW
         if (selectedMarker === 'start' && course.startMarker) {
             handles.push(renderRotationHandle(
                 course.startMarker.x, course.startMarker.y,
-                course.startMarker.rotation || 0,
+                (course.startMarker.rotation || 0) - 90,
                 '#22C55E', 'start', null,
-                displayLineLength * 0.7, displayLineLength * 0.12
+                displayLineLength * 1.25, displayLineLength * 0.15
             ));
         }
 
-        // Selected finish marker rotation handle — proportional to displayLineLength
+        // Selected timing start marker rotation handle — rotated 90° CCW
+        if (selectedMarker === 'timing-start' && course.timingStartMarker) {
+            handles.push(renderRotationHandle(
+                course.timingStartMarker.x, course.timingStartMarker.y,
+                (course.timingStartMarker.rotation || 0) - 90,
+                '#F59E0B', 'timing-start', null,
+                displayLineLength * 1.25, displayLineLength * 0.15
+            ));
+        }
+
+        // Selected finish marker rotation handle — rotated 180°
         if (selectedMarker === 'finish' && course.finishMarker) {
             handles.push(renderRotationHandle(
                 course.finishMarker.x, course.finishMarker.y,
-                course.finishMarker.rotation || 0,
+                (course.finishMarker.rotation || 0) + 180,
                 '#666', 'finish', null,
-                displayLineLength * 0.7, displayLineLength * 0.12
+                displayLineLength * 1.25, displayLineLength * 0.15
             ));
         }
 
@@ -843,9 +902,10 @@ function MapView({
             ...course.cones.flatMap(cone => renderCone(cone))
         ),
 
-        // Markers layer (start/finish)
+        // Markers layer (start/timing-start/finish)
         React.createElement('g', { id: 'markers-layer' },
             renderMarkerLine(course.startMarker, 'start', '#22C55E'),
+            renderMarkerLine(course.timingStartMarker, 'timing-start', '#F59E0B'),
             renderMarkerLine(course.finishMarker, 'finish', '#333')
         ),
 

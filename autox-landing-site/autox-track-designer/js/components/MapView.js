@@ -861,6 +861,13 @@ function MapView({
             }
         },
         onClick: handleSvgClick,
+        onPointerCancel: (e) => {
+            if (draggingRef.current) {
+                handlePointerUpDrag(e);
+            } else {
+                panHandlers.onPointerUp(e);
+            }
+        },
         onContextMenu: (e) => e.preventDefault()
     },
         // Defs

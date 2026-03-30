@@ -46,7 +46,8 @@ function Sidebar({
         <div className="sidebar">
             <div className="sidebar-header">
                 <div className="sidebar-title-row">
-                    <h1>AutoX Track Designer</h1>
+                    <img src="../cone-ninja-logo.svg" alt="Cone Ninja" className="sidebar-logo" />
+                    <h1>CONE NINJA</h1>
                     <button className="help-btn" onClick={onShowHelp} title="Help">
                         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
                             <circle cx="12" cy="12" r="10"/>

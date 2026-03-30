@@ -55,10 +55,17 @@ body {
   border-color: var(--accent);
 }
 
+.sidebar-logo {
+  height: 100px;
+  width: auto;
+  margin-right: var(--space-sm);
+}
+
 .sidebar-header h1 {
   font-size: var(--font-size-xl);
   color: var(--accent);
   margin-bottom: var(--space-xs);
+  letter-spacing: 0.1em;
 }
 
 .sidebar-header p {

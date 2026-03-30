@@ -34,7 +34,7 @@ const SvgPanZoom = {
         setViewBox({ x: newX, y: newY, w: newW, h: newH });
     },
 
-    // Create pointer event handlers for panning
+    // Create pointer event handlers for panning and pinch-to-zoom
     // onPanEnd(didMove) is called when panning ends, with true if the view actually moved
     createPanHandlers: function(viewBox, setViewBox, viewBoxRef, onPanEnd) {
         let isPanning = false;
@@ -42,10 +42,43 @@ const SvgPanZoom = {
         let startVB = null;
         let hasMoved = false;
 
+        // Multi-touch pinch-to-zoom state
+        const activePointers = new Map();
+        let pinchState = null; // { initialDist, initialMidSVG, initialVB }
+
+        const getPointerDist = (p1, p2) => {
+            const dx = p1.clientX - p2.clientX;
+            const dy = p1.clientY - p2.clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        };
+
+        const getPointerMid = (p1, p2) => ({
+            clientX: (p1.clientX + p2.clientX) / 2,
+            clientY: (p1.clientY + p2.clientY) / 2,
+        });
+
         const onPointerDown = (e) => {
-            // Only pan on primary button (left click) on the SVG background
+            // Track all pointers
+            activePointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+
+            // If two pointers down, start pinch — cancel any active pan
+            if (activePointers.size === 2) {
+                isPanning = false;
+                startPt = null;
+                const [p1, p2] = [...activePointers.values()];
+                const mid = getPointerMid(p1, p2);
+                const svgEl = e.currentTarget;
+                pinchState = {
+                    initialDist: getPointerDist(p1, p2),
+                    initialMidClient: mid,
+                    initialMidSVG: SvgPanZoom.screenToSVG(svgEl, mid.clientX, mid.clientY),
+                    initialVB: { ...viewBoxRef.current },
+                };
+                return;
+            }
+
+            // Single pointer — normal pan logic
             if (e.button !== 0) return;
-            // Don't start pan if clicking on a cone or marker element
             if (e.target.closest('[data-interactive]')) return;
             isPanning = true;
             hasMoved = false;
@@ -55,6 +88,43 @@ const SvgPanZoom = {
         };
 
         const onPointerMove = (e) => {
+            // Update tracked pointer position
+            if (activePointers.has(e.pointerId)) {
+                activePointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+            }
+
+            // Pinch-to-zoom with two pointers
+            if (activePointers.size === 2 && pinchState) {
+                const [p1, p2] = [...activePointers.values()];
+                const currentDist = getPointerDist(p1, p2);
+                const currentMid = getPointerMid(p1, p2);
+
+                // Zoom: scale viewBox based on pinch distance change
+                const zoomScale = pinchState.initialDist / currentDist;
+                const newW = Math.max(SvgPanZoom.MIN_VB_WIDTH, Math.min(SvgPanZoom.MAX_VB_WIDTH, pinchState.initialVB.w * zoomScale));
+                const newH = newW * (pinchState.initialVB.h / pinchState.initialVB.w);
+
+                // Zoom toward initial midpoint
+                const s = newW / pinchState.initialVB.w;
+                let newX = pinchState.initialMidSVG.x - (pinchState.initialMidSVG.x - pinchState.initialVB.x) * s;
+                let newY = pinchState.initialMidSVG.y - (pinchState.initialMidSVG.y - pinchState.initialVB.y) * s;
+
+                // Pan: track midpoint movement
+                const svgEl = e.currentTarget;
+                const rect = svgEl.getBoundingClientRect();
+                const scaleX = newW / rect.width;
+                const scaleY = newH / rect.height;
+                const midDx = (currentMid.clientX - pinchState.initialMidClient.clientX) * scaleX;
+                const midDy = (currentMid.clientY - pinchState.initialMidClient.clientY) * scaleY;
+                newX -= midDx;
+                newY -= midDy;
+
+                setViewBox({ x: newX, y: newY, w: newW, h: newH });
+                hasMoved = true;
+                return;
+            }
+
+            // Single pointer pan
             if (!isPanning || !startPt) return;
             const svgEl = e.currentTarget;
             const rect = svgEl.getBoundingClientRect();
@@ -70,6 +140,18 @@ const SvgPanZoom = {
         };
 
         const onPointerUp = (e) => {
+            activePointers.delete(e.pointerId);
+
+            // End pinch when fewer than 2 pointers
+            if (pinchState && activePointers.size < 2) {
+                pinchState = null;
+                if (hasMoved && onPanEnd) {
+                    onPanEnd(true);
+                }
+                hasMoved = false;
+                return;
+            }
+
             if (isPanning && hasMoved && onPanEnd) {
                 onPanEnd(true);
             }

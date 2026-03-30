@@ -58,7 +58,6 @@ const CSV = {
         running: '',
         working: '',
         position: '',
-        checkin: '',
         comments: '',
       };
 

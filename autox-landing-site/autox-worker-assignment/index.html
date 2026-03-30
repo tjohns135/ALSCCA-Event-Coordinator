@@ -51,6 +51,7 @@
           <input type="file" id="csv-file" accept=".csv" />
           <span id="csv-file-label" class="file-label"></span>
           <button id="btn-sample-csv" class="sample-btn">Load Sample Entry List</button>
+          <button id="btn-view-entries" disabled>View Entry List</button>
         </div>
       </div>
     </div>
@@ -61,12 +62,10 @@
           <input type="file" id="memory-file" accept=".json" />
           <span id="memory-file-label" class="file-label"></span>
           <button id="btn-sample-memory" class="sample-btn">Load Sample Memory</button>
-          <span id="memory-indicator" class="memory-indicator none">Memory: not loaded</span>
-        </div>
-        <div class="memory-actions">
           <button id="btn-view-memory">View Memory</button>
           <button id="btn-clear-memory" class="danger">Clear Memory</button>
         </div>
+        <span id="memory-indicator" class="memory-indicator none">Memory: not loaded</span>
       </div>
     </div>
   </div>
@@ -78,6 +77,21 @@
       <div id="class-mode-toggles"></div>
       <div id="pax-class-grid" class="pax-class-grid"></div>
       <button id="btn-reset-pax" class="sample-btn" style="margin-top: var(--space-sm);">Reset to Defaults</button>
+      <button id="btn-view-defaults" class="sample-btn" style="margin-top: var(--space-sm);">View Default Classes</button>
+    </div>
+  </div>
+
+  <!-- Manual Assignments -->
+  <div class="section collapsible" id="manual-assignment-section" style="display:none;">
+    <h2 class="collapsible-header">Manual Assignments <span class="collapse-icon">&#9656;</span></h2>
+    <div class="collapsible-body" style="display:none;">
+      <p class="help-text">
+        Assign workers to manual positions. These are excluded from the automatic algorithm.<br>
+        <strong>Eligible:</strong> Worker has worked this position before.<br>
+        <strong>Experienced:</strong> Worker has been to at least 5 events.<br>
+        <strong>Inexperienced:</strong> Worker has been to fewer than 5 events.
+      </p>
+      <div id="manual-assignments-table"></div>
     </div>
   </div>
 
@@ -95,15 +109,6 @@
     </div>
 
     <div id="status" class="status"></div>
-  </div>
-
-  <!-- Manual Assignments -->
-  <div class="section collapsible" id="manual-assignment-section" style="display:none;">
-    <h2 class="collapsible-header">Manual Assignments <span class="collapse-icon">&#9656;</span></h2>
-    <div class="collapsible-body" style="display:none;">
-      <p class="help-text">Assign workers to manual positions. These are excluded from the automatic algorithm.</p>
-      <div id="manual-assignments-table"></div>
-    </div>
   </div>
 
   <!-- Editable Spreadsheet -->

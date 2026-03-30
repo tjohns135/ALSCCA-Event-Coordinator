@@ -93,7 +93,7 @@ h1 {
 
 .event-title-row input[type="text"] {
   flex: 1;
-  max-width: 350px;
+  max-width: 550px;
   padding: 6px 8px;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
@@ -372,6 +372,23 @@ button.danger:hover:not(:disabled) {
   margin-bottom: var(--space-sm);
 }
 
+.group-section {
+  margin-bottom: var(--space-md);
+}
+
+.group-section-header {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--bg-tertiary);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--space-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .group-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -540,7 +557,7 @@ button.danger:hover:not(:disabled) {
 
 /* Manual assignment table (#2) */
 .manual-table {
-  width: 100%;
+  width: auto;
   border-collapse: collapse;
   font-size: 0.82rem;
 }
@@ -579,7 +596,8 @@ button.danger:hover:not(:disabled) {
 }
 
 .manual-sel-cell select {
-  flex: 1;
+  flex: 0 0 auto;
+  width: 280px;
   padding: 3px 6px;
   font-size: 0.82rem;
   border: 1px solid var(--border-color);
@@ -640,9 +658,55 @@ button.danger:hover:not(:disabled) {
   flex-wrap: wrap;
 }
 
-/* Memory action buttons (view/clear) */
-.memory-actions {
-  display: flex;
-  gap: var(--space-sm);
+/* Memory status indicator spacing */
+.control-group > .memory-indicator {
+  display: block;
   margin-top: var(--space-xs);
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xl);
+  padding: var(--space-xl);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content h3 {
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+  font-size: var(--font-size-lg);
+}
+
+.default-class-row {
+  padding: var(--space-xs) 0;
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.default-class-row:last-of-type {
+  border-bottom: none;
+}
+
+.modal-close {
+  margin-top: var(--space-md);
+  cursor: pointer;
 }

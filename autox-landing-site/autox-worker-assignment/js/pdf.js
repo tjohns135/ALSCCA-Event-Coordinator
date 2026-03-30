@@ -55,19 +55,18 @@ const PDF = {
       e.running,
       e.working,
       e.position,
-      e.checkin || '',
       e.comments || '',
     ]);
 
     doc.autoTable({
       startY: y,
-      head: [['Competitor', 'Class / PAX / #', 'Running', 'Working', 'Position', 'Checkin', 'Comments / Changes']],
+      head: [['Competitor', 'Class / PAX / #', 'Running', 'Working', 'Position', 'Comments / Changes']],
       body: tableBody,
       styles: { fontSize: 7, cellPadding: 2, lineWidth: 0.5, lineColor: [0, 0, 0] },
       headStyles: { fillColor: [220, 220, 220], textColor: [0, 0, 0], fontStyle: 'bold', lineWidth: 0.5, lineColor: [0, 0, 0] },
       columnStyles: {
         0: { cellWidth: 100 }, 1: { cellWidth: 70 }, 2: { cellWidth: 65 },
-        3: { cellWidth: 55 }, 4: { cellWidth: 90 }, 5: { cellWidth: 45 }, 6: { cellWidth: 'auto' },
+        3: { cellWidth: 55 }, 4: { cellWidth: 90 }, 5: { cellWidth: 'auto' },
       },
       margin: { left: 20, right: 20 },
       theme: 'grid',
@@ -129,22 +128,20 @@ const PDF = {
 
   _drawEarlySection(doc, grid, startY) {
     const positions = CONFIG.earlyPositions;
-    const colXs = [20, 155, 300, 435];
+    const colXs = [20, 300];
     const rowHeight = 12;
 
-    const perCol = Math.ceil(positions.length / 4);
+    const perCol = Math.ceil(positions.length / 2);
     const cols = [
       positions.slice(0, perCol),
-      positions.slice(perCol, perCol * 2),
-      positions.slice(perCol * 2, perCol * 3),
-      positions.slice(perCol * 3),
+      positions.slice(perCol),
     ];
 
     let maxRows = Math.max(...cols.map((c) => c.length));
     let y = startY;
 
     for (let r = 0; r < maxRows; r++) {
-      for (let c = 0; c < 4; c++) {
+      for (let c = 0; c < 2; c++) {
         const pos = cols[c] && cols[c][r];
         if (!pos) continue;
         const x = colXs[c];
@@ -152,7 +149,7 @@ const PDF = {
         doc.setFont('helvetica', 'bold');
         doc.text(pos, x, y);
         doc.setFont('helvetica', 'normal');
-        doc.text(grid[pos] || '', x + 80, y);
+        doc.text(grid[pos] || '', x + 120, y);
       }
       y += rowHeight;
     }
@@ -171,10 +168,12 @@ const PDF = {
     doc.text(title, 20, y);
     y += 4;
 
-    // Build session-specific position list from essential + experienced + shadow
+    // Build session-specific position list from essential + experienced + session manual + shadow
     const sessionNum = workSession === 'Work 1st' ? 1 : 2;
+    const sessionManual = CONFIG.sessionPositionGroups.flatMap((g) => g.positions);
     const sessionPositions = [
       ...CONFIG.workerPositions.essential,
+      ...sessionManual,
       ...CONFIG.workerPositions.experienced,
       ...CONFIG.workerPositions.shadow,
     ]

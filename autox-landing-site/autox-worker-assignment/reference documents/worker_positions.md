@@ -4,11 +4,11 @@ All worker positions observed across 10 ALSCCA events (2025-1 through 2026-1), p
 
 ## Assignment Types
 
-- **Manual** — assigned by the organizer before the algorithm runs; not in the algorithm's sorting pool
-- **Essential** — requires experienced workers; algorithm must place one in each run group
-- **Experienced** — requires experienced workers; run group does not matter
-- **Familiar** — requires workers who have attended events before (not necessarily in this role)
-- **Least Experienced** — filled with the least experienced entrants
+- **Manual (Early)** — assigned by the organizer before the algorithm runs; not in the algorithm's sorting pool. Workers marked as "Early".
+- **Manual (Session)** — assigned by the organizer to specific work sessions (Work 1st / Work 2nd); not in the algorithm's sorting pool.
+- **Manual (Shadow)** — optional positions filled manually at the event when needed; not in the algorithm's sorting pool.
+- **Experienced** — requires experienced workers; algorithm assigns one per run group per session.
+- **Most Experienced First** — filled by the algorithm, prioritizing workers with more event history.
 
 ## Algorithm Rules
 
@@ -18,7 +18,8 @@ All worker positions observed across 10 ALSCCA events (2025-1 through 2026-1), p
 ## Work Phases
 
 - **Early Workers** — assigned before the event starts (setup, tech, waivers, coaching, leadership). These are all manually assigned.
-- **Work Session Workers** — assigned by the algorithm into run groups. Work 1st = Run Group 2, Work 2nd = Run Group 1.
+- **Session Workers (Manual)** — manually assigned to specific work sessions (Timing, Safety Steward, Announcer, Sound).
+- **Work Session Workers (Algorithm)** — assigned by the algorithm into run groups. Work 1st = Run Group 2, Work 2nd = Run Group 1.
 
 ---
 
@@ -43,8 +44,6 @@ These are all assigned before the event. Not part of the algorithm's sorting poo
 | Tech 3 |
 
 ## Waivers
-
-Requires workers who have attended events before, but not necessarily experienced in this specific role.
 
 | Position |
 |---|
@@ -88,40 +87,35 @@ Requires workers who have attended events before, but not necessarily experience
 | Paddock Marshal Early |
 | Paddock Marshal Late |
 
+---
+
+# Session Worker Positions (Manual, session-based)
+
+These are manually assigned to specific work sessions. Not early workers, not algorithm-assigned.
+
+## Timing & Safety
+
+| Position | Session |
+|---|---|
+| Timing 1 | Work 1st |
+| Timing 2 | Work 2nd |
+| Safety Steward 1 | Work 1st |
+| Safety Steward 2 | Work 2nd |
+
 ## Announcer & Sound
 
-| Position |
-|---|
-| Announcer |
-| Sound |
+| Position | Session |
+|---|---|
+| Announcer 1 | Work 1st |
+| Announcer 2 | Work 2nd |
+| Sound 1 | Work 1st |
+| Sound 2 | Work 2nd |
 
 ---
 
 # Work Session Positions (Algorithm-Assigned)
 
 These positions are filled by the algorithm and assigned into run groups.
-
-## Timing & Safety (Essential)
-
-Experienced workers required. Each run group must have coverage.
-
-| Position | Assignment | Per Run Group |
-|---|---|---|
-| Timing 1 | Essential | 1 |
-| Timing 2 | Essential | 1 |
-| Safety Steward 1 | Essential | 1 |
-| Safety Steward 2 | Essential | 1 |
-
-## Shadow Positions (Manual, optional)
-
-These are filled manually by the organizer only when necessary at the event. Not part of the algorithm.
-
-| Position | Per Run Group |
-|---|---|
-| Timing Shadow 1 | 1 |
-| Timing Shadow 2 | 1 |
-| Safety Steward Shadow 1 | 1 |
-| Safety Steward Shadow 2 | 1 |
 
 ## Starter & Spotter (Experienced)
 
@@ -143,18 +137,31 @@ Experienced workers required. One per work session.
 
 ## Corner Workers
 
-Each run group needs 4 corner captains (experienced) and 4 corners with 4 workers each (least experienced).
+Each run group needs corner captains (experienced) and corner workers (most experienced first). Default: 4 corners.
 
 | Position | Assignment | Per Run Group |
 |---|---|---|
 | Corner 1 Captain | Experienced | 1 |
-| Corner 1 Worker | Least Experienced | 4 |
+| Corner 1 Worker | Most Experienced First | 4 |
 | Corner 2 Captain | Experienced | 1 |
-| Corner 2 Worker | Least Experienced | 4 |
+| Corner 2 Worker | Most Experienced First | 4 |
 | Corner 3 Captain | Experienced | 1 |
-| Corner 3 Worker | Least Experienced | 4 |
+| Corner 3 Worker | Most Experienced First | 4 |
 | Corner 4 Captain | Experienced | 1 |
-| Corner 4 Worker | Least Experienced | 4 |
+| Corner 4 Worker | Most Experienced First | 4 |
+
+---
+
+# Shadow Positions (Manual, optional)
+
+These are filled manually by the organizer only when necessary at the event. Not part of the algorithm.
+
+| Position | Session |
+|---|---|
+| Timing Shadow 1 | Work 1st |
+| Timing Shadow 2 | Work 2nd |
+| Safety Steward Shadow 1 | Work 1st |
+| Safety Steward Shadow 2 | Work 2nd |
 
 ---
 

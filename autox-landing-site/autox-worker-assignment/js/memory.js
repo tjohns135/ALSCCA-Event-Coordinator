@@ -157,10 +157,20 @@ const Memory = {
     'Safety Steward Shadow': ['SSS Shadow'],
   },
 
+  // Eligibility groups: positions with different base names that share eligibility
+  _eligibilityGroups: [
+    ['Tech'],
+    ['Waiver', 'Early Waiver', 'Late Waiver', 'Lunch Waiver'],
+    ['Novice Coach'],
+    ['Course Setup'],
+    ['Paddock Marshal', 'Paddock Marshal Early', 'Paddock Marshal Late'],
+  ],
+
   /**
    * Check if a historical position matches a query position.
-   * Handles renamed positions (SSS → Safety Steward) and
-   * numbered variants (Starter 1/2 match old "Starter").
+   * Handles renamed positions (SSS → Safety Steward),
+   * numbered variants (Starter 1/2 match old "Starter"),
+   * and eligibility groups (Waiver matches Early Waiver, etc.).
    */
   _matchesPosition(historicalPosition, queryPosition) {
     if (historicalPosition === queryPosition) return true;
@@ -178,6 +188,13 @@ const Memory = {
       for (const oldName of oldNames) {
         if (historicalPosition === oldName || histBase === oldName) return true;
       }
+    }
+
+    // Check eligibility groups: positions in the same group cross-match
+    for (const group of this._eligibilityGroups) {
+      const queryInGroup = group.some((g) => queryBase === g);
+      const histInGroup = group.some((g) => histBase === g);
+      if (queryInGroup && histInGroup) return true;
     }
 
     return false;

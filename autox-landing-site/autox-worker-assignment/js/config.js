@@ -18,21 +18,15 @@ const CONFIG = {
   // Special classes (open PAX — any PAX allowed)
   specialClasses: {
     X: { name: 'Pro', description: 'Self-designated experienced drivers, any PAX' },
-    L: { name: 'Ladies', description: 'Ladies class, any PAX. Always Run 1st when present.' },
-    N: { name: 'Novice', description: 'Novice drivers. Grouped with their PAX class run group.' },
+    L: { name: 'Ladies', description: 'Ladies class, any PAX. Run group determined by Ladies mode setting.' },
+    N: { name: 'Novice', description: 'Novice drivers, any PAX. Run group determined by Novice mode setting.' },
     R: { name: 'Race Tire', description: 'FSAE and catch-all for rare vehicles, any PAX' },
   },
 
   // Work session positions — assigned by the algorithm into run groups
   // session: 1 = works 1st (Run Group 2), 2 = works 2nd (Run Group 1)
   workerPositions: {
-    // Must have experienced workers; one per run group per session
-    essential: [
-      { name: 'Timing 1', session: 1, perGroup: 1 },
-      { name: 'Timing 2', session: 2, perGroup: 1 },
-      { name: 'Safety Steward 1', session: 1, perGroup: 1 },
-      { name: 'Safety Steward 2', session: 2, perGroup: 1 },
-    ],
+    essential: [],
     // Experienced workers; one per run group per session
     experienced: [
       { name: 'Starter 1', session: 1, perGroup: 1 },
@@ -66,12 +60,32 @@ const CONFIG = {
     { name: 'Coaching & Outreach', positions: ['Novice Coach 1', 'Novice Coach 2', 'Novice Coach 3', 'Intermediate Coach', 'Worker Chief'] },
     { name: 'Setup & Teardown', positions: ['Course Setup 1', 'Course Setup 2', 'Course Setup 3', 'Course Setup 4', 'Course Setup 5', 'Course Setup 6', 'Trailer Setup Support', 'Truck & Trailer To Site Driver', 'Truck & Trailer To Storage Driver', 'Truck & Trailer To Storage Helper'] },
     { name: 'Paddock Marshal', positions: ['Paddock Marshal', 'Paddock Marshal Early', 'Paddock Marshal Late'] },
-    { name: 'Announcer & Sound', positions: ['Announcer', 'Sound'] },
+  ],
+
+  // Session-based manual positions — manually assigned, not early, work specific sessions
+  sessionPositionGroups: [
+    { name: 'Timing & Safety', positions: [
+      { name: 'Timing 1', session: 1 },
+      { name: 'Timing 2', session: 2 },
+      { name: 'Safety Steward 1', session: 1 },
+      { name: 'Safety Steward 2', session: 2 },
+    ]},
+    { name: 'Announcer & Sound', positions: [
+      { name: 'Announcer 1', session: 1 },
+      { name: 'Announcer 2', session: 2 },
+      { name: 'Sound 1', session: 1 },
+      { name: 'Sound 2', session: 2 },
+    ]},
   ],
 
   // Flat list for backward compat
   get earlyPositions() {
     return this.earlyPositionGroups.flatMap((g) => g.positions);
+  },
+
+  // Flat list of session-based manual position names
+  get sessionPositions() {
+    return this.sessionPositionGroups.flatMap((g) => g.positions.map((p) => p.name));
   },
 
   // CSV column mapping
@@ -84,7 +98,6 @@ const CONFIG = {
     'Running',
     'Working',
     'Position',
-    'Checkin',
     'Comments / Changes',
   ],
 
@@ -143,7 +156,27 @@ const CONFIG = {
    */
   isManualPosition(position) {
     if (this.earlyPositions.includes(position)) return true;
+    if (this.sessionPositions.includes(position)) return true;
     if (this.workerPositions.shadow.some(s => s.name === position)) return true;
     return false;
   },
+
+  /** Deep-copy snapshot of original class definitions for reset */
+  _defaultClasses: null,
+
+  _saveDefaults() {
+    this._defaultClasses = {};
+    for (const [k, v] of Object.entries(this.classes)) {
+      this._defaultClasses[k] = { name: v.name, pax: [...v.pax] };
+    }
+  },
+
+  resetClasses() {
+    if (!this._defaultClasses) return;
+    for (const [k, v] of Object.entries(this._defaultClasses)) {
+      this.classes[k].pax = [...v.pax];
+    }
+  },
 };
+
+CONFIG._saveDefaults();

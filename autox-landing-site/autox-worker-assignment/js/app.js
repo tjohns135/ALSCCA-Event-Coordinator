@@ -68,6 +68,9 @@ const App = {
           success ? 'Memory loaded successfully.' : 'Failed to load memory file.',
           success ? 'success' : 'error'
         );
+        if (success && this.entrants.length > 0) {
+          this._buildManualAssignmentUI();
+        }
       }
     });
 
@@ -77,6 +80,7 @@ const App = {
     document.getElementById('btn-pdf-groups').addEventListener('click', () => this.generateGroupsPDF());
     document.getElementById('btn-download-memory').addEventListener('click', () => this.downloadMemory());
     document.getElementById('btn-view-memory').addEventListener('click', () => Memory.openViewer());
+    document.getElementById('btn-view-entries').addEventListener('click', () => this.openEntryListViewer());
     document.getElementById('btn-clear-memory').addEventListener('click', () => this.clearMemory());
 
     document.getElementById('btn-sample-csv').addEventListener('click', () => this.loadSampleCSV());
@@ -107,17 +111,31 @@ const App = {
     document.getElementById('btn-reset-pax').addEventListener('click', () => {
       this.noviceMode = 'follow';
       this.ladiesMode = 'follow';
+      CONFIG.resetClasses();
+      // Re-assign entrant classes from restored defaults
+      for (const e of this.entrants) {
+        if (['N', 'L', 'X', 'R'].includes(e.class)) continue;
+        const cls = CONFIG.getClassForPax(e.pax);
+        if (cls) e.class = cls;
+      }
+      if (this.entrants.length > 0) this._updateTable();
       this._invalidateCombos();
       this._buildPaxClassUI();
-      if (this.entrants.length > 0) this._buildGroupAssignmentUI();
+      if (this.entrants.length > 0) {
+        this._buildGroupAssignmentUI();
+        this._buildManualAssignmentUI();
+      }
     });
+
+    document.getElementById('btn-view-defaults').addEventListener('click', () => this._showDefaultClassesModal());
   },
 
   // ── CSV Loading ──────────────────────────────────────────────
 
   async loadCSV(file) {
     try {
-      this.entrants = await CSV.parse(file);
+      this.rawCsvText = await file.text();
+      this.entrants = CSV.parseText(this.rawCsvText);
       this.hasLadies = this.entrants.some((e) => e.class === 'L');
       this._showStatus(`Loaded ${this.entrants.length} entrants.`, 'success');
       this._renderTable();
@@ -145,7 +163,7 @@ const App = {
 
   async loadSampleMemory() {
     try {
-      const response = await fetch('./examples/master_memory.json');
+      const response = await fetch('./examples/2025%20full%20season%20ALSCCA%20workers%20memory.json');
       if (!response.ok) throw new Error('Failed to fetch sample memory');
       const blob = await response.blob();
       const file = new File([blob], 'memory.json', { type: 'application/json' });
@@ -155,7 +173,10 @@ const App = {
         success ? 'success' : 'error'
       );
       if (success) {
-        document.getElementById('memory-file-label').textContent = 'master_memory.json';
+        document.getElementById('memory-file-label').textContent = '2025 full season ALSCCA workers memory.json';
+        if (this.entrants.length > 0) {
+          this._buildManualAssignmentUI();
+        }
       }
     } catch (err) {
       this._showStatus(`Error loading sample memory: ${err.message}`, 'error');
@@ -205,32 +226,60 @@ const App = {
     toggles.appendChild(ladDiv);
 
     // PAX-to-class grid (#8: proper formatting, #9: live update)
+    // Collect all PAX entries and sort by length then alphabetically
+    const allPaxEntries = [];
     for (const [clsKey, clsInfo] of Object.entries(CONFIG.classes)) {
       for (const pax of clsInfo.pax) {
-        const row = document.createElement('div');
-        row.className = 'pax-row';
-
-        const label = document.createElement('span');
-        label.className = 'pax-label';
-        label.textContent = pax;
-        row.appendChild(label);
-
-        const sel = document.createElement('select');
-        sel.dataset.pax = pax;
-        for (const [k, info] of Object.entries(CONFIG.classes)) {
-          const opt = document.createElement('option');
-          opt.value = k;
-          opt.textContent = k;
-          if (k === clsKey) opt.selected = true;
-          sel.appendChild(opt);
-        }
-        sel.addEventListener('change', () => {
-          this._invalidateCombos();
-          if (this.entrants.length > 0) this._buildGroupAssignmentUI();
-        });
-        row.appendChild(sel);
-        grid.appendChild(row);
+        allPaxEntries.push({ pax, clsKey });
       }
+    }
+    allPaxEntries.sort((a, b) => {
+      if (a.pax.length !== b.pax.length) return a.pax.length - b.pax.length;
+      return a.pax.localeCompare(b.pax);
+    });
+
+    for (const entry of allPaxEntries) {
+      const row = document.createElement('div');
+      row.className = 'pax-row';
+
+      const label = document.createElement('span');
+      label.className = 'pax-label';
+      label.textContent = entry.pax;
+      row.appendChild(label);
+
+      const sel = document.createElement('select');
+      sel.dataset.pax = entry.pax;
+      for (const [k, info] of Object.entries(CONFIG.classes)) {
+        const opt = document.createElement('option');
+        opt.value = k;
+        opt.textContent = k;
+        if (k === entry.clsKey) opt.selected = true;
+        sel.appendChild(opt);
+      }
+      sel.addEventListener('change', () => {
+        const pax = sel.dataset.pax;
+        const newCls = sel.value;
+        // Update CONFIG: move PAX from old class to new class
+        for (const [k, info] of Object.entries(CONFIG.classes)) {
+          const idx = info.pax.indexOf(pax);
+          if (idx !== -1) { info.pax.splice(idx, 1); break; }
+        }
+        CONFIG.classes[newCls].pax.push(pax);
+        // Update entrants with this PAX (skip special classes)
+        for (const e of this.entrants) {
+          if (e.pax === pax && !['N', 'L', 'X', 'R'].includes(e.class)) {
+            e.class = newCls;
+          }
+        }
+        if (this.entrants.length > 0) this._updateTable();
+        this._invalidateCombos();
+        if (this.entrants.length > 0) {
+          this._buildGroupAssignmentUI();
+          this._buildManualAssignmentUI();
+        }
+      });
+      row.appendChild(sel);
+      grid.appendChild(row);
     }
   },
 
@@ -242,7 +291,7 @@ const App = {
 
     const data = this.entrants.map((e) => [
       e.competitor, e.class, e.pax, e.number,
-      e.running, e.working, e.position, e.checkin, e.comments,
+      e.running, e.working, e.position, e.comments,
     ]);
 
     this.table = jspreadsheet(container, {
@@ -255,7 +304,6 @@ const App = {
         { title: 'Running', width: 85 },
         { title: 'Working', width: 85 },
         { title: 'Position', width: 160 },
-        { title: 'Checkin', width: 60 },
         { title: 'Comments', width: 160 },
       ],
       defaultColWidth: 80,
@@ -276,8 +324,8 @@ const App = {
   _autoSizeColumns() {
     if (!this.table) return;
     const data = this.table.getData();
-    const headers = ['Competitor', 'Class', 'PAX', '#', 'Running', 'Working', 'Position', 'Checkin', 'Comments'];
-    const minWidths = [120, 45, 45, 35, 75, 75, 120, 55, 120];
+    const headers = ['Competitor', 'Class', 'PAX', '#', 'Running', 'Working', 'Position', 'Comments'];
+    const minWidths = [120, 45, 45, 35, 75, 75, 120, 120];
 
     for (let col = 0; col < headers.length; col++) {
       let maxLen = headers[col].length;
@@ -295,7 +343,7 @@ const App = {
     const colIdx = parseInt(document.getElementById('sort-column').value);
     if (isNaN(colIdx)) return;
 
-    const fields = ['competitor', 'class', 'pax', 'number', 'running', 'working', 'position', 'checkin', 'comments'];
+    const fields = ['competitor', 'class', 'pax', 'number', 'running', 'working', 'position', 'comments'];
     const field = fields[colIdx];
     if (!field) return;
 
@@ -318,7 +366,7 @@ const App = {
       this.entrants.push({
         competitor: '', class: '', pax: '', number: '',
         sccaMember: '', classPaxNum: '', running: '',
-        working: '', position: '', checkin: '', comments: '',
+        working: '', position: '', comments: '',
       });
     }
     this.entrants.length = data.length;
@@ -333,8 +381,7 @@ const App = {
       e.running = row[4] || '';
       e.working = row[5] || '';
       e.position = row[6] || '';
-      e.checkin = row[7] || '';
-      e.comments = row[8] || '';
+      e.comments = row[7] || '';
       e.classPaxNum = `${e.class}_${e.pax}_${e.number}`;
     }
   },
@@ -343,7 +390,7 @@ const App = {
     if (!this.table) return;
     const data = this.entrants.map((e) => [
       e.competitor, e.class, e.pax, e.number,
-      e.running, e.working, e.position, e.checkin, e.comments,
+      e.running, e.working, e.position, e.comments,
     ]);
     this.table.setData(data);
     this._autoSizeColumns();
@@ -384,8 +431,30 @@ const App = {
     desc.textContent = 'Assign each class to Run 1st or Run 2nd. Lock classes to keep them fixed during balancing.';
     container.appendChild(desc);
 
-    const grid = document.createElement('div');
-    grid.className = 'group-grid';
+    // Two stacked sections for Run 1st / Run 2nd
+    const section1 = document.createElement('div');
+    section1.className = 'group-section';
+    section1.id = 'group-section-1';
+    const header1 = document.createElement('div');
+    header1.className = 'group-section-header';
+    header1.innerHTML = 'Run 1st';
+    section1.appendChild(header1);
+    const grid1 = document.createElement('div');
+    grid1.className = 'group-grid';
+    grid1.id = 'group-grid-1';
+    section1.appendChild(grid1);
+
+    const section2 = document.createElement('div');
+    section2.className = 'group-section';
+    section2.id = 'group-section-2';
+    const header2 = document.createElement('div');
+    header2.className = 'group-section-header';
+    header2.innerHTML = 'Run 2nd';
+    section2.appendChild(header2);
+    const grid2 = document.createElement('div');
+    grid2.className = 'group-grid';
+    grid2.id = 'group-grid-2';
+    section2.appendChild(grid2);
 
     const assignableClasses = CONFIG.getAssignableClasses();
     if (this.noviceMode === 'separate' && !assignableClasses.includes('N')) assignableClasses.push('N');
@@ -407,6 +476,7 @@ const App = {
 
       const row = document.createElement('div');
       row.className = 'group-row';
+      row.dataset.class = cls;
 
       const label = document.createElement('span');
       label.className = 'group-label';
@@ -427,6 +497,7 @@ const App = {
       select.addEventListener('change', () => {
         this.groupAssignments[cls] = parseInt(select.value);
         this._invalidateCombos();
+        this._moveClassRows();
         this._updateGroupCounts();
       });
 
@@ -445,10 +516,17 @@ const App = {
       row.appendChild(label);
       row.appendChild(select);
       row.appendChild(lockCb);
-      grid.appendChild(row);
+
+      // Place in correct section
+      if (assigned === 2) {
+        grid2.appendChild(row);
+      } else {
+        grid1.appendChild(row);
+      }
     }
 
-    container.appendChild(grid);
+    container.appendChild(section1);
+    container.appendChild(section2);
 
     if (this.noviceMode === 'follow') {
       const noviceCount = classCounts['N'] || 0;
@@ -477,6 +555,20 @@ const App = {
     container.style.display = 'block';
   },
 
+  _moveClassRows() {
+    const grid1 = document.getElementById('group-grid-1');
+    const grid2 = document.getElementById('group-grid-2');
+    if (!grid1 || !grid2) return;
+
+    for (const [cls, group] of Object.entries(this.groupAssignments)) {
+      const row = document.querySelector(`.group-row[data-class="${cls}"]`);
+      const targetGrid = group === 2 ? grid2 : grid1;
+      if (row && row.parentElement !== targetGrid) {
+        targetGrid.appendChild(row);
+      }
+    }
+  },
+
   _countNovicesForClass(cls) {
     if (CONFIG.classes[cls]) {
       return this.entrants.filter((e) => e.class === 'N' && CONFIG.classes[cls].pax.includes(e.pax)).length;
@@ -502,11 +594,21 @@ const App = {
   _buildManualAssignmentUI() {
     const section = document.getElementById('manual-assignment-section');
     const tableContainer = document.getElementById('manual-assignments-table');
+    const wasOpen = section.classList.contains('open');
+    const wasVisible = section.style.display !== 'none';
     tableContainer.innerHTML = '';
 
     const sorted = [...this.entrants]
       .filter((e) => e.competitor)
       .sort((a, b) => a.competitor.localeCompare(b.competitor));
+
+    // Auto-fill button
+    const autoFillBtn = document.createElement('button');
+    autoFillBtn.textContent = 'Auto-Fill Positions';
+    autoFillBtn.className = 'sample-btn';
+    autoFillBtn.style.marginBottom = 'var(--space-sm)';
+    autoFillBtn.addEventListener('click', () => this._autoFillManualAssignments());
+    tableContainer.appendChild(autoFillBtn);
 
     const table = document.createElement('table');
     table.className = 'manual-table';
@@ -526,6 +628,22 @@ const App = {
       }
     }
 
+    // Session-based manual positions (Timing, Safety Steward, Announcer, Sound)
+    for (const group of CONFIG.sessionPositionGroups) {
+      const groupHeader = document.createElement('tr');
+      groupHeader.className = 'manual-category-header';
+      const groupTh = document.createElement('td');
+      groupTh.colSpan = 2;
+      groupTh.textContent = group.name;
+      groupHeader.appendChild(groupTh);
+      table.appendChild(groupHeader);
+
+      for (const pos of group.positions) {
+        const working = pos.session === 1 ? 'Work 1st' : 'Work 2nd';
+        table.appendChild(this._buildManualTableRow(pos.name, sorted, working));
+      }
+    }
+
     // Shadow positions group
     const shadowHeader = document.createElement('tr');
     shadowHeader.className = 'manual-category-header';
@@ -541,9 +659,21 @@ const App = {
     }
 
     tableContainer.appendChild(table);
+
+    // Show section but preserve collapse state on rebuild
     section.style.display = 'block';
-    section.classList.add('open');
-    section.querySelector('.collapsible-body').style.display = 'block';
+    if (wasVisible) {
+      if (wasOpen) {
+        section.classList.add('open');
+        section.querySelector('.collapsible-body').style.display = 'block';
+      } else {
+        section.classList.remove('open');
+        section.querySelector('.collapsible-body').style.display = 'none';
+      }
+    } else {
+      section.classList.add('open');
+      section.querySelector('.collapsible-body').style.display = 'block';
+    }
     this._updateManualDropdowns();
   },
 
@@ -650,6 +780,58 @@ const App = {
         opt.disabled = assigned.has(opt.value) && opt.value !== currentVal;
       }
     }
+  },
+
+  _autoFillManualAssignments() {
+    const sorted = [...this.entrants]
+      .filter((e) => e.competitor)
+      .sort((a, b) => a.competitor.localeCompare(b.competitor));
+    const assigned = new Set(this.manualAssignments.values());
+
+    // Collect all manual positions in order (early + session + shadow)
+    const positions = [];
+    for (const group of CONFIG.earlyPositionGroups) {
+      for (const pos of group.positions) {
+        positions.push(pos);
+      }
+    }
+    for (const group of CONFIG.sessionPositionGroups) {
+      for (const pos of group.positions) {
+        positions.push(pos.name);
+      }
+    }
+    for (const shadow of CONFIG.workerPositions.shadow) {
+      positions.push(shadow.name);
+    }
+
+    for (const position of positions) {
+      // Skip already assigned positions
+      if (this.manualAssignments.has(position)) continue;
+
+      // Categorize available entrants
+      const eligible = [];
+      const experienced = [];
+      for (const e of sorted) {
+        if (assigned.has(e.competitor)) continue;
+        const posCount = Memory.getPositionCount(e.competitor, position);
+        const eventCount = Memory.getEventCount(e.competitor);
+        if (posCount > 0) {
+          eligible.push(e);
+        } else if (eventCount >= 5) {
+          experienced.push(e);
+        }
+      }
+
+      // Pick best available: eligible first, then experienced, skip if only inexperienced
+      const pick = eligible[0] || experienced[0] || null;
+      if (pick) {
+        this.manualAssignments.set(position, pick.competitor);
+        assigned.add(pick.competitor);
+      }
+    }
+
+    // Rebuild UI to reflect selections
+    this._buildManualAssignmentUI();
   },
 
   _syncManualAssignments() {
@@ -820,19 +1002,48 @@ const App = {
     const combo = this.validCombos[this.comboIndex];
     this.groupAssignments = combo.assignment;
 
-    // Update dropdowns
+    // Update dropdowns and move rows to correct sections
     for (const [cls, group] of Object.entries(this.groupAssignments)) {
       const select = document.getElementById(`group-select-${cls}`);
       if (select) select.value = group;
     }
+    this._moveClassRows();
 
     this._updateGroupCounts();
+
+    // Clear all worker assignments — groups changed so they're invalid
+    // Manual assignment selections are preserved in this.manualAssignments Map
+    // and will be re-applied when Assign Workers is clicked
+    for (const e of this.entrants) {
+      e.running = '';
+      e.working = '';
+      e.position = '';
+    }
+    this._updateTable();
   },
 
   /** Combined split + assign */
   assignWorkers() {
     if (this.entrants.length === 0) return;
     this._syncFromTable();
+
+    // Check for existing algorithm assignments before modifying anything
+    const hasAlgoAssigned = this.entrants.some(
+      (e) => e.position && !CONFIG.isManualPosition(e.position)
+    );
+    if (hasAlgoAssigned) {
+      const choice = confirm(
+        'Algorithm positions are already assigned. Click OK to clear and reassign, or Cancel to only fill unassigned positions.'
+      );
+      if (choice) {
+        for (const e of this.entrants) {
+          if (e.position && !CONFIG.isManualPosition(e.position)) {
+            e.position = '';
+          }
+        }
+      }
+    }
+
     this._syncManualAssignments();
 
     const preserved = new Map();
@@ -850,22 +1061,6 @@ const App = {
       if (saved) {
         e.position = saved.position;
         e.working = saved.working;
-      }
-    }
-
-    const hasAlgoAssigned = this.entrants.some(
-      (e) => e.position && !CONFIG.isManualPosition(e.position)
-    );
-    if (hasAlgoAssigned) {
-      const choice = confirm(
-        'Algorithm positions are already assigned. Click OK to clear and reassign, or Cancel to only fill unassigned positions.'
-      );
-      if (choice) {
-        for (const e of this.entrants) {
-          if (e.position && !CONFIG.isManualPosition(e.position)) {
-            e.position = '';
-          }
-        }
       }
     }
 
@@ -957,6 +1152,90 @@ const App = {
     document.getElementById('btn-assign').disabled = !hasData;
     document.getElementById('btn-pdf-workers').disabled = !hasData;
     document.getElementById('btn-pdf-groups').disabled = !hasData;
+    document.getElementById('btn-view-entries').disabled = !hasData;
+  },
+
+  _showDefaultClassesModal() {
+    const existing = document.getElementById('defaults-modal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'defaults-modal';
+    overlay.className = 'modal-overlay';
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-content';
+
+    let html = '<h3>Default PAX Classes</h3>';
+    for (const [key, info] of Object.entries(CONFIG.classes)) {
+      html += `<div class="default-class-row"><strong>${key} (${info.name}):</strong> ${info.pax.join(', ')}</div>`;
+    }
+    html += '<h3 style="margin-top: var(--space-md);">Special Classes</h3>';
+    for (const [key, info] of Object.entries(CONFIG.specialClasses)) {
+      html += `<div class="default-class-row"><strong>${key} (${info.name}):</strong> ${info.description}</div>`;
+    }
+    html += '<button class="modal-close">Close</button>';
+
+    modal.innerHTML = html;
+    modal.querySelector('.modal-close').addEventListener('click', () => overlay.remove());
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+  },
+
+  openEntryListViewer() {
+    if (!this.rawCsvText) return;
+
+    const lines = this.rawCsvText.trim().split('\n');
+    const header = CSV._parseLine(lines[0]);
+    const rows = [];
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+      rows.push(CSV._parseLine(line));
+    }
+
+    const columns = header.map((h) => {
+      const title = h.trim() || '(empty)';
+      return `{ title: ${JSON.stringify(title)}, width: 140, readOnly: true }`;
+    });
+
+    const html = `<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<title>ALSCCA Entry List</title>
+<script src="https://bossanova.uk/jspreadsheet/v4/jexcel.js"><\/script>
+<link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" />
+<script src="https://jsuites.net/v4/jsuites.js"><\/script>
+<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" />
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; }
+  h1 { font-size: 1.2rem; margin-bottom: 4px; }
+  .info { font-size: 0.85rem; color: #666; margin-bottom: 12px; }
+</style>
+</head><body>
+<h1>ALSCCA Entry List</h1>
+<p class="info">${rows.length} entrants | ${header.length} columns</p>
+<div id="spreadsheet"></div>
+<script>
+var allData = ${JSON.stringify(rows)};
+var table = jspreadsheet(document.getElementById('spreadsheet'), {
+  data: allData,
+  columns: [${columns.join(', ')}],
+  columnSorting: true,
+  tableOverflow: true,
+  tableWidth: '100%',
+  tableHeight: (window.innerHeight - 120) + 'px',
+  search: true,
+});
+<\/script>
+</body></html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
   },
 };
 

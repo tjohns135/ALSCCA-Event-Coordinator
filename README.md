@@ -3,45 +3,11 @@
 Digital tools to improve the process of creating and hosting AutoX events for the ALSCCA.
 
 Live at [cone.ninja](https://cone.ninja/)
+<br><img src="cone-ninja-logo.png" alt="Cone Ninja Logo" width="200" />
 
 The project has 2 tools:
-1. **Track Designer** -- Create unique autocross courses on the Barber Proving Grounds layout
-2. **Worker Assignment Tool** -- Split run groups and assign worker positions for autocross events
-
----
-
-## Track Designer
-
-Design autocross courses on the Barber Proving Grounds lot map. Place cones, markers, and corner numbers on an interactive SVG canvas, then export the layout as a PNG or JSON.
-
-### Tools
-
-| Tool | Shortcut | Description |
-|---|---|---|
-| Select | S | Click to select elements, drag to reposition |
-| Standard Cone | C | Basic course-marking cone |
-| Pointer Cone | — | Cone with a directional arrow (rotatable) |
-| Guide Cone | — | Directional guide marker (rotatable) |
-| Car | — | Vehicle position and heading indicator (max 1) |
-| Corner # | — | Numbered corner marker, 1–6 |
-| Start | 1 | Start line — 2 cones connected by a green line |
-| Timing Start | 2 | Timing start — 2 rows of 2 cones with a yellow timing line |
-| Finish | 3 | Finish line — 2 rows of 5 cones with a red finish line |
-| Eraser | E | Click any element to delete it |
-
-### Controls
-
-- **Pan** — drag empty space with the Select tool
-- **Zoom** — scroll wheel
-- **Rotate** — select a pointer/guide cone or marker, then drag its rotation handle
-- **Delete** — right-click a cone, or use the Eraser tool
-- **Esc** — deselect all
-
-### Export & Save
-
-- **Export PNG** — renders the course as an image
-- **Save JSON / Load JSON** — back up and restore course files
-- Courses auto-save to browser localStorage
+1. [**Worker Assignment Tool**](#worker-assignment-tool) -- Split run groups and assign worker positions for autocross events
+2. [**Track Designer**](#track-designer) -- Create unique autocross courses on the Barber Proving Grounds layout
 
 ---
 
@@ -51,12 +17,19 @@ Upload an entry list CSV, balance run groups, assign manual and algorithm-based 
 
 ### Workflow
 
-1. **Load entry list** (CSV from MotorsportReg or manual format)
-2. **Load memory** (JSON with participant history -- used for experience-based assignments)
-3. **Balance run groups** -- cycles through valid class-to-group combinations within a configurable max difference threshold
-4. **Assign manual positions** -- Event Chair, Tech, Waivers, Coaching, Setup, etc.
-5. **Assign Workers** -- algorithm fills Timing, Safety Steward, Starter, Spotter, Grid, Corner Captains, and Corner Workers
-6. **Generate PDFs** -- Worker Assignments check-in sheet and Groups Page position grid
+1. Load entry list (CSV from MotorsportReg or manual format)
+2. Load memory (JSON with participant history -- used for experience-based assignments)
+3. Configure PAX/class mappings if needed
+4. Assign manual positions (early workers)
+5. Set max allowable difference between run groups
+6. Balance run groups -- auto balance, manual changes, lock-in group option
+7. Set number of corners that need workers
+8. Assign workers (algorithm)
+9. Manual edits in spreadsheet as needed
+10. Generate PDFs
+11. Save memory
+
+---
 
 ### Rules for Splitting Run Groups
 
@@ -64,24 +37,49 @@ Upload an entry list CSV, balance run groups, assign manual and algorithm-based 
 2. Novices are in the same run group as other entries with the same PAX (follow mode) or treated as their own class (separate mode)
 3. Ladies follow their PAX class (follow mode) or are treated as their own class (separate mode)
 4. Classes can be locked to a specific run group during balancing
-5. Balance algorithm uses brute-force 2^n bitmask over unlocked classes, filtered by a max group difference threshold
+5. The balance algorithm generates all possible ways to split classes into two run groups, keeping only those where the difference between run group 1 and run group 2 is within the max threshold set by the user
 6. Each press of "Balance Run Groups" cycles to the next valid combination
 
-### Worker Assignment Algorithm
+---
 
-The algorithm assigns positions in 4 phases. Workers are ranked by position-specific experience, then total event count, then alphabetically.
+### PAX & Class Configuration
 
-| Phase | Positions | Selection |
+#### Default ALSCCA Class Groupings
+
+| Class | Name | PAX Codes |
 |---|---|---|
-| 1 -- Essential | Timing 1/2, Safety Steward 1/2 | Most experienced for this position |
-| 2 -- Experienced | Starter 1/2, Spotter 1/2, Grid 1/2 | Most experienced for this position |
-| 3 -- Corner Captains | 1 per corner per run group | Most experienced remaining |
-| 4 -- Corner Workers | All remaining entrants | Round-robin across corners |
+| S1 | Street 1 | SS, AS, BS, FS |
+| S2 | Street 2 | CS, ES |
+| S3 | Street 3 | DS, GS, HS, SSC, HCS |
+| ST | Street Touring | SST, AST, BST, CST, DST, EST, GST |
+| CAM | Classic American Muscle | CAMS, CAMC, CAMT |
+| XS | Xtreme Street | XA, XB |
 
-- Manual positions (Early Workers) are excluded from the algorithm pool
-- No duplicate assignments -- each person gets exactly one algorithm position
-- Novices are excluded from non-corner positions
-- Experience threshold: 5+ events = experienced
+#### Special Classes
+
+| Class | Name | Notes |
+|---|---|---|
+| X | Pro | Self-designated experienced drivers, any PAX |
+| L | Ladies | Any PAX. Follow mode groups with PAX class; separate mode is own run group |
+| N | Novice | Any PAX. Follow mode groups with PAX class; separate mode is own run group |
+| R | Race Tire | Primarily FSAE cars, catch-all for rare vehicles, any PAX |
+
+#### Changing a PAX Class for an Event
+
+The PAX-to-Class configuration grid lets you reassign any PAX code to a different class for the current event. For example, if you want to move CST from ST to S2 for one event, select S2 from the dropdown next to CST. This immediately updates class numbers and rebalances groups accordingly. Changes reset on page reload.
+
+#### Unmapped SCCA PAX Classes
+
+Rarely seen at ALSCCA events. If an entrant registers with one of these, they are manually assigned to a run group.
+
+| Category | PAX Codes |
+|---|---|
+| Street Prepared | SSP, CSP, DSP, ESP, FSP |
+| Street Modified | SSM, SM, SMF |
+| Prepared | XP, CP, DP, EP, FP |
+| Modified | AM, BM, CM, DM, EM, FM |
+
+---
 
 ### Manual Positions (Early Workers)
 
@@ -95,21 +93,97 @@ Assigned by the organizer before the algorithm runs. Grouped by category:
 | Coaching & Outreach | Novice Coach 1-3, Intermediate Coach, Worker Chief |
 | Setup & Teardown | Course Setup 1-6, Trailer Setup Support, Truck & Trailer drivers/helpers |
 | Paddock Marshal | Paddock Marshal, Paddock Marshal Early, Paddock Marshal Late |
-| Announcer & Sound | Announcer, Sound |
-| Shadow Positions | Timing Shadow 1/2, Safety Steward Shadow 1/2 (optional) |
+
+#### Session-Based Manual Positions
+
+These are manually assigned but tied to a specific work session:
+
+| Category | Positions |
+|---|---|
+| Timing & Safety | Timing 1, Timing 2, Safety Steward 1, Safety Steward 2 |
+| Announcer & Sound | Announcer 1, Announcer 2, Sound 1, Sound 2 |
+
+#### Shadow Positions
+
+Optional training positions for participants learning a role. Filled manually if needed, not by the algorithm.
+
+| Shadow Positions |
+|---|
+| Timing Shadow 1, Timing Shadow 2 |
+| Safety Steward Shadow 1, Safety Steward Shadow 2 |
+
+---
+
+### Auto-Fill Manual Workers
+
+The auto-fill feature iterates through each empty manual position in order and suggests a person based on their history. For each position, available entrants are categorized into three groups:
+
+- **Eligible** -- has worked this specific position before
+- **Experienced** -- has attended 5+ lifetime events but has no history for this position
+- **Inexperienced** -- fewer than 5 lifetime events
+
+Selection priority: eligible first, then experienced. Inexperienced workers are skipped. Each person can only fill one manual position.
+
+The same categories (eligible, experienced, inexperienced) appear as groups in the manual position dropdowns so you can see each person's qualification level when assigning by hand.
+
+---
+
+### Worker Assignment Algorithm
+
+The algorithm assigns positions to entrants who were not given a manual position.
+
+**Worker pool:** only entrants marked "Work 1st" or "Work 2nd" with no existing position assignment.
+
+**Excluded from the pool:** all manually assigned positions (early workers, session positions, shadows). Novices are excluded from non-corner positions.
+
+**Ranking:** workers are ranked by position-specific experience count, then total event count, then alphabetically.
+
+| Phase | Positions | Selection |
+|---|---|---|
+| 1 -- Experienced | Starter 1/2, Spotter 1/2, Grid 1/2 | Most experienced for this position |
+| 2 -- Corner Captains | 1 per corner per run group | Most experienced remaining |
+| 3 -- Corner Workers | All remaining entrants | Round-robin across corners |
+
+- No duplicate assignments -- each person gets exactly one position
+- Novices are excluded from experienced positions and can only be corner workers
+- Experience threshold: 5+ events = experienced
+
+---
 
 ### Participant Memory
 
-The memory system tracks participant history across events:
+The memory system tracks participant history across events. For each participant it stores:
+
 - **Event count** -- total number of events attended
-- **Position history** -- which positions a person has worked
+- **Position history** -- which positions a person has worked and how many times
 - **Captain capable** -- flagged if they've been a Corner Captain before
 
-Memory is stored as JSON and persists in localStorage between sessions. Can be exported/imported as files.
+#### Loading a Memory File
 
-Historical position names are aliased for backward compatibility (e.g., "SSS" maps to "Safety Steward").
+Upload the JSON file saved from a previous event. This populates the tool with each participant's history, enabling experience-based rankings in the manual position dropdowns and the worker assignment algorithm. Without a memory file, all participants are treated as new.
 
-### CSV Formats
+#### When to Save
+
+After all positions are assigned for the current event, download the memory file. The file is named `alscca_memory_YYYY-MM-DD.json`.
+
+#### What's New in the Saved File
+
+The current event's data is added to each participant's history:
+- Date and event name
+- Position assigned
+- Class and PAX
+
+#### Using the Memory File for the Next Event
+
+Load the saved JSON at the start of the next event. The tool reads each participant's history to rank workers by experience -- participants who have worked a position before appear as "eligible" in dropdowns, and those with 5+ events appear as "experienced."
+
+#### Position Aliases
+
+Historical position names are aliased for backward compatibility. For example, "SSS" maps to "Safety Steward." Numbered variants like "Safety Steward 1" are recognized as matching the base "Safety Steward" position for experience tracking.
+
+---
+
+### CSV Input Formats
 
 Two formats are supported:
 
@@ -123,42 +197,112 @@ Two formats are supported:
 Competitor,Class,PAX,#,SCCA Member
 ```
 
+#### Parser Flexibility
+
+The CSV parser is flexible with input variations:
+
+- **Case-insensitive** header matching
+- **Column name aliases** -- the parser recognizes multiple names for the same column:
+  - Name: "Competitor", "Name", "Full Name"
+  - PAX: "PAX", "Modifier PAX"
+  - Number: "#", "Number", "Car No", "Car Num", "No"
+  - Member: "SCCA Member", "Member"
+- **Quoted fields** -- handles commas inside quoted values and escaped quotes
+- **Whitespace** -- trims all values and skips empty rows
+- **Fallback** -- if headers don't match, falls back to positional column mapping
+
 ---
 
-## ALSCCA Class & PAX Reference
+## Track Designer
 
-Based on 2026 SCCA National Solo Rules + ALSCCA event data.
+Design autocross courses on the Barber Proving Grounds lot map. Place cones, markers, and corner numbers on an interactive SVG canvas, then export the layout as a PNG or JSON.
 
-### Local Class Groupings
+### Placeable Elements
 
-| Class | Name | PAX Codes |
-|---|---|---|
-| S1 | Street 1 | SS, AS, BS, FS |
-| S2 | Street 2 | CS, ES |
-| S3 | Street 3 | DS, GS, HS, SSC, HCS |
-| ST | Street Touring | SST, AST, BST, CST, DST, EST, GST |
-| CAM | Classic American Muscle | CAMS, CAMC, CAMT |
-| XS | Xtreme Street | XA, XB |
+#### Cones
 
-### Special Classes
-
-| Class | Name | Notes |
-|---|---|---|
-| X | Pro | Self-designated experienced drivers, any PAX |
-| L | Ladies | Any PAX. Follow mode groups with PAX class; separate mode is own run group |
-| N | Novice | Any PAX. Follow mode groups with PAX class; separate mode is own run group |
-| R | Race Tire | Primarily FSAE cars, catch-all for rare vehicles, any PAX |
-
-### Unmapped SCCA PAX Classes
-
-Rarely seen at ALSCCA events. If an entrant registers with one of these, they are manually assigned to a run group.
-
-| Category | PAX Codes |
+| Cone | Description |
 |---|---|
-| Street Prepared | SSP, CSP, DSP, ESP, FSP |
-| Street Modified | SSM, SM, SMF |
-| Prepared | XP, CP, DP, EP, FP |
-| Modified | AM, BM, CM, DM, EM, FM |
+| Standard Cone | Basic circular course-marking cone |
+| Pointer Cone | Cone with a directional triangle arrow (rotatable) |
+| Guide Cone | Triangle-based directional guide marker (rotatable) |
+
+#### Course Markers
+
+| Marker | Description |
+|---|---|
+| Start Line | 2 cones connected by a green line. Rotatable. Displays "START" label |
+| Timing Start | 4 cones (2x2 grid) with an orange timing line. Rotatable. Displays "TIMING START" label |
+| Finish Line | 10 cones (2 rows of 5) with a red finish line. Rotatable. Displays "FINISH" label |
+| Car | Vehicle position and heading indicator. Rotatable. Max 1 per course |
+| Corner Number | Numbered circle marker (1–6). Max 6 per course. Number adjustable via sidebar slider |
+
+### Selection & Rotation
+
+- Click an element with the **Select** tool to select it
+- Selected elements show a highlight glow and a **rotation handle** — a dashed line extending from the center with a draggable circle at the end
+- Drag the rotation handle to rotate the element
+- Rotatable elements: pointer cones, guide cones, start line, timing start, finish line, car
+- Standard cones and corner numbers are **not** rotatable
+- Click empty space or press **Esc** to deselect
+
+### Deleting Elements
+
+- **Right-click** any cone to delete it
+- **Eraser tool** — click any element (cones, markers, car, corner numbers) to delete it
+
+### Track Info
+
+The sidebar displays a live count of elements on the course:
+
+- Total cones, with breakdown by type (standard, pointer, guide)
+- Start line, timing start, finish line, car — placed or not set
+- Corner numbers — count out of 6
+
+### Controls — Browser
+
+| Action | Control |
+|---|---|
+| Pan | Drag empty space with the Select tool |
+| Zoom | Scroll wheel (zooms toward cursor) |
+| Select | Click an element with the Select tool |
+| Move | Drag a selected element to reposition |
+| Rotate | Drag the rotation handle on a selected element |
+| Delete | Right-click a cone, or use the Eraser tool |
+| Deselect | Click empty space or press Esc |
+
+### Controls — Mobile
+
+| Action | Control |
+|---|---|
+| Pan | Single-finger drag on empty space |
+| Zoom | Pinch with two fingers (zooms toward midpoint) |
+| Place | Tap with a placement tool selected |
+| Move | Drag an element with the Select tool |
+
+The layout adapts at 768px — the sidebar moves to the top as a horizontal scrollable bar and tools display in a 4-column grid.
+
+### Keyboard Shortcuts
+
+| Key | Action |
+|---|---|
+| S | Select tool |
+| C | Standard Cone tool |
+| 1 | Start Line tool |
+| 2 | Timing Start tool |
+| 3 | Finish Line tool |
+| E | Eraser tool |
+| Esc | Deselect all and switch to Select tool |
+
+Shortcuts are disabled while typing in input fields.
+
+### Export & Save
+
+- **Export PNG** — renders the course as a 2x resolution image
+- **Save JSON** — downloads the course as a JSON file for backup
+- **Load JSON** — upload a previously saved JSON file to restore a course
+- **Auto-save** — course state saves to browser localStorage automatically after every change
+- **New Course / Clear Course** — confirmation prompt before clearing
 
 ---
 

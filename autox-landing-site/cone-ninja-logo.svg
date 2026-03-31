@@ -2,14 +2,17 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="1615.9656"
-   height="1970.6897"
-   viewBox="355 115 103.10197 264.58334"
+   width="1200"
+   height="638"
+   viewBox="355 115 76.5625 85.657408"
    version="1.1"
    id="svg1"
    xml:space="preserve"
    sodipodi:docname="cone-ninja-logo.svg"
    inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   inkscape:export-filename="cone-ninja-logo.png"
+   inkscape:export-xdpi="94.796242"
+   inkscape:export-ydpi="94.796242"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,12 +27,12 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.35355339"
-     inkscape:cx="755.19004"
-     inkscape:cy="1039.447"
-     inkscape:window-width="2400"
-     inkscape:window-height="1261"
-     inkscape:window-x="2391"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="625.7895"
+     inkscape:cy="395.27269"
+     inkscape:window-width="1920"
+     inkscape:window-height="1111"
+     inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" /><defs
@@ -38,10 +41,16 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(-150.54095,-14.548561)"><g
+     transform="translate(-178.46456,-104.01152)"><rect
+       style="display:inline;fill:#000000;stroke-width:0.106729"
+       id="rect1"
+       width="159.09091"
+       height="84.583336"
+       x="492.20035"
+       y="219.54855" /><g
        id="g35"
        inkscape:label="logo"
-       transform="matrix(0.88362067,0,0,0.88417333,121.44058,15.005182)"><path
+       transform="matrix(0.26902886,0,0,0.26919713,439.10655,186.68835)"><path
          style="display:inline;fill:#000000"
          d="M 370.26317,279.17043 V 129.54856 H 493.02984 615.79651 V 279.17043 428.7923 H 493.02984 370.26317 Z"
          id="path1"

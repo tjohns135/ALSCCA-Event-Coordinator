@@ -1378,10 +1378,10 @@ const App = {
 <html><head>
 <meta charset="UTF-8">
 <title>ALSCCA Entry List</title>
-<script src="https://bossanova.uk/jspreadsheet/v4/jexcel.js"><\/script>
-<link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" />
-<script src="https://jsuites.net/v4/jsuites.js"><\/script>
-<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" />
+<script src="lib/jexcel.js"><\/script>
+<link rel="stylesheet" href="lib/jexcel.css" />
+<script src="lib/jsuites.js"><\/script>
+<link rel="stylesheet" href="lib/jsuites.css" />
 <style>
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; }
   h1 { font-size: 1.2rem; margin-bottom: 4px; }

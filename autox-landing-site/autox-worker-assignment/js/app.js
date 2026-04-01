@@ -150,12 +150,12 @@ const App = {
 
   async loadSampleCSV() {
     try {
-      const response = await fetch('./examples/actual_entry_list_2026-2.csv');
+      const response = await fetch('./examples/entry_list-ALSCCA_2026_Event2.csv');
       if (!response.ok) throw new Error('Failed to fetch sample CSV');
       const blob = await response.blob();
-      const file = new File([blob], 'actual_entry_list_2026-2.csv', { type: 'text/csv' });
+      const file = new File([blob], 'entry_list-ALSCCA_2026_Event2.csv', { type: 'text/csv' });
       await this.loadCSV(file);
-      document.getElementById('csv-file-label').textContent = 'actual_entry_list_2026-2.csv';
+      document.getElementById('csv-file-label').textContent = 'entry_list-ALSCCA_2026_Event2.csv';
     } catch (err) {
       this._showStatus(`Error loading sample CSV: ${err.message}`, 'error');
     }
@@ -316,8 +316,41 @@ const App = {
       allowInsertColumn: false,
       allowDeleteColumn: false,
       contextMenu: true,
-      onchange: () => this._syncFromTable(),
+      onchange: () => { this._syncFromTable(); this._checkDuplicatePositions(); },
     });
+  },
+
+  _checkDuplicatePositions() {
+    // Count by position + work session; corner workers are allowed multiples
+    const counts = {};
+    const seen = new Set();
+
+    for (const e of this.entrants) {
+      if (!e.position || !e.working) continue;
+      if (e.position.endsWith('Worker')) continue;
+      const key = `${e.position}::${e.working}`;
+      counts[key] = (counts[key] || 0) + 1;
+      seen.add(`${e.competitor}::${key}`);
+    }
+    // Count manual assignments not yet synced to entrants
+    for (const [pos, worker] of this.manualAssignments) {
+      if (pos.endsWith('Worker')) continue;
+      const working = document.querySelector(`#manual-assignments-table select[data-position="${pos}"]`)?.dataset.working || '';
+      const key = `${pos}::${working}`;
+      if (seen.has(`${worker}::${key}`)) continue;
+      counts[key] = (counts[key] || 0) + 1;
+    }
+
+    const dupes = Object.keys(counts)
+      .filter((k) => counts[k] > 1)
+      .map((k) => k.split('::')[0]);
+    const warning = document.getElementById('duplicate-warning');
+    if (dupes.length > 0) {
+      warning.textContent = `Duplicate positions: ${dupes.join(', ')}`;
+      warning.style.display = '';
+    } else {
+      warning.style.display = 'none';
+    }
   },
 
   /** Auto-size columns to fit content (#7) */
@@ -604,7 +637,7 @@ const App = {
 
     // Auto-fill button
     const autoFillBtn = document.createElement('button');
-    autoFillBtn.textContent = 'Auto-Fill Positions';
+    autoFillBtn.textContent = 'Auto-Fill Unassigned Positions';
     autoFillBtn.className = 'sample-btn';
     autoFillBtn.style.marginBottom = 'var(--space-sm)';
     autoFillBtn.addEventListener('click', () => this._autoFillManualAssignments());
@@ -742,12 +775,31 @@ const App = {
     if (prev) select.value = prev;
 
     select.addEventListener('change', () => {
-      if (select.value) {
-        this.manualAssignments.set(position, select.value);
-      } else {
+      const selectedWorker = select.value;
+      if (!selectedWorker) {
         this.manualAssignments.delete(position);
+        this._updateManualDropdowns();
+        return;
       }
-      this._updateManualDropdowns();
+
+      // Check if this worker is already assigned elsewhere
+      let existingPosition = null;
+      for (const [pos, worker] of this.manualAssignments) {
+        if (worker === selectedWorker && pos !== position) {
+          existingPosition = pos;
+          break;
+        }
+      }
+
+      if (existingPosition) {
+        // Revert dropdown while modal is open
+        const prevValue = this.manualAssignments.get(position) || '';
+        select.value = prevValue;
+        this._showReassignModal(selectedWorker, existingPosition, position);
+      } else {
+        this.manualAssignments.set(position, selectedWorker);
+        this._updateManualDropdowns();
+      }
     });
 
     tdSel.appendChild(select);
@@ -777,9 +829,129 @@ const App = {
       const currentVal = select.value;
       for (const opt of select.options) {
         if (!opt.value) continue;
-        opt.disabled = assigned.has(opt.value) && opt.value !== currentVal;
+        const isElsewhere = assigned.has(opt.value) && opt.value !== currentVal;
+        opt.disabled = false;
+        opt.classList.toggle('assigned-elsewhere', isElsewhere);
+      }
+
+      // Toggle unassigned highlight on the row
+      const row = select.closest('.manual-table-row');
+      if (row) row.classList.toggle('unassigned', !select.value);
+    }
+    this._checkDuplicatePositions();
+  },
+
+  _showReassignModal(workerName, fromPosition, toPosition) {
+    const existing = document.getElementById('reassign-modal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'reassign-modal';
+    overlay.className = 'modal-overlay';
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-content';
+
+    // Build backfill dropdown with only unassigned workers
+    const assigned = new Set(this.manualAssignments.values());
+    const sortedEntrants = [...this.entrants]
+      .filter((e) => e.competitor)
+      .sort((a, b) => a.competitor.localeCompare(b.competitor));
+
+    // Categorize unassigned workers by experience for the vacated position
+    const eligible = [];
+    const experienced = [];
+    const inexperienced = [];
+    for (const e of sortedEntrants) {
+      if (assigned.has(e.competitor)) continue;
+      const posCount = Memory.getPositionCount(e.competitor, fromPosition);
+      const eventCount = Memory.getEventCount(e.competitor);
+      if (posCount > 0) {
+        eligible.push(e);
+      } else if (eventCount >= 5) {
+        experienced.push(e);
+      } else {
+        inexperienced.push(e);
       }
     }
+
+    const buildOptgroup = (label, entrants) => {
+      if (entrants.length === 0) return '';
+      let html = `<optgroup label="${label}">`;
+      for (const e of entrants) {
+        html += `<option value="${e.competitor}">${e.competitor} (${e.class}/${e.pax})</option>`;
+      }
+      html += '</optgroup>';
+      return html;
+    };
+
+    let backfillOptions = '<option value="">— Unassigned —</option>';
+    backfillOptions += buildOptgroup('Eligible', eligible);
+    backfillOptions += buildOptgroup('Experienced', experienced);
+    backfillOptions += buildOptgroup('Inexperienced', inexperienced);
+
+    modal.innerHTML = `
+      <h3>Reassign Worker</h3>
+      <p class="reassign-modal-text">
+        <strong>${workerName}</strong> is currently assigned to <strong>${fromPosition}</strong>.<br>
+        Reassign to <strong>${toPosition}</strong>?
+      </p>
+      <div class="reassign-backfill">
+        <label>
+          <input type="checkbox" id="reassign-backfill-cb">
+          Fill <strong>${fromPosition}</strong>
+        </label>
+        <select id="reassign-backfill-select" style="display:none">
+          ${backfillOptions}
+        </select>
+      </div>
+      <div class="reassign-modal-buttons">
+        <button class="btn-cancel">No</button>
+        <button class="btn-confirm">Yes, Reassign</button>
+      </div>
+    `;
+
+    // Backfill checkbox toggles dropdown
+    const backfillCb = modal.querySelector('#reassign-backfill-cb');
+    const backfillSelect = modal.querySelector('#reassign-backfill-select');
+    backfillCb.addEventListener('change', () => {
+      backfillSelect.style.display = backfillCb.checked ? '' : 'none';
+    });
+
+    // Cancel
+    modal.querySelector('.btn-cancel').addEventListener('click', () => {
+      overlay.remove();
+    });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+
+    // Confirm reassignment
+    modal.querySelector('.btn-confirm').addEventListener('click', () => {
+      // Remove worker from old position
+      this.manualAssignments.delete(fromPosition);
+
+      // Assign worker to new position
+      this.manualAssignments.set(toPosition, workerName);
+
+      // Backfill old position if checked and a worker was selected
+      if (backfillCb.checked && backfillSelect.value) {
+        this.manualAssignments.set(fromPosition, backfillSelect.value);
+      }
+
+      // Sync all dropdown values with manualAssignments
+      const selects = document.querySelectorAll('#manual-assignments-table select');
+      for (const sel of selects) {
+        const pos = sel.dataset.position;
+        sel.value = this.manualAssignments.get(pos) || '';
+      }
+
+      this._updateManualDropdowns();
+      overlay.remove();
+    });
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
   },
 
   _autoFillManualAssignments() {
@@ -850,15 +1022,15 @@ const App = {
       const working = select.dataset.working;
       const entrant = this.entrants.find((e) => e.competitor === select.value);
       if (entrant) {
-        let finalPosition = position;
+        entrant.position = position;
+        entrant.working = working;
+        entrant.chalkLiner = false;
         if (position.startsWith('Course Setup')) {
           const cb = document.querySelector(`#chalk-liner-${position.replace(/\s+/g, '-')}`);
           if (cb && cb.checked) {
-            finalPosition = `${position} (Chalk Liner)`;
+            entrant.chalkLiner = true;
           }
         }
-        entrant.position = finalPosition;
-        entrant.working = working;
       }
     }
   },
@@ -1009,8 +1181,6 @@ const App = {
     }
     this._moveClassRows();
 
-    this._updateGroupCounts();
-
     // Clear all worker assignments — groups changed so they're invalid
     // Manual assignment selections are preserved in this.manualAssignments Map
     // and will be re-applied when Assign Workers is clicked
@@ -1020,6 +1190,7 @@ const App = {
       e.position = '';
     }
     this._updateTable();
+    this._updateGroupCounts();
   },
 
   /** Combined split + assign */
@@ -1067,6 +1238,7 @@ const App = {
     Workers.assign(this.entrants, this.cornerCount);
     this._updateTable();
     this._updateGroupCounts();
+    this._checkDuplicatePositions();
 
     const diff = this._getGroupDifference();
     if (diff > this.maxGroupDiff) {

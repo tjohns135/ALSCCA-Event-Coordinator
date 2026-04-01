@@ -121,13 +121,27 @@ const PDF = {
   _buildEarlyGrid(earlyEntrants) {
     const grid = {};
     for (const e of earlyEntrants) {
-      grid[e.position] = e.competitor;
+      let name = e.competitor;
+      if (e.chalkLiner) name += ' (Chalk Liner)';
+      grid[e.position] = name;
     }
     return grid;
   },
 
   _drawEarlySection(doc, grid, startY) {
-    const positions = CONFIG.earlyPositions;
+    const positions = [
+      'Event Chair', 'Event Chair Shadow', 'Course Designer',
+      'Truck & Trailer To Site Driver', 'Trailer Setup Support',
+      'Truck & Trailer To Storage Driver', 'Truck & Trailer To Storage Helper',
+      'Course Setup 1', 'Course Setup 2', 'Course Setup 3',
+      'Course Setup 4', 'Course Setup 5', 'Course Setup 6',
+      'Worker Chief', 'Intermediate Coach',
+      'Novice Coach 1', 'Novice Coach 2', 'Novice Coach 3',
+      'Tech 1', 'Tech 2', 'Tech 3',
+      'Waiver', 'Early Waiver 1', 'Early Waiver 2', 'Early Waiver 3',
+      'Late Waiver 1', 'Lunch Waiver',
+      'Paddock Marshal', 'Paddock Marshal Early', 'Paddock Marshal Late',
+    ];
     const colXs = [20, 300];
     const rowHeight = 12;
 

@@ -47,6 +47,7 @@ const StorageUtils = {
                 if (course.carMarker === undefined) course.carMarker = null;
                 if (course.timingStartMarker === undefined) course.timingStartMarker = null;
                 if (!Array.isArray(course.cornerNumbers)) course.cornerNumbers = [];
+                if (!Array.isArray(course.drivingLine)) course.drivingLine = [];
                 this._ensureMarkerRotation(course);
                 return course;
             }
@@ -69,6 +70,7 @@ const StorageUtils = {
             finishMarker: null,
             carMarker: null,
             cornerNumbers: [],
+            drivingLine: [],
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
         };
@@ -109,6 +111,7 @@ const StorageUtils = {
                     if (course.carMarker === undefined) course.carMarker = null;
                     if (course.timingStartMarker === undefined) course.timingStartMarker = null;
                     if (!Array.isArray(course.cornerNumbers)) course.cornerNumbers = [];
+                    if (!Array.isArray(course.drivingLine)) course.drivingLine = [];
                     self._ensureMarkerRotation(course);
                     resolve(course);
                 } catch (err) {

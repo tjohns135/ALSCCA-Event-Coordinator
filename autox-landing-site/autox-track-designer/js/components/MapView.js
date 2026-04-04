@@ -59,7 +59,23 @@ function MapView({
     onStartRotationChange,
     onTimingStartRotationChange,
     onFinishRotationChange,
-    onCarRotationChange
+    onCarRotationChange,
+    onDrivingLineAddPoint,
+    onDrivingLineRemovePoint,
+    onDrivingLineMovePoint,
+    onDrivingLineClear,
+    carMode = 'drag',
+    driveSettings,
+    carDriveTrace,
+    curvePoints = [],
+    curveDensity = 5,
+    onCurveDensityChange,
+    onCurveAddPoint,
+    onCurveApply,
+    onCurveUndoPoint,
+    curveReverse = false,
+    onCurveReverseChange,
+    onCurveCancel
 }) {
     const svgRef = React.useRef(null);
     const activeToolRef = React.useRef(activeTool);
@@ -67,6 +83,24 @@ function MapView({
     const draggingRef = React.useRef(null);
     const justDraggedRef = React.useRef(false);
     const [mounted, setMounted] = React.useState(false);
+
+    // Curve overlay drag state
+    const [curveOverlayOffset, setCurveOverlayOffset] = React.useState({ x: 0, y: 0 });
+    const curveOverlayDragRef = React.useRef(null);
+
+    // Reset overlay offset when starting a new curve
+    React.useEffect(() => {
+        if (curvePoints.length <= 1) setCurveOverlayOffset({ x: 0, y: 0 });
+    }, [curvePoints.length]);
+
+    // Drive mode refs
+    const keysHeldRef = React.useRef({});
+    const driveStateRef = React.useRef({ speed: 0, distanceSinceLastPoint: 0, traceStarted: false });
+    const animFrameRef = React.useRef(null);
+    const carMarkerRef = React.useRef(course.carMarker);
+    const driveSettingsRef = React.useRef(driveSettings);
+    const carDriveTraceRef = React.useRef(carDriveTrace);
+    const carModeRef = React.useRef(carMode);
 
     const [viewBox, setViewBox] = React.useState(() => SvgPanZoom.getInitialViewBox());
 
@@ -79,6 +113,12 @@ function MapView({
     React.useEffect(() => {
         activeToolRef.current = activeTool;
     }, [activeTool]);
+
+    // Keep drive mode refs in sync
+    React.useEffect(() => { carMarkerRef.current = course.carMarker; }, [course.carMarker]);
+    React.useEffect(() => { driveSettingsRef.current = driveSettings; }, [driveSettings]);
+    React.useEffect(() => { carDriveTraceRef.current = carDriveTrace; }, [carDriveTrace]);
+    React.useEffect(() => { carModeRef.current = carMode; }, [carMode]);
 
     // Flip mounted after first render so display size memos recompute with svgRef available
     React.useEffect(() => { setMounted(true); }, []);
@@ -141,6 +181,91 @@ function MapView({
         SvgPanZoom.handleWheel(e, viewBoxRef.current, setViewBox);
     }, []);
 
+    // Drive mode — key listeners
+    React.useEffect(() => {
+        if (carMode !== 'drive' || !course.carMarker) return;
+        const driveKeys = ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'];
+        const onKeyDown = (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (driveKeys.includes(e.key.toLowerCase())) e.preventDefault();
+            keysHeldRef.current[e.key.toLowerCase()] = true;
+        };
+        const onKeyUp = (e) => {
+            keysHeldRef.current[e.key.toLowerCase()] = false;
+        };
+        window.addEventListener('keydown', onKeyDown);
+        window.addEventListener('keyup', onKeyUp);
+        return () => {
+            window.removeEventListener('keydown', onKeyDown);
+            window.removeEventListener('keyup', onKeyUp);
+            keysHeldRef.current = {};
+        };
+    }, [carMode, !!course.carMarker]);
+
+    // Drive mode — animation loop
+    React.useEffect(() => {
+        if (carMode !== 'drive' || !course.carMarker) {
+            driveStateRef.current.speed = 0;
+            return;
+        }
+
+        const tick = () => {
+            const keys = keysHeldRef.current;
+            const ds = driveStateRef.current;
+            const settings = driveSettingsRef.current;
+            const car = carMarkerRef.current;
+            if (!car) { animFrameRef.current = requestAnimationFrame(tick); return; }
+
+            const left = keys['a'] || keys['arrowleft'];
+            const right = keys['d'] || keys['arrowright'];
+            let rotation = car.rotation || 0;
+            if (left) rotation = ((rotation - settings.turnRate) % 360 + 360) % 360;
+            if (right) rotation = ((rotation + settings.turnRate) % 360 + 360) % 360;
+
+            const forward = keys['w'] || keys['arrowup'];
+            const backward = keys['s'] || keys['arrowdown'];
+            if (forward) {
+                ds.speed = Math.min(ds.speed + settings.acceleration, settings.maxSpeed);
+            } else if (backward) {
+                ds.speed = Math.max(ds.speed - settings.acceleration, -settings.maxSpeed * 0.5);
+            } else {
+                if (ds.speed > 0) ds.speed = Math.max(0, ds.speed - settings.deceleration);
+                else if (ds.speed < 0) ds.speed = Math.min(0, ds.speed + settings.deceleration);
+            }
+
+            if (ds.speed !== 0 || left || right) {
+                const rad = rotation * Math.PI / 180;
+                const newX = car.x + Math.cos(rad) * ds.speed;
+                const newY = car.y + Math.sin(rad) * ds.speed;
+                onCarMarkerMove({ x: newX, y: newY });
+                if (rotation !== (car.rotation || 0)) onCarRotationChange(Math.round(rotation));
+
+                if (carDriveTraceRef.current && ds.speed !== 0) {
+                    const dist = Math.abs(ds.speed);
+                    ds.distanceSinceLastPoint += dist;
+                    if (!ds.traceStarted) {
+                        onDrivingLineClear();
+                        onDrivingLineAddPoint({ x: newX, y: newY });
+                        ds.traceStarted = true;
+                        ds.distanceSinceLastPoint = 0;
+                    } else if (ds.distanceSinceLastPoint >= 5) {
+                        onDrivingLineAddPoint({ x: newX, y: newY });
+                        ds.distanceSinceLastPoint = 0;
+                    }
+                }
+            }
+
+            animFrameRef.current = requestAnimationFrame(tick);
+        };
+
+        driveStateRef.current = { speed: 0, distanceSinceLastPoint: 0, traceStarted: false };
+        animFrameRef.current = requestAnimationFrame(tick);
+        return () => {
+            if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+            driveStateRef.current.speed = 0;
+        };
+    }, [carMode, !!course.carMarker]);
+
     // Click on SVG background to place or deselect
     const handleSvgClick = React.useCallback((e) => {
         if (justDraggedRef.current) {
@@ -148,6 +273,7 @@ function MapView({
             return;
         }
         if (draggingRef.current) return;
+        if (carModeRef.current === 'drive') return;
 
         const svgEl = svgRef.current;
         if (!svgEl) return;
@@ -157,42 +283,44 @@ function MapView({
 
         const tool = activeToolRef.current;
 
-        // Deselect all when clicking empty space in select mode
-        if (tool === 'select') {
-            onDeselectAll();
-            return;
-        }
+        // Deselect all when clicking empty space
+        onDeselectAll();
+        if (tool === 'select') return;
 
         const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
 
         switch (tool) {
             case 'cone-standard':
-            case 'cone-pointer':
-            case 'cone-guide':
                 onConeAdd({ x, y });
                 break;
+            case 'cone-pointer':
+            case 'cone-guide':
+                break;
             case 'start':
-                onStartMarkerSet({ x, y });
-                break;
             case 'timing-start':
-                onTimingStartMarkerSet({ x, y });
-                break;
             case 'finish':
-                onFinishMarkerSet({ x, y });
                 break;
             case 'car':
-                onCarMarkerSet({ x, y });
                 break;
             case 'corner-number':
                 onCornerNumberAdd({ x, y });
                 break;
+            case 'driving-line':
+                onDrivingLineAddPoint({ x, y });
+                break;
+            case 'cone-standard-curve':
+            case 'cone-pointer-curve':
+            case 'cone-guide-curve':
+                onCurveAddPoint({ x, y });
+                break;
         }
-    }, [onConeAdd, onStartMarkerSet, onTimingStartMarkerSet, onFinishMarkerSet, onCarMarkerSet, onCornerNumberAdd, onDeselectAll]);
+    }, [onConeAdd, onStartMarkerSet, onTimingStartMarkerSet, onFinishMarkerSet, onCarMarkerSet, onCornerNumberAdd, onDeselectAll, onDrivingLineAddPoint, onCurveAddPoint]);
 
     // Cone pointer events
     const handleConePointerDown = React.useCallback((e, coneId) => {
         if (e.button !== 0) return;
         e.stopPropagation();
+        if (carModeRef.current === 'drive') return;
 
         const tool = activeToolRef.current;
         if (tool === 'eraser') {
@@ -200,6 +328,7 @@ function MapView({
             return;
         }
 
+        onDeselectAll();
         const svgEl = svgRef.current;
         if (!svgEl) return;
         const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
@@ -222,6 +351,7 @@ function MapView({
     const handleMarkerPointerDown = React.useCallback((e, markerId) => {
         if (e.button !== 0) return;
         e.stopPropagation();
+        if (carModeRef.current === 'drive') return;
 
         const tool = activeToolRef.current;
         if (tool === 'eraser') {
@@ -231,6 +361,7 @@ function MapView({
             return;
         }
 
+        onDeselectAll();
         const svgEl = svgRef.current;
         if (!svgEl) return;
         const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
@@ -255,6 +386,7 @@ function MapView({
     const handleCarPointerDown = React.useCallback((e) => {
         if (e.button !== 0) return;
         e.stopPropagation();
+        if (carModeRef.current === 'drive') return;
 
         const tool = activeToolRef.current;
         if (tool === 'eraser') {
@@ -262,6 +394,7 @@ function MapView({
             return;
         }
 
+        onDeselectAll();
         const svgEl = svgRef.current;
         if (!svgEl) return;
         const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
@@ -283,6 +416,7 @@ function MapView({
     const handleCornerNumberPointerDown = React.useCallback((e, cnId) => {
         if (e.button !== 0) return;
         e.stopPropagation();
+        if (carModeRef.current === 'drive') return;
 
         const tool = activeToolRef.current;
         if (tool === 'eraser') {
@@ -290,6 +424,7 @@ function MapView({
             return;
         }
 
+        onDeselectAll();
         const svgEl = svgRef.current;
         if (!svgEl) return;
         const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
@@ -346,9 +481,82 @@ function MapView({
             } else if (drag.target === 'timing-start') {
                 onTimingStartRotationChange(((rotation + 90) % 360 + 360) % 360);
             } else if (drag.target === 'finish') {
-                onFinishRotationChange(((rotation - 180) % 360 + 360) % 360);
+                onFinishRotationChange(((rotation + 90) % 360 + 360) % 360);
             } else if (drag.target === 'car') {
                 onCarRotationChange(rotation);
+                const armLength = displayCarWidth * 1.5;
+                const distFromCenter = Math.sqrt(
+                    Math.pow(x - drag.centerX, 2) + Math.pow(y - drag.centerY, 2)
+                );
+                const moveDistance = distFromCenter - armLength;
+                if (Math.abs(moveDistance) > 0.3) {
+                    const rad = rotation * Math.PI / 180;
+                    const newX = drag.centerX + Math.cos(rad) * moveDistance;
+                    const newY = drag.centerY + Math.sin(rad) * moveDistance;
+                    onCarMarkerMove({ x: newX, y: newY });
+                    if (carDriveTraceRef.current) {
+                        const ds = driveStateRef.current;
+                        const dist = Math.abs(moveDistance);
+                        ds.distanceSinceLastPoint += dist;
+                        if (!ds.traceStarted) {
+                            onDrivingLineClear();
+                            onDrivingLineAddPoint({ x: newX, y: newY });
+                            ds.traceStarted = true;
+                            ds.distanceSinceLastPoint = 0;
+                        } else if (ds.distanceSinceLastPoint >= 5) {
+                            onDrivingLineAddPoint({ x: newX, y: newY });
+                            ds.distanceSinceLastPoint = 0;
+                        }
+                    }
+                    drag.centerX = newX;
+                    drag.centerY = newY;
+                }
+            }
+            return;
+        }
+
+        if (drag.type === 'orient-new-cone') {
+            const dx = x - drag.centerX;
+            const dy = y - drag.centerY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > 0.5) {
+                drag.moved = true;
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                const normalized = ((angle % 360) + 360) % 360;
+                onConeRotationChange(drag.id, Math.round(normalized));
+            }
+            return;
+        }
+
+        if (drag.type === 'orient-new-marker') {
+            const dx = x - drag.centerX;
+            const dy = y - drag.centerY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > 0.5) {
+                drag.moved = true;
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                const normalized = ((angle % 360) + 360) % 360;
+                const rotation = Math.round(normalized);
+                if (drag.markerType === 'start') {
+                    onStartRotationChange(((rotation + 90) % 360 + 360) % 360);
+                } else if (drag.markerType === 'timing-start') {
+                    onTimingStartRotationChange(((rotation + 90) % 360 + 360) % 360);
+                } else if (drag.markerType === 'finish') {
+                    onFinishRotationChange(((rotation + 90) % 360 + 360) % 360);
+                }
+            }
+            return;
+        }
+
+        if (drag.type === 'orient-new-car') {
+            const dx = x - drag.centerX;
+            const dy = y - drag.centerY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > 0.5) {
+                drag.moved = true;
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                const normalized = ((angle % 360) + 360) % 360;
+                onCarRotationChange(Math.round(normalized));
             }
             return;
         }
@@ -373,30 +581,29 @@ function MapView({
             onCarMarkerMove({ x: newX, y: newY });
         } else if (drag.type === 'cornerNumber') {
             onCornerNumberMove(drag.id, { x: newX, y: newY });
+        } else if (drag.type === 'drivingLinePoint') {
+            onDrivingLineMovePoint(drag.id, { x: newX, y: newY });
         }
     }, [onConeMove, onStartMarkerMove, onTimingStartMarkerMove, onFinishMarkerMove, onCarMarkerMove, onCornerNumberMove,
-        onConeRotationChange, onStartRotationChange, onTimingStartRotationChange, onFinishRotationChange, onCarRotationChange]);
+        onConeRotationChange, onStartRotationChange, onTimingStartRotationChange, onFinishRotationChange, onCarRotationChange, onDrivingLineMovePoint]);
 
     const handlePointerUpDrag = React.useCallback((e) => {
         const drag = draggingRef.current;
         if (!drag) return;
 
-        // If we didn't move, treat as a click (select)
+        // If we didn't move, treat as a click (select) — works in any tool
         if (!drag.moved) {
-            const tool = activeToolRef.current;
-            if (tool === 'select') {
-                if (drag.type === 'cone') {
-                    const cone = course.cones.find(c => c.id === drag.id);
-                    if (cone && (cone.type === 'pointer' || cone.type === 'guide')) {
-                        onConeSelect(drag.id);
-                    }
-                } else if (drag.type === 'cornerNumber') {
-                    onCornerNumberSelect(drag.id);
-                } else if (drag.type === 'marker') {
-                    onMarkerSelect(drag.id); // 'start' or 'finish'
-                } else if (drag.type === 'car') {
-                    onMarkerSelect('car');
+            if (drag.type === 'cone') {
+                const cone = course.cones.find(c => c.id === drag.id);
+                if (cone && (cone.type === 'pointer' || cone.type === 'guide')) {
+                    onConeSelect(drag.id);
                 }
+            } else if (drag.type === 'cornerNumber') {
+                onCornerNumberSelect(drag.id);
+            } else if (drag.type === 'marker') {
+                onMarkerSelect(drag.id);
+            } else if (drag.type === 'car') {
+                onMarkerSelect('car');
             }
         }
 
@@ -408,20 +615,61 @@ function MapView({
     const handleConeContextMenu = React.useCallback((e, coneId) => {
         e.preventDefault();
         e.stopPropagation();
+        if (carModeRef.current === 'drive') return;
         onConeDelete(coneId);
     }, [onConeDelete]);
 
     const handleCarContextMenu = React.useCallback((e) => {
         e.preventDefault();
         e.stopPropagation();
+        if (carModeRef.current === 'drive') return;
         onCarMarkerDelete();
     }, [onCarMarkerDelete]);
 
     const handleCornerNumberContextMenu = React.useCallback((e, cnId) => {
         e.preventDefault();
         e.stopPropagation();
+        if (carModeRef.current === 'drive') return;
         onCornerNumberDelete(cnId);
     }, [onCornerNumberDelete]);
+
+    // Driving line point pointer events
+    const handleDrivingLinePointPointerDown = React.useCallback((e, pointId) => {
+        if (e.button !== 0) return;
+        e.stopPropagation();
+        if (carModeRef.current === 'drive') return;
+
+        const tool = activeToolRef.current;
+        if (tool === 'eraser') {
+            onDrivingLineRemovePoint(pointId);
+            return;
+        }
+
+        onDeselectAll();
+        const svgEl = svgRef.current;
+        if (!svgEl) return;
+        const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
+        const pt = (course.drivingLine || []).find(p => p.id === pointId);
+        if (!pt) return;
+
+        draggingRef.current = {
+            type: 'drivingLinePoint',
+            id: pointId,
+            startX: x,
+            startY: y,
+            origX: pt.x,
+            origY: pt.y,
+            moved: false
+        };
+        e.currentTarget.closest('svg').setPointerCapture(e.pointerId);
+    }, [course.drivingLine, onDrivingLineRemovePoint]);
+
+    const handleDrivingLinePointContextMenu = React.useCallback((e, pointId) => {
+        e.preventDefault();
+        if (carModeRef.current === 'drive') return;
+        e.stopPropagation();
+        onDrivingLineRemovePoint(pointId);
+    }, [onDrivingLineRemovePoint]);
 
     // Cursor style based on tool
     const getCursorStyle = () => {
@@ -434,6 +682,7 @@ function MapView({
             case 'finish':
             case 'car':
             case 'corner-number':
+            case 'driving-line':
                 return 'crosshair';
             case 'eraser':
                 return 'pointer';
@@ -456,113 +705,62 @@ function MapView({
 
         const strokeWidth = Math.max(0.5, displayRadius * 0.5);
         const fontSize = Math.max(2, displayRadius * 1.5);
-        const coneR = displayRadius * 1.3;
+        const coneR = displayRadius * 1.2;
         const markerId = type;
 
         const elements = [];
         let label, textColor = color;
         let rowGap = 0;
 
+        // Configure per type — all share the same construction
+        let lineColor, numRows;
         if (type === 'start') {
-            label = 'START';
-            // Green line between two cones
-            elements.push(
-                React.createElement('line', {
-                    key: 'start-line',
-                    x1: marker.x - dx, y1: marker.y - dy,
-                    x2: marker.x + dx, y2: marker.y + dy,
-                    stroke: '#22C55E',
-                    strokeWidth: strokeWidth,
-                    strokeLinecap: 'round'
-                }),
-                // Left cone
-                React.createElement('circle', {
-                    key: 'start-cone-l',
-                    cx: marker.x - dx, cy: marker.y - dy,
-                    r: coneR, fill: '#333'
-                }),
-                // Right cone
-                React.createElement('circle', {
-                    key: 'start-cone-r',
-                    cx: marker.x + dx, cy: marker.y + dy,
-                    r: coneR, fill: '#333'
-                })
-            );
+            label = 'START'; lineColor = '#22C55E'; numRows = 1;
         } else if (type === 'timing-start') {
-            label = 'TIMING START';
-            textColor = '#F59E0B';
-            // 2 rows of 2 cones each (4 total)
-            rowGap = displayLineLength * 0.15;
-            const perpDx = rowGap * Math.cos(perpRad);
-            const perpDy = rowGap * Math.sin(perpRad);
+            label = 'TIMING START'; lineColor = '#F59E0B'; numRows = 2;
+        } else if (type === 'finish') {
+            label = 'FINISH'; lineColor = '#EF4444'; numRows = 10;
+        }
+        textColor = lineColor;
 
-            for (let row = 0; row < 2; row++) {
-                const sign = row === 0 ? 1 : -1;
-                const rpx = sign * perpDx;
-                const rpy = sign * perpDy;
-                if (row === 0) {
-                    elements.push(
-                        React.createElement('line', {
-                            key: 'ts-line',
-                            x1: marker.x - dx + rpx, y1: marker.y - dy + rpy,
-                            x2: marker.x + dx + rpx, y2: marker.y + dy + rpy,
-                            stroke: '#F59E0B',
-                            strokeWidth: strokeWidth,
-                            strokeLinecap: 'round'
-                        })
-                    );
-                }
+        const rowSpacing = displayLineLength * 0.25;
+        const rowGapTotal = (numRows - 1) * rowSpacing;
+        const perpDxUnit = Math.cos(perpRad);
+        const perpDyUnit = Math.sin(perpRad);
+
+        for (let row = 0; row < numRows; row++) {
+            const rowOffset = (rowGapTotal / 2) - row * rowSpacing;
+            const rpx = rowOffset * perpDxUnit;
+            const rpy = rowOffset * perpDyUnit;
+
+            if (row === 0) {
                 elements.push(
-                    React.createElement('circle', {
-                        key: `ts-r${row}-c0`,
-                        cx: marker.x - dx + rpx, cy: marker.y - dy + rpy,
-                        r: coneR, fill: '#333'
-                    }),
-                    React.createElement('circle', {
-                        key: `ts-r${row}-c1`,
-                        cx: marker.x + dx + rpx, cy: marker.y + dy + rpy,
-                        r: coneR, fill: '#333'
+                    React.createElement('line', {
+                        key: `${type}-line`,
+                        x1: marker.x - dx + rpx, y1: marker.y - dy + rpy,
+                        x2: marker.x + dx + rpx, y2: marker.y + dy + rpy,
+                        stroke: lineColor,
+                        strokeWidth: strokeWidth,
+                        strokeLinecap: 'round'
                     })
                 );
             }
-        } else if (type === 'finish') {
-            label = 'FINISH';
-            // 2 rows of 5 cones each (10 total)
-            rowGap = displayLineLength * 0.3;
-            const perpDx = rowGap * Math.cos(perpRad);
-            const perpDy = rowGap * Math.sin(perpRad);
-            const numCones = 10;
 
-            // Line between rows at the first cone position
             elements.push(
-                React.createElement('line', {
-                    key: 'fin-line',
-                    x1: marker.x - dx + perpDx, y1: marker.y - dy + perpDy,
-                    x2: marker.x - dx - perpDx, y2: marker.y - dy - perpDy,
-                    stroke: '#EF4444',
-                    strokeWidth: strokeWidth,
-                    strokeLinecap: 'round'
+                React.createElement('circle', {
+                    key: `${type}-r${row}-c0`,
+                    cx: marker.x - dx + rpx, cy: marker.y - dy + rpy,
+                    r: coneR, fill: '#333'
+                }),
+                React.createElement('circle', {
+                    key: `${type}-r${row}-c1`,
+                    cx: marker.x + dx + rpx, cy: marker.y + dy + rpy,
+                    r: coneR, fill: '#333'
                 })
             );
-
-            for (let row = 0; row < 2; row++) {
-                const sign = row === 0 ? 1 : -1;
-                const rpx = sign * perpDx;
-                const rpy = sign * perpDy;
-                for (let i = 0; i < numCones; i++) {
-                    const t = i / (numCones - 1);
-                    const cx = marker.x - dx + 5 * dx * t + rpx;
-                    const cy = marker.y - dy + 5 * dy * t + rpy;
-                    elements.push(
-                        React.createElement('circle', {
-                            key: `fin-r${row}-c${i}`,
-                            cx, cy,
-                            r: coneR, fill: '#333'
-                        })
-                    );
-                }
-            }
         }
+
+        rowGap = rowGapTotal / 2;
 
         // Text offset: clear the row gap + base offset
         const baseTextOffset = getMinDisplaySize(0.5, 8);
@@ -802,18 +1000,18 @@ function MapView({
             ));
         }
 
-        // Selected finish marker rotation handle — rotated 180°
+        // Selected finish marker rotation handle — rotated 90° CCW (same as start/timing)
         if (selectedMarker === 'finish' && course.finishMarker) {
             handles.push(renderRotationHandle(
                 course.finishMarker.x, course.finishMarker.y,
-                (course.finishMarker.rotation || 0) + 180,
+                (course.finishMarker.rotation || 0) - 90,
                 '#666', 'finish', null,
                 displayLineLength * 1.25, displayLineLength * 0.15
             ));
         }
 
-        // Selected car rotation handle — proportional to displayCarWidth
-        if (selectedMarker === 'car' && course.carMarker) {
+        // Selected car rotation handle — proportional to displayCarWidth (hidden in drive mode)
+        if (selectedMarker === 'car' && course.carMarker && carMode !== 'drive') {
             handles.push(renderRotationHandle(
                 course.carMarker.x, course.carMarker.y,
                 course.carMarker.rotation || 0,
@@ -823,6 +1021,249 @@ function MapView({
         }
 
         return handles;
+    };
+
+    // Render driving line path and control points
+    const renderDrivingLine = () => {
+        const points = course.drivingLine || [];
+        const elements = [];
+        const strokeWidth = Math.max(0.3, displayRadius * 0.8);
+        const pointRadius = Math.max(displayRadius * 1.2, 0.5);
+
+        // Smooth curve path (always visible when points exist)
+        if (points.length >= 2) {
+            elements.push(
+                React.createElement('path', {
+                    key: 'dl-path',
+                    d: CatmullRomUtils.toSVGPath(points),
+                    fill: 'none',
+                    stroke: '#FF6B35',
+                    strokeWidth: strokeWidth,
+                    strokeDasharray: `${strokeWidth * 2.5},${strokeWidth * 1.5}`,
+                    strokeLinecap: 'round',
+                    strokeLinejoin: 'round',
+                    opacity: 0.8,
+                    style: { pointerEvents: 'none' }
+                })
+            );
+        }
+
+        // Control point circles (visible when driving-line or select tool is active)
+        if (activeTool === 'driving-line' || activeTool === 'select' || activeTool === 'eraser') {
+            points.forEach((pt, index) => {
+                const isEndpoint = index === 0 || index === points.length - 1;
+                elements.push(
+                    React.createElement('circle', {
+                        key: `dl-pt-${pt.id}`,
+                        cx: pt.x,
+                        cy: pt.y,
+                        r: pointRadius,
+                        fill: isEndpoint ? '#FF6B35' : '#FFA56B',
+                        stroke: '#fff',
+                        strokeWidth: Math.max(0.15, strokeWidth * 0.3),
+                        opacity: 0.9,
+                        'data-interactive': 'true',
+                        style: { cursor: activeTool === 'eraser' ? 'pointer' : 'move' },
+                        onPointerDown: (e) => handleDrivingLinePointPointerDown(e, pt.id),
+                        onContextMenu: (e) => handleDrivingLinePointContextMenu(e, pt.id)
+                    })
+                );
+            });
+        }
+
+        return elements;
+    };
+
+    // Render curve cone preview
+    const renderCurvePreview = () => {
+        if (!curvePoints || curvePoints.length === 0 || !activeTool.endsWith('-curve')) return [];
+
+        const elements = [];
+        const coneType = activeTool.replace('cone-', '').replace('-curve', '');
+
+        // Render control point markers
+        curvePoints.forEach((pt, i) => {
+            elements.push(
+                React.createElement('circle', {
+                    key: `curve-cp-${i}`,
+                    cx: pt.x, cy: pt.y,
+                    r: Math.max(displayRadius * 0.8, 0.3),
+                    fill: 'rgba(255, 255, 255, 0.6)',
+                    stroke: '#fff',
+                    strokeWidth: Math.max(0.1, displayRadius * 0.2),
+                    style: { pointerEvents: 'none' }
+                })
+            );
+        });
+
+        // Render preview cones along the curve
+        if (curvePoints.length >= 1) {
+            const samples = curvePoints.length >= 2
+                ? CatmullRomUtils.samplePoints(curvePoints, curveDensity)
+                : [{ x: curvePoints[0].x, y: curvePoints[0].y, angle: 0 }];
+
+            samples.forEach((s, i) => {
+                if (coneType === 'standard') {
+                    elements.push(
+                        React.createElement('circle', {
+                            key: `curve-preview-${i}`,
+                            cx: s.x, cy: s.y,
+                            r: displayRadius,
+                            fill: '#333',
+                            opacity: 0.5,
+                            stroke: '#666',
+                            strokeWidth: Math.max(0.1, displayRadius * 0.15),
+                            style: { pointerEvents: 'none' }
+                        })
+                    );
+                } else {
+                    const r = displayRadius;
+                    const rotation = curveReverse ? (s.angle + 180) % 360 : s.angle;
+                    const rad = (rotation * Math.PI) / 180;
+                    const perpX = -Math.sin(rad);
+                    const perpY = Math.cos(rad);
+
+                    if (coneType === 'pointer') {
+                        const tipX = s.x + r * Math.cos(rad);
+                        const tipY = s.y + r * Math.sin(rad);
+                        const baseDist = r * 2.5;
+                        const spread = r * 0.7;
+                        const baseX = s.x + baseDist * Math.cos(rad);
+                        const baseY = s.y + baseDist * Math.sin(rad);
+                        const triPoints = `${tipX},${tipY} ${baseX + spread * perpX},${baseY + spread * perpY} ${baseX - spread * perpX},${baseY - spread * perpY}`;
+                        elements.push(
+                            React.createElement('circle', {
+                                key: `curve-preview-c-${i}`,
+                                cx: s.x, cy: s.y, r: r,
+                                fill: '#333', opacity: 0.5,
+                                style: { pointerEvents: 'none' }
+                            }),
+                            React.createElement('polygon', {
+                                key: `curve-preview-t-${i}`,
+                                points: triPoints,
+                                fill: '#333', opacity: 0.4,
+                                style: { pointerEvents: 'none' }
+                            })
+                        );
+                    } else {
+                        const totalLength = r * 2.5;
+                        const spread = r * 0.8;
+                        const baseX = s.x - totalLength * Math.cos(rad);
+                        const baseY = s.y - totalLength * Math.sin(rad);
+                        const triPoints = `${s.x},${s.y} ${baseX + spread * perpX},${baseY + spread * perpY} ${baseX - spread * perpX},${baseY - spread * perpY}`;
+                        elements.push(
+                            React.createElement('polygon', {
+                                key: `curve-preview-t-${i}`,
+                                points: triPoints,
+                                fill: '#333', opacity: 0.4,
+                                style: { pointerEvents: 'none' }
+                            })
+                        );
+                    }
+                }
+            });
+        }
+
+        // Floating slider + apply button near the first control point
+        if (curvePoints.length >= 1) {
+            const lastPt = curvePoints[0];
+            const svgEl = svgRef.current;
+            if (svgEl) {
+                const rect = svgEl.getBoundingClientRect();
+                const svgUnitsPerPx = viewBox.w / rect.width;
+                const scaleFactor = 1.5;
+                const overlayW = 120 * svgUnitsPerPx * scaleFactor;
+                const overlayH = 50 * svgUnitsPerPx * scaleFactor;
+                const offsetX = 20 * svgUnitsPerPx;
+                const offsetY = 10 * svgUnitsPerPx;
+
+                elements.push(
+                    React.createElement('foreignObject', {
+                        key: 'curve-overlay',
+                        x: lastPt.x + offsetX + curveOverlayOffset.x,
+                        y: lastPt.y + offsetY + curveOverlayOffset.y,
+                        width: overlayW,
+                        height: overlayH,
+                        style: { overflow: 'visible' }
+                    },
+                        React.createElement('div', {
+                            className: 'curve-overlay',
+                            'data-interactive': 'true',
+                            onClick: (e) => e.stopPropagation(),
+                            onPointerDown: (e) => {
+                                e.stopPropagation();
+                                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+                                curveOverlayDragRef.current = { startX: e.clientX, startY: e.clientY, origOffset: { ...curveOverlayOffset } };
+                                e.currentTarget.setPointerCapture(e.pointerId);
+                            },
+                            onPointerMove: (e) => {
+                                if (!curveOverlayDragRef.current) return;
+                                const d = curveOverlayDragRef.current;
+                                const rect = svgRef.current.getBoundingClientRect();
+                                const uPerPx = viewBox.w / rect.width;
+                                setCurveOverlayOffset({
+                                    x: d.origOffset.x + (e.clientX - d.startX) * uPerPx,
+                                    y: d.origOffset.y + (e.clientY - d.startY) * uPerPx
+                                });
+                            },
+                            onPointerUp: () => { curveOverlayDragRef.current = null; },
+                            style: {
+                                transform: `scale(${svgUnitsPerPx * scaleFactor})`,
+                                transformOrigin: 'top left',
+                                width: '120px',
+                                padding: '4px 5px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '3px',
+                                cursor: 'grab'
+                            }
+                        },
+                            React.createElement('input', {
+                                type: 'range',
+                                min: '1',
+                                max: '15',
+                                step: '0.5',
+                                value: curveDensity,
+                                onChange: (e) => onCurveDensityChange(parseFloat(e.target.value)),
+                                className: 'curve-density-slider',
+                                style: { width: '100%', height: '10px', margin: 0 }
+                            }),
+                            React.createElement('label', {
+                                style: { display: 'flex', alignItems: 'center', gap: '3px', fontSize: '8px', color: '#aaa', cursor: 'pointer' }
+                            },
+                                React.createElement('input', {
+                                    type: 'checkbox',
+                                    checked: curveReverse,
+                                    onChange: (e) => onCurveReverseChange(e.target.checked),
+                                    style: { width: '8px', height: '8px', margin: 0 }
+                                }),
+                                'Reverse'
+                            ),
+                            React.createElement('div', { style: { display: 'flex', gap: '3px' } },
+                                React.createElement('button', {
+                                    onClick: (e) => { e.stopPropagation(); onCurveApply(); },
+                                    style: {
+                                        padding: '2px 6px', fontSize: '9px', cursor: 'pointer',
+                                        background: '#e94560', border: 'none', borderRadius: '2px',
+                                        color: '#fff'
+                                    }
+                                }, 'Apply'),
+                                React.createElement('button', {
+                                    onClick: (e) => { e.stopPropagation(); onCurveCancel(); },
+                                    style: {
+                                        padding: '2px 6px', fontSize: '9px', cursor: 'pointer',
+                                        background: 'transparent', border: '1px solid #666', borderRadius: '2px',
+                                        color: '#aaa'
+                                    }
+                                }, 'Cancel')
+                            )
+                        )
+                    )
+                );
+            }
+        }
+
+        return elements;
     };
 
     // Build the viewBox string
@@ -842,6 +1283,63 @@ function MapView({
         },
         onWheel: handleWheel,
         onPointerDown: (e) => {
+            const tool = activeToolRef.current;
+            if ((tool === 'cone-pointer' || tool === 'cone-guide') && e.button === 0) {
+                const svgEl = svgRef.current;
+                if (!svgEl) return;
+                const target = e.target;
+                if (target.closest('[data-interactive]')) return;
+                onDeselectAll();
+                const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
+                const id = StorageUtils.generateId('cone');
+                onConeAdd({ x, y, id });
+                draggingRef.current = {
+                    type: 'orient-new-cone',
+                    id,
+                    centerX: x,
+                    centerY: y,
+                    moved: false
+                };
+                svgEl.setPointerCapture(e.pointerId);
+                return;
+            }
+            if ((tool === 'start' || tool === 'timing-start' || tool === 'finish') && e.button === 0) {
+                const svgEl = svgRef.current;
+                if (!svgEl) return;
+                const target = e.target;
+                if (target.closest('[data-interactive]')) return;
+                onDeselectAll();
+                const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
+                if (tool === 'start') onStartMarkerSet({ x, y });
+                else if (tool === 'timing-start') onTimingStartMarkerSet({ x, y });
+                else if (tool === 'finish') onFinishMarkerSet({ x, y });
+                draggingRef.current = {
+                    type: 'orient-new-marker',
+                    markerType: tool,
+                    centerX: x,
+                    centerY: y,
+                    moved: false
+                };
+                svgEl.setPointerCapture(e.pointerId);
+                return;
+            }
+            if (tool === 'car' && e.button === 0) {
+                const svgEl = svgRef.current;
+                if (!svgEl) return;
+                const target = e.target;
+                if (target.closest('[data-interactive]')) return;
+                onDeselectAll();
+                const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
+                onCarMarkerSet({ x, y });
+                draggingRef.current = {
+                    type: 'orient-new-car',
+                    centerX: x,
+                    centerY: y,
+                    moved: false
+                };
+                svgEl.setPointerCapture(e.pointerId);
+                return;
+            }
             if (!draggingRef.current) {
                 panHandlers.onPointerDown(e);
             }
@@ -868,7 +1366,12 @@ function MapView({
                 panHandlers.onPointerUp(e);
             }
         },
-        onContextMenu: (e) => e.preventDefault()
+        onContextMenu: (e) => {
+            e.preventDefault();
+            if (activeTool.endsWith('-curve') && curvePoints.length > 0) {
+                onCurveUndoPoint();
+            }
+        }
     },
         // Defs
         React.createElement('defs', null,
@@ -924,6 +1427,16 @@ function MapView({
         // Corner numbers layer
         React.createElement('g', { id: 'corner-numbers-layer' },
             ...renderCornerNumbers()
+        ),
+
+        // Driving line layer
+        React.createElement('g', { id: 'driving-line-layer' },
+            ...renderDrivingLine()
+        ),
+
+        // Curve preview layer
+        React.createElement('g', { id: 'curve-preview-layer' },
+            ...renderCurvePreview()
         ),
 
         // Rotation handles layer (on top of everything)

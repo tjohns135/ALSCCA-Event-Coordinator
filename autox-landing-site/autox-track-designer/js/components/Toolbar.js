@@ -1,6 +1,6 @@
 // Toolbar component for tool selection
 
-function Toolbar({ activeTool, onToolChange }) {
+function Toolbar({ activeTool, onToolChange, disabled }) {
     const tools = [
         {
             id: 'select',
@@ -11,63 +11,72 @@ function Toolbar({ activeTool, onToolChange }) {
                     <path d="M13 13l6 6"/>
                 </svg>
             )
+        },
+        {
+            id: 'eraser',
+            name: 'Eraser',
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M7 21h10"/>
+                    <path d="M5.5 13.5L13.5 5.5a2.12 2.12 0 013 3l-8 8a2.12 2.12 0 01-3 0v0a2.12 2.12 0 010-3z"/>
+                </svg>
+            )
         }
     ];
 
-    // Cone tools group
-    const coneTools = [
+    const coneToolPairs = [
         {
-            id: 'cone-standard',
-            name: 'Standard',
-            icon: (
+            single: { id: 'cone-standard', name: 'Standard', icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" strokeWidth="2"/>
                     <circle cx="12" cy="12" r="3" fill="currentColor"/>
                 </svg>
-            )
+            )},
+            curve: { id: 'cone-standard-curve', name: 'Regular Curve', icon: (
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                    <circle cx="6" cy="12" r="1.5" fill="currentColor"/>
+                    <path d="M10 12 Q14 4 18 12" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                    <circle cx="18" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                    <circle cx="18" cy="12" r="1.5" fill="currentColor"/>
+                </svg>
+            )}
         },
         {
-            id: 'cone-pointer',
-            name: 'Pointer',
-            icon: (
+            single: { id: 'cone-pointer', name: 'Pointer', icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <circle cx="9" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="1.5"/>
                     <circle cx="9" cy="12" r="2" fill="currentColor"/>
                     <polygon points="16,12 22,8 22,16" fill="none" stroke="currentColor" strokeWidth="1.5"/>
                 </svg>
-            )
+            )},
+            curve: { id: 'cone-pointer-curve', name: 'Pointer Curve', icon: (
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="5" cy="14" r="2" fill="none" stroke="currentColor" strokeWidth="1"/>
+                    <polygon points="9,14 12,12 12,16" fill="none" stroke="currentColor" strokeWidth="1"/>
+                    <path d="M8 14 Q12 6 16 10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                    <circle cx="16" cy="10" r="2" fill="none" stroke="currentColor" strokeWidth="1"/>
+                    <polygon points="20,10 23,8 23,12" fill="none" stroke="currentColor" strokeWidth="1"/>
+                </svg>
+            )}
         },
         {
-            id: 'cone-guide',
-            name: 'Guide',
-            icon: (
+            single: { id: 'cone-guide', name: 'Guide', icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="6,12 18,6 18,18" fill="none" stroke="currentColor" strokeWidth="2"/>
                 </svg>
-            )
+            )},
+            curve: { id: 'cone-guide-curve', name: 'Guide Curve', icon: (
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="3,14 9,10 9,18" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                    <path d="M8 14 Q12 6 16 10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                    <polygon points="14,10 20,6 20,14" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
+            )}
         }
     ];
 
-    const otherTools = [
-        {
-            id: 'car',
-            name: 'Car',
-            icon: (
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <rect x="5" y="8" width="14" height="8" rx="1" fill="none" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-            )
-        },
-        {
-            id: 'corner-number',
-            name: 'Corner #',
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="8"/>
-                    <text x="12" y="16" fontSize="10" fill="currentColor" textAnchor="middle" stroke="none">1</text>
-                </svg>
-            )
-        },
+    const markerTools = [
         {
             id: 'start',
             name: 'Start',
@@ -113,62 +122,48 @@ function Toolbar({ activeTool, onToolChange }) {
             )
         },
         {
-            id: 'eraser',
-            name: 'Eraser',
+            id: 'corner-number',
+            name: 'Corner #',
             icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M7 21h10"/>
-                    <path d="M5.5 13.5L13.5 5.5a2.12 2.12 0 013 3l-8 8a2.12 2.12 0 01-3 0v0a2.12 2.12 0 010-3z"/>
+                    <circle cx="12" cy="12" r="8"/>
+                    <text x="12" y="16" fontSize="10" fill="currentColor" textAnchor="middle" stroke="none">1</text>
                 </svg>
             )
         }
     ];
 
-    return (
+    const renderBtn = (tool) => (
+        <button
+            key={tool.id}
+            className={`tool-btn ${activeTool === tool.id ? 'active' : ''} ${disabled ? 'disabled' : ''}`}
+            onClick={() => !disabled && onToolChange(tool.id)}
+            title={tool.name}
+        >
+            {tool.icon}
+            <span>{tool.name}</span>
+        </button>
+    );
+
+    return React.createElement(React.Fragment, null,
         <div className="toolbar-section">
             <h3>Tools</h3>
             <div className="tool-buttons">
-                {/* Select tool */}
-                {tools.map(tool => (
-                    <button
-                        key={tool.id}
-                        className={`tool-btn ${activeTool === tool.id ? 'active' : ''}`}
-                        onClick={() => onToolChange(tool.id)}
-                        title={tool.name}
-                    >
-                        {tool.icon}
-                        <span>{tool.name}</span>
-                    </button>
-                ))}
-
-                {/* Cone tools section */}
+                {tools.map(renderBtn)}
+            </div>
+        </div>,
+        <div className="toolbar-section">
+            <h3>Track Features</h3>
+            <div className="tool-buttons">
                 <div className="tool-group">
-                    <span className="tool-group-label">Cones</span>
-                    {coneTools.map(tool => (
-                        <button
-                            key={tool.id}
-                            className={`tool-btn ${activeTool === tool.id ? 'active' : ''}`}
-                            onClick={() => onToolChange(tool.id)}
-                            title={tool.name}
-                        >
-                            {tool.icon}
-                            <span>{tool.name}</span>
-                        </button>
+                    {coneToolPairs.map(pair => (
+                        <div key={pair.single.id} className="tool-pair">
+                            {renderBtn(pair.single)}
+                            {renderBtn(pair.curve)}
+                        </div>
                     ))}
                 </div>
-
-                {/* Other tools */}
-                {otherTools.map(tool => (
-                    <button
-                        key={tool.id}
-                        className={`tool-btn ${activeTool === tool.id ? 'active' : ''}`}
-                        onClick={() => onToolChange(tool.id)}
-                        title={tool.name}
-                    >
-                        {tool.icon}
-                        <span>{tool.name}</span>
-                    </button>
-                ))}
+                {markerTools.map(renderBtn)}
             </div>
             <p className="help-text">
                 {activeTool === 'select' && 'Click cones to select, drag to move'}
@@ -178,9 +173,10 @@ function Toolbar({ activeTool, onToolChange }) {
                 {activeTool === 'start' && 'Click to place start line'}
                 {activeTool === 'timing-start' && 'Click to place timing start'}
                 {activeTool === 'finish' && 'Click to place finish line'}
-                {activeTool === 'car' && 'Click to place car (max 1)'}
                 {activeTool === 'corner-number' && 'Click to place corner number (max 6)'}
+                {activeTool === 'driving-line' && 'Click to add driving line points'}
                 {activeTool === 'eraser' && 'Click items to delete them'}
+                {activeTool && activeTool.endsWith('-curve') && 'Click to place curve points, adjust density, then Apply'}
             </p>
         </div>
     );

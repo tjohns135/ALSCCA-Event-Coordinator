@@ -10,12 +10,22 @@ function Sidebar({
     onExportJSON,
     onImportJSON,
     onExportPNG,
+    onExportSVG,
     selectedCone,
     onConeDeselect,
     selectedCornerNumber,
     onCornerNumberChange,
     onCornerNumberDeselect,
-    onShowHelp
+    onDrivingLineClear,
+    selectedMarker,
+    carMode,
+    onCarModeChange,
+    carDriveTrace,
+    onCarDriveTraceChange,
+    carProfile,
+    onCarProfileChange,
+    carProfiles,
+    onCarDeselect
 }) {
     const importInputRef = React.useRef(null);
 
@@ -41,22 +51,15 @@ function Sidebar({
     const hasFinish = !!course.finishMarker;
     const hasCar = !!course.carMarker;
     const cornerNumberCount = (course.cornerNumbers || []).length;
+    const drivingLinePointCount = (course.drivingLine || []).length;
 
     return (
         <div className="sidebar">
             <div className="sidebar-header">
                 <div className="sidebar-title-row">
                     <img src="../cone-ninja-logo.svg" alt="Cone Ninja" className="sidebar-logo" />
-                    <h1>CONE NINJA</h1>
-                    <button className="help-btn" onClick={onShowHelp} title="Help">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
-                            <line x1="12" y1="17" x2="12.01" y2="17"/>
-                        </svg>
-                    </button>
                 </div>
-                <p>Design autocross courses with ease</p>
+                <h1>CONE NINJA</h1>
                 <input
                     type="text"
                     className="course-name-input"
@@ -66,9 +69,70 @@ function Sidebar({
                 />
             </div>
 
+            {/* Car section — always visible */}
+            <div className="toolbar-section">
+                <h3>Car</h3>
+                <div className="tool-buttons">
+                    <button
+                        className={`tool-btn ${activeTool === 'car' ? 'active' : ''}`}
+                        onClick={() => onToolChange('car')}
+                        title="Place Car"
+                    >
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="5" y="8" width="14" height="8" rx="1" fill="none" stroke="currentColor" strokeWidth="2"/>
+                        </svg>
+                        <span>Place Car</span>
+                    </button>
+                </div>
+                {!!course.carMarker && React.createElement(React.Fragment, null,
+                    React.createElement('div', { className: 'car-mode-selector', style: { marginTop: '8px' } },
+                        React.createElement('button', { className: carMode === 'drag' ? 'active' : '', onClick: () => onCarModeChange('drag') }, 'Drag'),
+                        React.createElement('button', { className: carMode === 'drive' ? 'active' : '', onClick: () => onCarModeChange('drive') }, 'Drive')
+                    ),
+                    carMode === 'drive' && React.createElement('select', {
+                        className: 'car-profile-select',
+                        style: { marginTop: '8px' },
+                        value: carProfile,
+                        onChange: (e) => onCarProfileChange(e.target.value)
+                    }, carProfiles.map(p =>
+                        React.createElement('option', { key: p.id, value: p.id }, p.name)
+                    )),
+                    React.createElement(React.Fragment, null,
+                        React.createElement('div', { className: 'drive-controls', style: { marginTop: '8px' } },
+                            React.createElement('label', { className: 'trace-toggle' },
+                                React.createElement('input', {
+                                    type: 'checkbox',
+                                    checked: carDriveTrace,
+                                    onChange: (e) => onCarDriveTraceChange(e.target.checked)
+                                }),
+                                React.createElement('span', null, 'Trace Path')
+                            ),
+                            React.createElement('div', { className: 'tool-buttons', style: { marginTop: '4px' } },
+                                React.createElement('button', {
+                                    className: `tool-btn ${activeTool === 'driving-line' ? 'active' : ''}`,
+                                    onClick: () => onToolChange('driving-line'),
+                                    title: 'Manually Draw Driving Line'
+                                },
+                                    React.createElement('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2' },
+                                        React.createElement('path', { d: 'M3 17c3-6 6 6 9 0s6 6 9 0', strokeLinecap: 'round' })
+                                    ),
+                                    React.createElement('span', null, 'Manually Draw Driving Line')
+                                )
+                            ),
+                            React.createElement('button', {
+                                className: 'action-btn danger',
+                                onClick: onDrivingLineClear,
+                                style: { fontSize: '0.75rem', padding: '4px 8px', marginTop: '4px' }
+                            }, 'Reset Path')
+                        )
+                    )
+                )}
+            </div>
+
             <Toolbar
                 activeTool={activeTool}
                 onToolChange={onToolChange}
+                disabled={carMode === 'drive'}
             />
 
             {/* Selected Cone Controls */}
@@ -124,6 +188,14 @@ function Sidebar({
                             <line x1="12" y1="15" x2="12" y2="3"/>
                         </svg>
                         Export PNG
+                    </button>
+                    <button className="action-btn primary" onClick={onExportSVG}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Export SVG
                     </button>
                     <button className="action-btn" onClick={onExportJSON}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -201,6 +273,10 @@ function Sidebar({
                 <div className="stat-item">
                     <span className="stat-label">Corner Numbers</span>
                     <span className="stat-value">{cornerNumberCount}/6</span>
+                </div>
+                <div className="stat-item">
+                    <span className="stat-label">Driving Line</span>
+                    <span className="stat-value">{drivingLinePointCount} pts</span>
                 </div>
             </div>
         </div>

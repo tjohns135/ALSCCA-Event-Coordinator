@@ -4,6 +4,7 @@
 const REAL_LIFE_CONE_RADIUS = 0.21447;
 const REAL_LIFE_LINE_LENGTH = 2.84;
 
+
 function App() {
     // State
     const [course, setCourse] = React.useState(() => {
@@ -13,7 +14,18 @@ function App() {
     const [activeTool, setActiveTool] = React.useState('cone-standard');
     const [toast, setToast] = React.useState(null);
     const [showNewCourseModal, setShowNewCourseModal] = React.useState(false);
-    const [showHelpModal, setShowHelpModal] = React.useState(false);
+    const [showHelp, setShowHelp] = React.useState(false);
+
+    // Car mode state
+    const [carMode, setCarMode] = React.useState('drag');
+    const [carDriveTrace, setCarDriveTrace] = React.useState(false);
+    const [carProfile, setCarProfile] = React.useState('car1');
+    const driveSettings = CAR_PROFILES.find(p => p.id === carProfile) || CAR_PROFILES[0];
+
+    // Curve cone placement state
+    const [curvePoints, setCurvePoints] = React.useState([]);
+    const [curveDensity, setCurveDensity] = React.useState(5);
+    const [curveReverse, setCurveReverse] = React.useState(false);
 
     // Selection state
     const [selectedConeId, setSelectedConeId] = React.useState(null);
@@ -28,6 +40,22 @@ function App() {
         };
         StorageUtils.saveCourse(updatedCourse);
     }, [course]);
+
+    // Drive mode entry — lock selection and tool
+    React.useEffect(() => {
+        if (carMode === 'drive') {
+            setSelectedMarker('car');
+            setSelectedConeId(null);
+            setSelectedCornerNumberId(null);
+            setActiveTool('select');
+        }
+    }, [carMode]);
+
+    // Guard tool changes — block in drive mode
+    const handleToolChange = (tool) => {
+        if (carMode === 'drive') return;
+        setActiveTool(tool);
+    };
 
     // Toast helper
     const showToast = (message, type = 'success') => {
@@ -51,7 +79,7 @@ function App() {
     const handleConeAdd = (position) => {
         const coneType = activeTool.replace('cone-', '');
         const newCone = {
-            id: StorageUtils.generateId('cone'),
+            id: position.id || StorageUtils.generateId('cone'),
             x: position.x,
             y: position.y,
             type: coneType,
@@ -280,6 +308,79 @@ function App() {
         ? (course.cornerNumbers || []).find(cn => cn.id === selectedCornerNumberId)
         : null;
 
+    // Driving line operations
+    const handleDrivingLineAddPoint = (position) => {
+        const newPoint = {
+            id: StorageUtils.generateId('dlpt'),
+            x: position.x,
+            y: position.y
+        };
+        setCourse(prev => ({
+            ...prev,
+            drivingLine: [...(prev.drivingLine || []), newPoint]
+        }));
+    };
+
+    const handleDrivingLineRemovePoint = (pointId) => {
+        setCourse(prev => ({
+            ...prev,
+            drivingLine: (prev.drivingLine || []).filter(pt => pt.id !== pointId)
+        }));
+    };
+
+    const handleDrivingLineMovePoint = (pointId, newPosition) => {
+        setCourse(prev => ({
+            ...prev,
+            drivingLine: (prev.drivingLine || []).map(pt =>
+                pt.id === pointId ? { ...pt, x: newPosition.x, y: newPosition.y } : pt
+            )
+        }));
+    };
+
+    const handleDrivingLineClear = () => {
+        setCourse(prev => ({ ...prev, drivingLine: [] }));
+    };
+
+    // Curve cone placement
+    const handleCurveAddPoint = (position) => {
+        setCurvePoints(prev => [...prev, { x: position.x, y: position.y }]);
+    };
+
+    const handleCurveUndoPoint = () => {
+        setCurvePoints(prev => prev.slice(0, -1));
+    };
+
+    const handleCurveApply = () => {
+        const coneType = activeTool.replace('cone-', '').replace('-curve', '');
+        const samples = CatmullRomUtils.samplePoints(curvePoints, curveDensity);
+        const newCones = samples.map(s => ({
+            id: StorageUtils.generateId('cone'),
+            x: s.x,
+            y: s.y,
+            type: coneType,
+            ...((coneType === 'pointer' || coneType === 'guide') && { rotation: Math.round(curveReverse ? (s.angle + 180) % 360 : s.angle) })
+        }));
+        setCourse(prev => ({
+            ...prev,
+            cones: [...prev.cones, ...newCones]
+        }));
+        setCurvePoints([]);
+        handleDeselectAll();
+        setActiveTool('select');
+    };
+
+    const handleCurveCancel = () => {
+        setCurvePoints([]);
+        setActiveTool('select');
+    };
+
+    // Clear curve points when switching away from curve tools
+    React.useEffect(() => {
+        if (!activeTool.endsWith('-curve')) {
+            setCurvePoints([]);
+        }
+    }, [activeTool]);
+
     // Clear course (keep name)
     const handleClearCourse = () => {
         if (!window.confirm('Clear all cones, markers, and corner numbers from this course?')) return;
@@ -290,7 +391,8 @@ function App() {
             timingStartMarker: null,
             finishMarker: null,
             carMarker: null,
-            cornerNumbers: []
+            cornerNumbers: [],
+            drivingLine: []
         }));
         handleDeselectAll();
         showToast('Course cleared');
@@ -335,11 +437,26 @@ function App() {
         }
     };
 
+    const handleExportSVG = () => {
+        try {
+            ExportUtils.exportToSVG('map', course.name);
+            showToast('Course exported as SVG');
+        } catch (error) {
+            showToast('Failed to export SVG: ' + error.message, 'error');
+        }
+    };
+
     // Keyboard shortcuts
     React.useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                 return;
+            }
+
+            // Suppress shortcuts that conflict with drive mode
+            if (carMode === 'drive' && course.carMarker) {
+                const driveKeys = ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'];
+                if (driveKeys.includes(e.key.toLowerCase())) return;
             }
 
             switch (e.key.toLowerCase()) {
@@ -358,6 +475,9 @@ function App() {
                 case '3':
                     setActiveTool('finish');
                     break;
+                case 'd':
+                    setActiveTool('driving-line');
+                    break;
                 case 'e':
                     setActiveTool('eraser');
                     break;
@@ -370,29 +490,175 @@ function App() {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
+    }, [carMode, course.carMarker]);
 
     return (
         <div className="app-container">
             <Sidebar
                 course={course}
                 activeTool={activeTool}
-                onToolChange={setActiveTool}
+                onToolChange={handleToolChange}
                 onNameChange={handleNameChange}
                 onNewCourse={handleNewCourse}
                 onClearCourse={handleClearCourse}
                 onExportJSON={handleExportJSON}
                 onImportJSON={handleImportJSON}
                 onExportPNG={handleExportPNG}
+                onExportSVG={handleExportSVG}
                 selectedCone={selectedCone}
                 onConeDeselect={handleConeDeselect}
                 selectedCornerNumber={selectedCornerNumber}
                 onCornerNumberChange={handleCornerNumberChange}
                 onCornerNumberDeselect={handleCornerNumberDeselect}
-                onShowHelp={() => setShowHelpModal(true)}
+                onDrivingLineClear={handleDrivingLineClear}
+                selectedMarker={selectedMarker}
+                carMode={carMode}
+                onCarModeChange={setCarMode}
+                carDriveTrace={carDriveTrace}
+                onCarDriveTraceChange={setCarDriveTrace}
+                carProfile={carProfile}
+                onCarProfileChange={setCarProfile}
+                carProfiles={CAR_PROFILES}
+                onCarDeselect={() => setSelectedMarker(null)}
             />
 
             <div className="main-content">
+                <div className="canvas-help-overlay">
+                    <button className="help-btn" onClick={() => setShowHelp(!showHelp)} title="Help">
+                        <svg viewBox="0 0 24 24" width="37" height="37" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                            <text x="12" y="17.5" textAnchor="middle" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif" fill="currentColor" stroke="none">?</text>
+                        </svg>
+                    </button>
+                    {showHelp && (
+                        <div className="canvas-help-panel">
+                            <div className="help-content">
+                                <h4>Car</h4>
+                                <div className="help-tool-row">
+                                    <button className="tool-btn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="8" width="14" height="8" rx="1" fill="none" stroke="currentColor" strokeWidth="2"/></svg>
+                                        <span>Place Car</span>
+                                    </button>
+                                    <span className="help-desc">Click-drag to place and orient</span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <span className="help-mode-label">Drag</span>
+                                    <span className="help-desc">Drag rotation handle to steer and move car</span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <span className="help-mode-label">Drive</span>
+                                    <span className="help-desc">WASD / Arrow keys to drive with momentum. Select car profile for handling</span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <span className="help-mode-label">Trace Path</span>
+                                    <span className="help-desc">Record car path as driving line while driving or dragging</span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <button className="tool-btn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 17c3-6 6 6 9 0s6 6 9 0" strokeLinecap="round"/></svg>
+                                        <span>Manually Draw Driving Line</span>
+                                    </button>
+                                    <span className="help-desc">Click points to manually draw a smooth driving line</span>
+                                </div>
+
+                                <h4>Tools</h4>
+                                <div className="help-tool-row">
+                                    <button className="tool-btn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>
+                                        <span>Select</span>
+                                    </button>
+                                    <span className="help-desc">Click to select, drag to move. Works in any tool mode. <strong>[S]</strong></span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <button className="tool-btn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 21h10"/><path d="M5.5 13.5L13.5 5.5a2.12 2.12 0 013 3l-8 8a2.12 2.12 0 01-3 0v0a2.12 2.12 0 010-3z"/></svg>
+                                        <span>Eraser</span>
+                                    </button>
+                                    <span className="help-desc">Click any element to delete. Right-click also deletes. <strong>[E]</strong></span>
+                                </div>
+
+                                <h4>Track Features</h4>
+                                <div className="help-tool-row">
+                                    <div className="help-tool-pair">
+                                        <button className="tool-btn" disabled>
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" strokeWidth="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+                                            <span>Standard</span>
+                                        </button>
+                                        <button className="tool-btn" disabled>
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="6" cy="12" r="1.5" fill="currentColor"/><path d="M10 12 Q14 4 18 12" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="18" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="18" cy="12" r="1.5" fill="currentColor"/></svg>
+                                            <span>Regular Curve</span>
+                                        </button>
+                                    </div>
+                                    <span className="help-desc">Basic course marker. Curve: click control points, adjust density, Apply. <strong>[C]</strong></span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <div className="help-tool-pair">
+                                        <button className="tool-btn" disabled>
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="9" cy="12" r="2" fill="currentColor"/><polygon points="16,12 22,8 22,16" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>
+                                            <span>Pointer</span>
+                                        </button>
+                                        <button className="tool-btn" disabled>
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="14" r="2" fill="none" stroke="currentColor" strokeWidth="1"/><polygon points="9,14 12,12 12,16" fill="none" stroke="currentColor" strokeWidth="1"/><path d="M8 14 Q12 6 16 10" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="16" cy="10" r="2" fill="none" stroke="currentColor" strokeWidth="1"/><polygon points="20,10 23,8 23,12" fill="none" stroke="currentColor" strokeWidth="1"/></svg>
+                                            <span>Pointer Curve</span>
+                                        </button>
+                                    </div>
+                                    <span className="help-desc">Directional cone. Click-drag to orient. Curve auto-orients along path</span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <div className="help-tool-pair">
+                                        <button className="tool-btn" disabled>
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6,12 18,6 18,18" fill="none" stroke="currentColor" strokeWidth="2"/></svg>
+                                            <span>Guide</span>
+                                        </button>
+                                        <button className="tool-btn" disabled>
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="3,14 9,10 9,18" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M8 14 Q12 6 16 10" fill="none" stroke="currentColor" strokeWidth="1.5"/><polygon points="14,10 20,6 20,14" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>
+                                            <span>Guide Curve</span>
+                                        </button>
+                                    </div>
+                                    <span className="help-desc">Guide marker with rotation. Click-drag to orient</span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <button className="tool-btn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="5" cy="12" r="3" fill="#22C55E" stroke="none"/><line x1="5" y1="12" x2="19" y2="12" stroke="#22C55E" strokeWidth="2"/><circle cx="19" cy="12" r="3" fill="#22C55E" stroke="none"/><text x="12" y="21" fontSize="6" fill="currentColor" textAnchor="middle" stroke="none">START</text></svg>
+                                        <span>Start</span>
+                                    </button>
+                                    <span className="help-desc">Start lane marker. Click-drag to orient. <strong>[1]</strong></span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <button className="tool-btn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="6" cy="9" r="2.5" fill="currentColor" stroke="none"/><circle cx="18" cy="9" r="2.5" fill="currentColor" stroke="none"/><circle cx="6" cy="15" r="2.5" fill="currentColor" stroke="none"/><circle cx="18" cy="15" r="2.5" fill="currentColor" stroke="none"/><text x="12" y="22" fontSize="5" fill="currentColor" textAnchor="middle" stroke="none">TIMING</text></svg>
+                                        <span>Timing</span>
+                                    </button>
+                                    <span className="help-desc">Timing start marker. Click-drag to orient. <strong>[2]</strong></span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <button className="tool-btn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="4" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle cx="8" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle cx="20" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="15" r="1.5" fill="currentColor" stroke="none"/><circle cx="8" cy="15" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="15" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="15" r="1.5" fill="currentColor" stroke="none"/><circle cx="20" cy="15" r="1.5" fill="currentColor" stroke="none"/><text x="12" y="22" fontSize="5" fill="currentColor" textAnchor="middle" stroke="none">FINISH</text></svg>
+                                        <span>Finish</span>
+                                    </button>
+                                    <span className="help-desc">Finish lane marker. Click-drag to orient. <strong>[3]</strong></span>
+                                </div>
+                                <div className="help-tool-row">
+                                    <button className="tool-btn" disabled>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="8"/><text x="12" y="16" fontSize="10" fill="currentColor" textAnchor="middle" stroke="none">1</text></svg>
+                                        <span>Corner #</span>
+                                    </button>
+                                    <span className="help-desc">Numbered corner markers (max 6)</span>
+                                </div>
+
+                                <h4>Navigation</h4>
+                                <ul>
+                                    <li><strong>Pan</strong> — click and drag empty space</li>
+                                    <li><strong>Zoom</strong> — scroll wheel</li>
+                                    <li><strong>Esc</strong> — deselect all</li>
+                                </ul>
+
+                                <h4>Export</h4>
+                                <p>Use <strong>Export PNG</strong> or <strong>Export SVG</strong> to save images. <strong>Save/Load JSON</strong> to back up and restore. Auto-saves to browser.</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
                 <MapView
                     course={course}
                     activeTool={activeTool}
@@ -425,6 +691,22 @@ function App() {
                     onTimingStartRotationChange={handleTimingStartRotationChange}
                     onFinishRotationChange={handleFinishRotationChange}
                     onCarRotationChange={handleCarRotationChange}
+                    onDrivingLineAddPoint={handleDrivingLineAddPoint}
+                    onDrivingLineRemovePoint={handleDrivingLineRemovePoint}
+                    onDrivingLineMovePoint={handleDrivingLineMovePoint}
+                    onDrivingLineClear={handleDrivingLineClear}
+                    carMode={carMode}
+                    driveSettings={driveSettings}
+                    carDriveTrace={carDriveTrace}
+                    curvePoints={curvePoints}
+                    curveDensity={curveDensity}
+                    onCurveDensityChange={setCurveDensity}
+                    curveReverse={curveReverse}
+                    onCurveReverseChange={setCurveReverse}
+                    onCurveAddPoint={handleCurveAddPoint}
+                    onCurveApply={handleCurveApply}
+                    onCurveUndoPoint={handleCurveUndoPoint}
+                    onCurveCancel={handleCurveCancel}
                 />
             </div>
 
@@ -453,53 +735,6 @@ function App() {
                                 onClick={confirmNewCourse}
                             >
                                 Create New
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-            {/* Help Modal */}
-            {showHelpModal && (
-                <div className="modal-overlay" onClick={() => setShowHelpModal(false)}>
-                    <div className="modal help-modal" onClick={(e) => e.stopPropagation()}>
-                        <h2>How to Use</h2>
-                        <div className="help-content">
-                            <h4>Placing Elements</h4>
-                            <p>Select a tool from the sidebar, then click on the map to place it.</p>
-                            <ul>
-                                <li><strong>Standard Cone</strong> — basic course marker</li>
-                                <li><strong>Pointer Cone</strong> — directional cone (click to select, drag handle to rotate)</li>
-                                <li><strong>Guide Cone</strong> — guide marker with rotation</li>
-                                <li><strong>Start / Timing Start / Finish</strong> — lane markers with rotation handles</li>
-                                <li><strong>Car</strong> — show vehicle position and heading</li>
-                                <li><strong>Corner #</strong> — numbered corner markers (max 6)</li>
-                            </ul>
-                            <h4>Editing</h4>
-                            <ul>
-                                <li><strong>Select tool</strong> — drag items to reposition</li>
-                                <li><strong>Rotate</strong> — click a pointer/guide cone or marker, then drag its rotation handle</li>
-                                <li><strong>Eraser</strong> — click any element to delete it</li>
-                                <li><strong>Right-click</strong> a cone to delete it</li>
-                            </ul>
-                            <h4>Navigation</h4>
-                            <ul>
-                                <li><strong>Pan</strong> — click and drag empty space (with Select tool)</li>
-                                <li><strong>Zoom</strong> — scroll wheel</li>
-                            </ul>
-                            <h4>Keyboard Shortcuts</h4>
-                            <ul>
-                                <li><strong>S</strong> — Select tool</li>
-                                <li><strong>C</strong> — Standard Cone</li>
-                                <li><strong>1 / 2 / 3</strong> — Start / Timing Start / Finish</li>
-                                <li><strong>E</strong> — Eraser</li>
-                                <li><strong>Esc</strong> — Deselect all</li>
-                            </ul>
-                            <h4>Export</h4>
-                            <p>Use <strong>Export PNG</strong> to save an image or <strong>Save/Load JSON</strong> to back up and restore courses. Your work auto-saves to the browser.</p>
-                        </div>
-                        <div className="modal-buttons">
-                            <button className="modal-btn confirm" onClick={() => setShowHelpModal(false)}>
-                                Got it
                             </button>
                         </div>
                     </div>

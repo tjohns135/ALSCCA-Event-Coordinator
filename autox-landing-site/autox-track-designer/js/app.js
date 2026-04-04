@@ -14,10 +14,15 @@ function App() {
     const [activeTool, setActiveTool] = React.useState('cone-standard');
     const [toast, setToast] = React.useState(null);
     const [showNewCourseModal, setShowNewCourseModal] = React.useState(false);
+    const [showLoadTrackModal, setShowLoadTrackModal] = React.useState(null); // track id to load
+    const [showWelcomeModal, setShowWelcomeModal] = React.useState(() => {
+        return StorageUtils.loadCourse() === null;
+    });
+    const [welcomeTrackId, setWelcomeTrackId] = React.useState('');
     const [showHelp, setShowHelp] = React.useState(false);
 
     // Car mode state
-    const [carMode, setCarMode] = React.useState('drag');
+    const [carMode, setCarMode] = React.useState('edit');
     const [carDriveTrace, setCarDriveTrace] = React.useState(false);
     const [carProfile, setCarProfile] = React.useState('car1');
     const driveSettings = CAR_PROFILES.find(p => p.id === carProfile) || CAR_PROFILES[0];
@@ -446,6 +451,51 @@ function App() {
         }
     };
 
+    // Track library
+    const handleLoadTrackRequest = (trackId) => {
+        if (!trackId) return;
+        setShowLoadTrackModal(trackId);
+    };
+
+    const fetchAndLoadTrack = async (trackId) => {
+        const track = TRACK_LIBRARY.find(t => t.id === trackId);
+        if (!track) {
+            showToast('Track not found', 'error');
+            return;
+        }
+        try {
+            const response = await fetch('tracks/' + track.file);
+            if (!response.ok) throw new Error('Failed to fetch track file');
+            const courseData = JSON.parse(await response.text());
+            if (!courseData.id || !Array.isArray(courseData.cones)) {
+                throw new Error('Invalid course file format');
+            }
+            if (courseData.carMarker === undefined) courseData.carMarker = null;
+            if (courseData.timingStartMarker === undefined) courseData.timingStartMarker = null;
+            if (!Array.isArray(courseData.cornerNumbers)) courseData.cornerNumbers = [];
+            if (!Array.isArray(courseData.drivingLine)) courseData.drivingLine = [];
+            StorageUtils._ensureMarkerRotation(courseData);
+            setCourse(courseData);
+            handleDeselectAll();
+            showToast('Loaded: ' + track.name);
+        } catch (error) {
+            showToast('Failed to load track: ' + error.message, 'error');
+        }
+    };
+
+    const confirmLoadTrack = async () => {
+        const trackId = showLoadTrackModal;
+        setShowLoadTrackModal(null);
+        await fetchAndLoadTrack(trackId);
+    };
+
+    const handleWelcomeLoadTrack = async () => {
+        if (!welcomeTrackId) return;
+        setShowWelcomeModal(false);
+        await fetchAndLoadTrack(welcomeTrackId);
+        setWelcomeTrackId('');
+    };
+
     // Keyboard shortcuts
     React.useEffect(() => {
         const handleKeyDown = (e) => {
@@ -520,6 +570,8 @@ function App() {
                 onCarProfileChange={setCarProfile}
                 carProfiles={CAR_PROFILES}
                 onCarDeselect={() => setSelectedMarker(null)}
+                trackLibrary={TRACK_LIBRARY}
+                onLoadTrack={handleLoadTrackRequest}
             />
 
             <div className="main-content">
@@ -530,6 +582,9 @@ function App() {
                             <text x="12" y="17.5" textAnchor="middle" fontSize="14" fontWeight="bold" fontFamily="Arial, sans-serif" fill="currentColor" stroke="none">?</text>
                         </svg>
                     </button>
+                    {carMode === 'drive' && (
+                        <span className="drive-mode-notice">Drive mode — other tools disabled</span>
+                    )}
                     {showHelp && (
                         <div className="canvas-help-panel">
                             <div className="help-content">
@@ -542,7 +597,7 @@ function App() {
                                     <span className="help-desc">Click-drag to place and orient</span>
                                 </div>
                                 <div className="help-tool-row">
-                                    <span className="help-mode-label">Drag</span>
+                                    <span className="help-mode-label">Edit</span>
                                     <span className="help-desc">Drag rotation handle to steer and move car</span>
                                 </div>
                                 <div className="help-tool-row">
@@ -551,7 +606,7 @@ function App() {
                                 </div>
                                 <div className="help-tool-row">
                                     <span className="help-mode-label">Trace Path</span>
-                                    <span className="help-desc">Record car path as driving line while driving or dragging</span>
+                                    <span className="help-desc">Record car path as driving line while driving or editing</span>
                                 </div>
                                 <div className="help-tool-row">
                                     <button className="tool-btn" disabled>
@@ -710,10 +765,69 @@ function App() {
                 />
             </div>
 
+            {/* Welcome Modal */}
+            {showWelcomeModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h2>Welcome to Cone Ninja</h2>
+                        <p>Load a predefined track or start with a blank canvas.</p>
+                        <select
+                            className="welcome-select"
+                            value={welcomeTrackId}
+                            onChange={(e) => setWelcomeTrackId(e.target.value)}
+                        >
+                            <option value="" disabled>Select a track...</option>
+                            {TRACK_LIBRARY.map(t =>
+                                <option key={t.id} value={t.id}>{t.name}</option>
+                            )}
+                        </select>
+                        <div className="modal-buttons">
+                            <button
+                                className="modal-btn cancel"
+                                onClick={() => setShowWelcomeModal(false)}
+                            >
+                                Start Fresh
+                            </button>
+                            <button
+                                className="modal-btn confirm"
+                                disabled={!welcomeTrackId}
+                                onClick={handleWelcomeLoadTrack}
+                            >
+                                Load Track
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Toast notification */}
             {toast && (
                 <div className={`toast ${toast.type}`}>
                     {toast.message}
+                </div>
+            )}
+
+            {/* Load Track Confirmation Modal */}
+            {showLoadTrackModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h2>Load Track</h2>
+                        <p>Loading a track will replace your current course. Are you sure?</p>
+                        <div className="modal-buttons">
+                            <button
+                                className="modal-btn cancel"
+                                onClick={() => setShowLoadTrackModal(null)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="modal-btn confirm"
+                                onClick={confirmLoadTrack}
+                            >
+                                Load Track
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
 

@@ -291,14 +291,38 @@ The layout adapts at 768px — the sidebar moves to the top as a horizontal scro
 | 1 | Start Line tool |
 | 2 | Timing Start tool |
 | 3 | Finish Line tool |
+| D | Driving Line tool |
 | E | Eraser tool |
 | Esc | Deselect all and switch to Select tool |
 
 Shortcuts are disabled while typing in input fields.
 
+### Track Library
+
+A built-in library of predefined tracks that can be loaded from a dropdown in the sidebar (below the course name input) or from the welcome modal on first visit.
+
+- **Welcome modal** — on first load (no saved course), a popup offers the choice to load a predefined track or start with a blank canvas
+- **Sidebar dropdown** — select a track from the "Load a track..." dropdown at any time. A confirmation modal appears before replacing the current course
+- **Adding tracks** — drop a course JSON file in the `tracks/` folder and add an entry to `TRACK_LIBRARY` in `js/config/trackIndex.js`
+
+### Car Modes
+
+After placing a car, a toggle in the sidebar switches between two modes:
+
+| Mode | Description |
+|---|---|
+| Edit | Default mode. All tools are available. Drag the car's rotation handle to reposition and steer |
+| Drive | Keyboard-driven mode (WASD / Arrow keys). Tools are disabled. A canvas notification indicates drive mode is active |
+
+**Drive mode features:**
+- **Car profiles** — select from predefined car handling profiles (acceleration, top speed, turn rate)
+- **Trace Path** — toggle to record the car's path as a driving line while driving or editing
+- **Manually Draw Driving Line** — click points to draw a smooth driving line by hand
+
 ### Export & Save
 
 - **Export PNG** — renders the course as a 2x resolution image
+- **Export SVG** — exports the course as a scalable vector graphic
 - **Save JSON** — downloads the course as a JSON file for backup
 - **Load JSON** — upload a previously saved JSON file to restore a course
 - **Auto-save** — course state saves to browser localStorage automatically after every change

@@ -32,7 +32,7 @@ function Toolbar({ activeTool, onToolChange, disabled }) {
                     <circle cx="12" cy="12" r="3" fill="currentColor"/>
                 </svg>
             )},
-            curve: { id: 'cone-standard-curve', name: 'Regular Curve', icon: (
+            curve: { id: 'cone-standard-curve', name: 'Standard Curve', icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5"/>
                     <circle cx="6" cy="12" r="1.5" fill="currentColor"/>

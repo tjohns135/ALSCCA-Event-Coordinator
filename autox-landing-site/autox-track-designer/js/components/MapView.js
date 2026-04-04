@@ -64,7 +64,7 @@ function MapView({
     onDrivingLineRemovePoint,
     onDrivingLineMovePoint,
     onDrivingLineClear,
-    carMode = 'drag',
+    carMode = 'edit',
     driveSettings,
     carDriveTrace,
     curvePoints = [],

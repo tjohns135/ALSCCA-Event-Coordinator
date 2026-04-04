@@ -25,7 +25,9 @@ function Sidebar({
     carProfile,
     onCarProfileChange,
     carProfiles,
-    onCarDeselect
+    onCarDeselect,
+    trackLibrary,
+    onLoadTrack
 }) {
     const importInputRef = React.useRef(null);
 
@@ -67,6 +69,20 @@ function Sidebar({
                     onChange={(e) => onNameChange(e.target.value)}
                     placeholder="Course name..."
                 />
+                {trackLibrary && trackLibrary.length > 0 && (
+                    <select
+                        className="track-library-select"
+                        value=""
+                        onChange={(e) => {
+                            if (e.target.value) onLoadTrack(e.target.value);
+                        }}
+                    >
+                        <option value="" disabled>Load a track...</option>
+                        {trackLibrary.map(t =>
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                        )}
+                    </select>
+                )}
             </div>
 
             {/* Car section — always visible */}
@@ -86,7 +102,7 @@ function Sidebar({
                 </div>
                 {!!course.carMarker && React.createElement(React.Fragment, null,
                     React.createElement('div', { className: 'car-mode-selector', style: { marginTop: '8px' } },
-                        React.createElement('button', { className: carMode === 'drag' ? 'active' : '', onClick: () => onCarModeChange('drag') }, 'Drag'),
+                        React.createElement('button', { className: carMode === 'edit' ? 'active' : '', onClick: () => onCarModeChange('edit') }, 'Edit'),
                         React.createElement('button', { className: carMode === 'drive' ? 'active' : '', onClick: () => onCarModeChange('drive') }, 'Drive')
                     ),
                     carMode === 'drive' && React.createElement('select', {

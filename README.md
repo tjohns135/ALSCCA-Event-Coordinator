@@ -279,6 +279,7 @@ The sidebar displays a live count of elements on the course:
 | Zoom | Pinch with two fingers (zooms toward midpoint) |
 | Place | Tap with a placement tool selected |
 | Move | Drag an element with the Select tool |
+| Drive | Use the on-screen joystick in drive mode |
 
 The layout adapts at 768px — the sidebar moves to the top as a horizontal scrollable bar and tools display in a 4-column grid.
 
@@ -312,12 +313,14 @@ After placing a car, a toggle in the sidebar switches between two modes:
 | Mode | Description |
 |---|---|
 | Edit | Default mode. All tools are available. Drag the car's rotation handle to reposition and steer |
-| Drive | Keyboard-driven mode (WASD / Arrow keys). Tools are disabled. A canvas notification indicates drive mode is active |
+| Drive | Keyboard-driven mode (WASD / Arrow keys). On mobile, an on-screen joystick appears for touch control. Tools are disabled while driving |
 
 **Drive mode features:**
 - **Car profiles** — select from predefined car handling profiles (acceleration, top speed, turn rate)
 - **Trace Path** — toggle to record the car's path as a driving line while driving or editing
 - **Manually Draw Driving Line** — click points to draw a smooth driving line by hand
+- **Auto-pan** — canvas automatically follows the car when it nears the edge of the visible area
+- **Mobile joystick** — on touch devices, a virtual thumb-stick appears in drive mode. Push direction to steer; distance from center controls speed
 
 ### Export & Save
 

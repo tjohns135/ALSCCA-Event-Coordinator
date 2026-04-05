@@ -17,7 +17,12 @@ node_modules/
 .claude/
 
 # Internal docs
+autox-landing-site/css/
+autox-landing-site/shared/
+autox-landing-site/index.html
 autox-landing-site/autox-worker-assignment/.docs/
 
+
 # Misc
+.htaccess
 *.log

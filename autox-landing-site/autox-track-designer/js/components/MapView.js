@@ -95,6 +95,7 @@ function MapView({
 
     // Drive mode refs
     const keysHeldRef = React.useRef({});
+    const joystickRef = React.useRef({ dx: 0, dy: 0 });
     const driveStateRef = React.useRef({ speed: 0, distanceSinceLastPoint: 0, traceStarted: false });
     const animFrameRef = React.useRef(null);
     const carMarkerRef = React.useRef(course.carMarker);
@@ -216,24 +217,39 @@ function MapView({
             const car = carMarkerRef.current;
             if (!car) { animFrameRef.current = requestAnimationFrame(tick); return; }
 
+            // Joystick input (leash-style: instant orient + proportional speed)
+            const joy = joystickRef.current;
+            const joyMag = Math.hypot(joy.dx, joy.dy);
+            const joyActive = joyMag > 0.15;
+
+            // Keyboard input (WASD / arrow keys)
             const left = keys['a'] || keys['arrowleft'];
             const right = keys['d'] || keys['arrowright'];
             let rotation = car.rotation || 0;
-            if (left) rotation = ((rotation - settings.turnRate) % 360 + 360) % 360;
-            if (right) rotation = ((rotation + settings.turnRate) % 360 + 360) % 360;
 
-            const forward = keys['w'] || keys['arrowup'];
-            const backward = keys['s'] || keys['arrowdown'];
-            if (forward) {
-                ds.speed = Math.min(ds.speed + settings.acceleration, settings.maxSpeed);
-            } else if (backward) {
-                ds.speed = Math.max(ds.speed - settings.acceleration, -settings.maxSpeed * 0.5);
+            if (joyActive) {
+                // Leash mode: instant orient toward joystick direction, speed proportional to magnitude
+                const joyAngle = Math.atan2(joy.dy, joy.dx) * (180 / Math.PI);
+                rotation = ((joyAngle % 360) + 360) % 360;
+                ds.speed = Math.min(joyMag, 1) * settings.maxSpeed;
             } else {
-                if (ds.speed > 0) ds.speed = Math.max(0, ds.speed - settings.deceleration);
-                else if (ds.speed < 0) ds.speed = Math.min(0, ds.speed + settings.deceleration);
+                // Keyboard mode: gradual turn + acceleration
+                if (left) rotation = ((rotation - settings.turnRate) % 360 + 360) % 360;
+                if (right) rotation = ((rotation + settings.turnRate) % 360 + 360) % 360;
+
+                const forward = keys['w'] || keys['arrowup'];
+                const backward = keys['s'] || keys['arrowdown'];
+                if (forward) {
+                    ds.speed = Math.min(ds.speed + settings.acceleration, settings.maxSpeed);
+                } else if (backward) {
+                    ds.speed = Math.max(ds.speed - settings.acceleration, -settings.maxSpeed * 0.5);
+                } else {
+                    if (ds.speed > 0) ds.speed = Math.max(0, ds.speed - settings.deceleration);
+                    else if (ds.speed < 0) ds.speed = Math.min(0, ds.speed + settings.deceleration);
+                }
             }
 
-            if (ds.speed !== 0 || left || right) {
+            if (ds.speed !== 0 || left || right || joyActive) {
                 const rad = rotation * Math.PI / 180;
                 const newX = car.x + Math.cos(rad) * ds.speed;
                 const newY = car.y + Math.sin(rad) * ds.speed;
@@ -251,6 +267,29 @@ function MapView({
                     } else if (ds.distanceSinceLastPoint >= 5) {
                         onDrivingLineAddPoint({ x: newX, y: newY });
                         ds.distanceSinceLastPoint = 0;
+                    }
+                }
+
+                // Auto-pan: push viewBox when car nears edges
+                const vb = viewBoxRef.current;
+                if (vb) {
+                    const marginX = vb.w * 0.15;
+                    const marginY = vb.h * 0.15;
+                    const panSpeed = 0.3;
+                    let panX = 0, panY = 0;
+
+                    const leftOverflow  = (vb.x + marginX) - newX;
+                    const rightOverflow = newX - (vb.x + vb.w - marginX);
+                    const topOverflow   = (vb.y + marginY) - newY;
+                    const bottomOverflow = newY - (vb.y + vb.h - marginY);
+
+                    if (leftOverflow > 0)   panX = -leftOverflow * panSpeed;
+                    if (rightOverflow > 0)  panX = rightOverflow * panSpeed;
+                    if (topOverflow > 0)    panY = -topOverflow * panSpeed;
+                    if (bottomOverflow > 0) panY = bottomOverflow * panSpeed;
+
+                    if (panX !== 0 || panY !== 0) {
+                        setViewBox({ x: vb.x + panX, y: vb.y + panY, w: vb.w, h: vb.h });
                     }
                 }
             }
@@ -1269,7 +1308,10 @@ function MapView({
     // Build the viewBox string
     const vbStr = `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`;
 
-    return React.createElement('svg', {
+    return React.createElement('div', {
+        style: { position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }
+    },
+    React.createElement('svg', {
         ref: svgRef,
         id: 'map',
         viewBox: vbStr,
@@ -1443,6 +1485,11 @@ function MapView({
         React.createElement('g', { id: 'rotation-handles-layer' },
             ...renderRotationHandles()
         )
+    ),
+    React.createElement(Joystick, {
+        joystickRef: joystickRef,
+        visible: carMode === 'drive' && !!course.carMarker
+    })
     );
 }
 

@@ -602,7 +602,7 @@ function App() {
                                 </div>
                                 <div className="help-tool-row">
                                     <span className="help-mode-label">Drive</span>
-                                    <span className="help-desc">WASD / Arrow keys to drive with momentum. Select car profile for handling</span>
+                                    <span className="help-desc">WASD / Arrow keys to drive with momentum. On mobile, use the on-screen joystick. Select car profile for handling</span>
                                 </div>
                                 <div className="help-tool-row">
                                     <span className="help-mode-label">Trace Path</span>
@@ -706,6 +706,14 @@ function App() {
                                     <li><strong>Pan</strong> — click and drag empty space</li>
                                     <li><strong>Zoom</strong> — scroll wheel</li>
                                     <li><strong>Esc</strong> — deselect all</li>
+                                </ul>
+
+                                <h4>Mobile</h4>
+                                <ul>
+                                    <li><strong>Pan</strong> — drag empty space with one finger</li>
+                                    <li><strong>Zoom</strong> — pinch with two fingers</li>
+                                    <li><strong>Drive</strong> — use the on-screen joystick (appears in drive mode). Push direction to steer, push further for more speed</li>
+                                    <li><strong>Auto-pan</strong> — canvas follows the car near edges while driving</li>
                                 </ul>
 
                                 <h4>Export</h4>

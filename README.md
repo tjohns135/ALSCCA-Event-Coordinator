@@ -3,7 +3,7 @@
 Digital tools to improve the process of creating and hosting AutoX events for the ALSCCA.
 
 Live at [cone.ninja](https://cone.ninja/)
-<br><img src="cone-ninja-logo.png" alt="Cone Ninja Logo" width="200" />
+<br><img src="autox-landing-site/cone-ninja-logo.png" alt="Cone Ninja Logo" width="200" />
 
 The project has 2 tools:
 1. [**Worker Assignment Tool**](#worker-assignment-tool) -- Split run groups and assign worker positions for autocross events

@@ -1,0 +1,176 @@
+/* RaceChrono Data Visualization Styles */
+
+/* Section in sidebar */
+.racechrono-section {
+  border-top: 2px solid var(--accent-color, #3B82F6);
+}
+
+/* Session info */
+.racechrono-session-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 0.8rem;
+}
+
+/* Progress bar */
+.racechrono-progress {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-tertiary, #2a2a2e);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.racechrono-progress-bar {
+  height: 100%;
+  background: var(--accent-color, #3B82F6);
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+
+/* Lap list */
+.racechrono-lap-list {
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.racechrono-lap-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.racechrono-lap-item:hover {
+  background: var(--bg-tertiary, #2a2a2e);
+}
+
+.racechrono-lap-item.best {
+  background: rgba(34, 197, 94, 0.1);
+  border-left: 2px solid #22C55E;
+}
+
+.racechrono-lap-item input[type="checkbox"] {
+  flex-shrink: 0;
+}
+
+.racechrono-lap-label {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.racechrono-lap-time {
+  font-family: monospace;
+  color: var(--text-secondary, #aaa);
+  font-size: 0.75rem;
+}
+
+.racechrono-lap-speed {
+  font-family: monospace;
+  color: var(--text-tertiary, #777);
+  font-size: 0.7rem;
+  min-width: 58px;
+  text-align: right;
+}
+
+/* Viz mode radio buttons */
+.racechrono-viz-radios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 8px;
+  font-size: 0.78rem;
+}
+
+.racechrono-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.racechrono-radio-label input[type="radio"] {
+  margin: 0;
+}
+
+/* Toggle checkboxes */
+.racechrono-toggle {
+  font-size: 0.8rem;
+}
+
+.racechrono-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+/* Quick rotate buttons */
+.racechrono-quick-rotate {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.racechrono-rotate-btn {
+  flex: 1;
+  padding: 3px 4px;
+  font-size: 0.7rem;
+  background: var(--bg-tertiary, #2a2a2e);
+  border: 1px solid var(--border-color, #3a3a3e);
+  border-radius: 4px;
+  color: var(--text-secondary, #aaa);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.racechrono-rotate-btn:hover {
+  background: var(--bg-hover, #3a3a3e);
+  color: var(--text-primary, #eee);
+}
+
+/* Hint text */
+.racechrono-hint {
+  font-size: 0.7rem;
+  color: var(--text-tertiary, #777);
+  margin: 2px 0 6px;
+  font-style: italic;
+}
+
+/* Friction circle overlay */
+.friction-circle-container {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10;
+  pointer-events: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+
+/* Color legend bar (for speed/G visualization) */
+.racechrono-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  color: var(--text-tertiary, #777);
+}
+
+.racechrono-legend-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, hsl(120, 85%, 50%), hsl(60, 85%, 50%), hsl(0, 85%, 50%));
+}

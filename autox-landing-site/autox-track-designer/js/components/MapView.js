@@ -75,7 +75,17 @@ function MapView({
     onCurveUndoPoint,
     curveReverse = false,
     onCurveReverseChange,
-    onCurveCancel
+    onCurveCancel,
+    racechronoSession,
+    racechronoSelectedLaps = [],
+    racechronoVizMode = 'speed',
+    racechronoOverlayVisible = false,
+    racechronoTransform,
+    onRacechronoTransformChange,
+    racechronoFrictionCircle = false,
+    mapOverlay,
+    onMapOverlayChange,
+    onMapOverlayClear
 }) {
     const svgRef = React.useRef(null);
     const activeToolRef = React.useRef(activeTool);
@@ -87,6 +97,10 @@ function MapView({
     // Curve overlay drag state
     const [curveOverlayOffset, setCurveOverlayOffset] = React.useState({ x: 0, y: 0 });
     const curveOverlayDragRef = React.useRef(null);
+
+    // Map overlay toolbar drag state
+    const [mapOverlayToolbarOffset, setMapOverlayToolbarOffset] = React.useState({ x: 0, y: 0 });
+    const mapOverlayToolbarDragRef = React.useRef(null);
 
     // Reset overlay offset when starting a new curve
     React.useEffect(() => {
@@ -600,6 +614,35 @@ function MapView({
             return;
         }
 
+        // Map overlay drag
+        if (drag.type === 'mapOverlay') {
+            const dx = x - drag.startX;
+            const dy = y - drag.startY;
+            if (Math.abs(dx) > 0.2 || Math.abs(dy) > 0.2) {
+                drag.moved = true;
+            }
+            if (onMapOverlayChange) {
+                onMapOverlayChange({ x: drag.origX + dx, y: drag.origY + dy });
+            }
+            return;
+        }
+
+        // RaceChrono overlay drag
+        if (drag.type === 'racechrono') {
+            const dx = x - drag.startX;
+            const dy = y - drag.startY;
+            if (Math.abs(dx) > 0.2 || Math.abs(dy) > 0.2) {
+                drag.moved = true;
+            }
+            if (onRacechronoTransformChange && racechronoTransform) {
+                onRacechronoTransformChange(Object.assign({}, racechronoTransform, {
+                    translateX: drag.origTranslateX + dx,
+                    translateY: drag.origTranslateY + dy
+                }));
+            }
+            return;
+        }
+
         const dx = x - drag.startX;
         const dy = y - drag.startY;
 
@@ -624,7 +667,8 @@ function MapView({
             onDrivingLineMovePoint(drag.id, { x: newX, y: newY });
         }
     }, [onConeMove, onStartMarkerMove, onTimingStartMarkerMove, onFinishMarkerMove, onCarMarkerMove, onCornerNumberMove,
-        onConeRotationChange, onStartRotationChange, onTimingStartRotationChange, onFinishRotationChange, onCarRotationChange, onDrivingLineMovePoint]);
+        onConeRotationChange, onStartRotationChange, onTimingStartRotationChange, onFinishRotationChange, onCarRotationChange, onDrivingLineMovePoint,
+        onRacechronoTransformChange, racechronoTransform]);
 
     const handlePointerUpDrag = React.useCallback((e) => {
         const drag = draggingRef.current;
@@ -1114,6 +1158,224 @@ function MapView({
     };
 
     // Render curve cone preview
+    // Render map overlay image element
+    const renderMapOverlayImage = () => {
+        if (!mapOverlay || !mapOverlay.visible) return null;
+        const s = mapOverlay.scale;
+        const imgW = mapOverlay.naturalW * s;
+        const imgH = mapOverlay.naturalH * s;
+        // Rotation center = center of scaled image, relative to translate origin
+        const cx = imgW / 2;
+        const cy = imgH / 2;
+        // Build transform: translate to position, then rotate around image center
+        let groupTransform = `translate(${mapOverlay.x},${mapOverlay.y}) rotate(${mapOverlay.rotation},${cx},${cy})`;
+        // Flip handled via scale on the inner image
+        const flipSx = mapOverlay.flipH ? -1 : 1;
+        const flipSy = mapOverlay.flipV ? -1 : 1;
+        // When flipped, offset image so it stays in place
+        const imgX = mapOverlay.flipH ? imgW : 0;
+        const imgY = mapOverlay.flipV ? imgH : 0;
+        return React.createElement('g', {
+            transform: groupTransform,
+            opacity: mapOverlay.opacity,
+            'data-map-overlay-drag': mapOverlay.locked ? undefined : 'true',
+            style: { pointerEvents: mapOverlay.locked ? 'none' : 'auto', cursor: mapOverlay.locked ? 'default' : 'move' }
+        },
+            React.createElement('image', {
+                href: mapOverlay.src,
+                x: imgX,
+                y: imgY,
+                width: imgW,
+                height: imgH,
+                transform: `scale(${flipSx},${flipSy})`,
+                preserveAspectRatio: 'none'
+            })
+        );
+    };
+
+    // Render map overlay floating toolbar
+    const renderMapOverlayToolbar = () => {
+        if (!mapOverlay) return [];
+
+        const rect = svgRef.current?.getBoundingClientRect();
+        if (!rect) return [];
+
+        const svgUnitsPerPx = viewBox.w / rect.width;
+        const scaleFactor = 1.4;
+        const overlayW = 200 * svgUnitsPerPx * scaleFactor;
+        const overlayH = 320 * svgUnitsPerPx * scaleFactor;
+
+        // Position at top-right of visible area
+        const toolbarX = viewBox.x + viewBox.w - overlayW - 10 * svgUnitsPerPx + mapOverlayToolbarOffset.x;
+        const toolbarY = viewBox.y + 10 * svgUnitsPerPx + mapOverlayToolbarOffset.y;
+
+        return [React.createElement('foreignObject', {
+            key: 'map-overlay-toolbar',
+            x: toolbarX,
+            y: toolbarY,
+            width: overlayW,
+            height: overlayH,
+            style: { overflow: 'visible' }
+        },
+            React.createElement('div', {
+                className: 'map-overlay-toolbar',
+                'data-interactive': 'true',
+                onClick: (e) => e.stopPropagation(),
+                onPointerDown: (e) => {
+                    e.stopPropagation();
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+                    mapOverlayToolbarDragRef.current = { startX: e.clientX, startY: e.clientY, origOffset: { ...mapOverlayToolbarOffset } };
+                    e.currentTarget.setPointerCapture(e.pointerId);
+                },
+                onPointerMove: (e) => {
+                    if (!mapOverlayToolbarDragRef.current) return;
+                    const d = mapOverlayToolbarDragRef.current;
+                    const r = svgRef.current.getBoundingClientRect();
+                    const uPerPx = viewBox.w / r.width;
+                    setMapOverlayToolbarOffset({
+                        x: d.origOffset.x + (e.clientX - d.startX) * uPerPx,
+                        y: d.origOffset.y + (e.clientY - d.startY) * uPerPx
+                    });
+                },
+                onPointerUp: () => { mapOverlayToolbarDragRef.current = null; },
+                style: {
+                    transform: `scale(${svgUnitsPerPx * scaleFactor})`,
+                    transformOrigin: 'top left',
+                    width: '200px',
+                    padding: '8px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '5px',
+                    cursor: 'grab'
+                }
+            },
+                // Title bar
+                React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+                    React.createElement('span', { style: { fontSize: '10px', fontWeight: 'bold', color: '#ddd' } }, 'Map Overlay'),
+                    React.createElement('button', {
+                        onClick: (e) => { e.stopPropagation(); onMapOverlayClear(); },
+                        style: { background: 'none', border: 'none', color: '#888', cursor: 'pointer', fontSize: '12px', padding: '0 2px' }
+                    }, '\u2715')
+                ),
+
+                // Image visible toggle
+                React.createElement('label', { style: { display: 'flex', alignItems: 'center', gap: '4px', fontSize: '9px', color: '#aaa', cursor: 'pointer' } },
+                    React.createElement('input', {
+                        type: 'checkbox',
+                        checked: mapOverlay.visible,
+                        onChange: (e) => onMapOverlayChange({ visible: e.target.checked }),
+                        style: { width: '10px', height: '10px', margin: 0 }
+                    }),
+                    'Image visible'
+                ),
+
+                // Image opacity
+                React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '4px' } },
+                    React.createElement('span', { style: { fontSize: '8px', color: '#888', width: '52px' } }, 'Image ' + Math.round(mapOverlay.opacity * 100) + '%'),
+                    React.createElement('input', {
+                        type: 'range', min: '0', max: '1', step: '0.05',
+                        value: mapOverlay.opacity,
+                        onChange: (e) => onMapOverlayChange({ opacity: parseFloat(e.target.value) }),
+                        style: { flex: 1, height: '8px', margin: 0 }
+                    })
+                ),
+
+                // Track/cones opacity
+                React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '4px' } },
+                    React.createElement('span', { style: { fontSize: '8px', color: '#888', width: '52px' } }, 'Track ' + Math.round(mapOverlay.trackOpacity * 100) + '%'),
+                    React.createElement('input', {
+                        type: 'range', min: '0', max: '1', step: '0.05',
+                        value: mapOverlay.trackOpacity,
+                        onChange: (e) => onMapOverlayChange({ trackOpacity: parseFloat(e.target.value) }),
+                        style: { flex: 1, height: '8px', margin: 0 }
+                    })
+                ),
+
+                // Rotation
+                React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '4px' } },
+                    React.createElement('span', { style: { fontSize: '8px', color: '#888', width: '52px' } }, 'Rot ' + Math.round(mapOverlay.rotation) + '\u00B0'),
+                    React.createElement('input', {
+                        type: 'range', min: '-180', max: '180', step: '1',
+                        value: mapOverlay.rotation,
+                        onChange: (e) => onMapOverlayChange({ rotation: parseFloat(e.target.value) }),
+                        style: { flex: 1, height: '8px', margin: 0 }
+                    })
+                ),
+
+                // Quick rotate buttons
+                React.createElement('div', { style: { display: 'flex', gap: '3px' } },
+                    [-90, -45, 45, 90].map(deg =>
+                        React.createElement('button', {
+                            key: deg,
+                            onClick: (e) => {
+                                e.stopPropagation();
+                                var newRot = ((mapOverlay.rotation + deg) % 360 + 360) % 360;
+                                if (newRot > 180) newRot -= 360;
+                                onMapOverlayChange({ rotation: newRot });
+                            },
+                            style: {
+                                flex: 1, padding: '2px', fontSize: '8px', cursor: 'pointer',
+                                background: 'var(--bg-tertiary, #2a2a2e)', border: '1px solid #444',
+                                borderRadius: '2px', color: '#aaa'
+                            }
+                        }, (deg > 0 ? '+' : '') + deg + '\u00B0')
+                    )
+                ),
+
+                // Scale
+                React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: '4px' } },
+                    React.createElement('span', { style: { fontSize: '8px', color: '#888', width: '52px' } }, 'Scale ' + mapOverlay.scale.toFixed(3)),
+                    React.createElement('input', {
+                        type: 'range', min: '0.01', max: '2', step: '0.005',
+                        value: mapOverlay.scale,
+                        onChange: (e) => onMapOverlayChange({ scale: parseFloat(e.target.value) }),
+                        style: { flex: 1, height: '8px', margin: 0 }
+                    })
+                ),
+
+                // Flip + Lock + Layer row
+                React.createElement('div', { style: { display: 'flex', gap: '3px', flexWrap: 'wrap' } },
+                    React.createElement('button', {
+                        onClick: (e) => { e.stopPropagation(); onMapOverlayChange({ flipH: !mapOverlay.flipH }); },
+                        style: {
+                            padding: '2px 4px', fontSize: '8px', cursor: 'pointer',
+                            background: mapOverlay.flipH ? '#e94560' : 'var(--bg-tertiary, #2a2a2e)',
+                            border: '1px solid #444', borderRadius: '2px',
+                            color: mapOverlay.flipH ? '#fff' : '#aaa'
+                        }
+                    }, 'Flip H'),
+                    React.createElement('button', {
+                        onClick: (e) => { e.stopPropagation(); onMapOverlayChange({ flipV: !mapOverlay.flipV }); },
+                        style: {
+                            padding: '2px 4px', fontSize: '8px', cursor: 'pointer',
+                            background: mapOverlay.flipV ? '#e94560' : 'var(--bg-tertiary, #2a2a2e)',
+                            border: '1px solid #444', borderRadius: '2px',
+                            color: mapOverlay.flipV ? '#fff' : '#aaa'
+                        }
+                    }, 'Flip V'),
+                    React.createElement('button', {
+                        onClick: (e) => { e.stopPropagation(); onMapOverlayChange({ locked: !mapOverlay.locked }); },
+                        style: {
+                            padding: '2px 4px', fontSize: '8px', cursor: 'pointer',
+                            background: mapOverlay.locked ? '#22C55E' : 'var(--bg-tertiary, #2a2a2e)',
+                            border: '1px solid #444', borderRadius: '2px',
+                            color: mapOverlay.locked ? '#fff' : '#aaa'
+                        }
+                    }, mapOverlay.locked ? 'Locked' : 'Lock'),
+                    React.createElement('button', {
+                        onClick: (e) => { e.stopPropagation(); onMapOverlayChange({ onTop: !mapOverlay.onTop }); },
+                        style: {
+                            padding: '2px 4px', fontSize: '8px', cursor: 'pointer',
+                            background: 'var(--bg-tertiary, #2a2a2e)',
+                            border: '1px solid #444', borderRadius: '2px',
+                            color: '#aaa'
+                        }
+                    }, mapOverlay.onTop ? 'Img on top' : 'Cones on top')
+                )
+            )
+        )];
+    };
+
     const renderCurvePreview = () => {
         if (!curvePoints || curvePoints.length === 0 || !activeTool.endsWith('-curve')) return [];
 
@@ -1382,6 +1644,38 @@ function MapView({
                 svgEl.setPointerCapture(e.pointerId);
                 return;
             }
+            // Map overlay drag-to-reposition
+            if (e.button === 0 && e.target.closest('[data-map-overlay-drag]') && mapOverlay && !mapOverlay.locked) {
+                const svgEl = svgRef.current;
+                if (!svgEl) return;
+                const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
+                draggingRef.current = {
+                    type: 'mapOverlay',
+                    startX: x,
+                    startY: y,
+                    origX: mapOverlay.x,
+                    origY: mapOverlay.y,
+                    moved: false
+                };
+                svgEl.setPointerCapture(e.pointerId);
+                return;
+            }
+            // RaceChrono overlay drag-to-reposition
+            if (e.button === 0 && e.target.closest('[data-racechrono-drag]') && racechronoTransform) {
+                const svgEl = svgRef.current;
+                if (!svgEl) return;
+                const { x, y } = SvgPanZoom.screenToSVG(svgEl, e.clientX, e.clientY);
+                draggingRef.current = {
+                    type: 'racechrono',
+                    startX: x,
+                    startY: y,
+                    origTranslateX: racechronoTransform.translateX,
+                    origTranslateY: racechronoTransform.translateY,
+                    moved: false
+                };
+                svgEl.setPointerCapture(e.pointerId);
+                return;
+            }
             if (!draggingRef.current) {
                 panHandlers.onPointerDown(e);
             }
@@ -1429,7 +1723,7 @@ function MapView({
         ),
 
         // Track surface
-        React.createElement('g', { id: 'track-surface' },
+        React.createElement('g', { id: 'track-surface', style: { opacity: mapOverlay ? mapOverlay.trackOpacity : 1 } },
             React.createElement('path', {
                 id: 'outline',
                 d: TRACK_PATHS.outline,
@@ -1449,13 +1743,16 @@ function MapView({
             })
         ),
 
+        // Map overlay image (below cones when not onTop)
+        mapOverlay && mapOverlay.visible && !mapOverlay.onTop && renderMapOverlayImage(),
+
         // Cones layer
-        React.createElement('g', { id: 'cones-layer' },
+        React.createElement('g', { id: 'cones-layer', style: { opacity: mapOverlay ? mapOverlay.trackOpacity : 1 } },
             ...course.cones.flatMap(cone => renderCone(cone))
         ),
 
         // Markers layer (start/timing-start/finish)
-        React.createElement('g', { id: 'markers-layer' },
+        React.createElement('g', { id: 'markers-layer', style: { opacity: mapOverlay ? mapOverlay.trackOpacity : 1 } },
             renderMarkerLine(course.startMarker, 'start', '#22C55E'),
             renderMarkerLine(course.timingStartMarker, 'timing-start', '#F59E0B'),
             renderMarkerLine(course.finishMarker, 'finish', '#333')
@@ -1476,10 +1773,25 @@ function MapView({
             ...renderDrivingLine()
         ),
 
+        // RaceChrono overlay layer
+        racechronoOverlayVisible && racechronoSession && racechronoTransform && React.createElement(RaceChronoOverlay, {
+            session: racechronoSession,
+            transform: racechronoTransform,
+            selectedLaps: racechronoSelectedLaps,
+            vizMode: racechronoVizMode,
+            visible: racechronoOverlayVisible
+        }),
+
+        // Map overlay image (above cones when onTop)
+        mapOverlay && mapOverlay.visible && mapOverlay.onTop && renderMapOverlayImage(),
+
         // Curve preview layer
         React.createElement('g', { id: 'curve-preview-layer' },
             ...renderCurvePreview()
         ),
+
+        // Map overlay toolbar
+        ...renderMapOverlayToolbar(),
 
         // Rotation handles layer (on top of everything)
         React.createElement('g', { id: 'rotation-handles-layer' },
@@ -1489,6 +1801,11 @@ function MapView({
     React.createElement(Joystick, {
         joystickRef: joystickRef,
         visible: carMode === 'drive' && !!course.carMarker
+    }),
+    racechronoFrictionCircle && racechronoSession && React.createElement(FrictionCircle, {
+        session: racechronoSession,
+        selectedLaps: racechronoSelectedLaps,
+        visible: racechronoOverlayVisible && racechronoFrictionCircle
     })
     );
 }

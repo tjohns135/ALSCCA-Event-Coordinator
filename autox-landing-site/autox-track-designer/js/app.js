@@ -32,6 +32,18 @@ function App() {
     const [curveDensity, setCurveDensity] = React.useState(5);
     const [curveReverse, setCurveReverse] = React.useState(false);
 
+    // RaceChrono state
+    const [racechronoSession, setRacechronoSession] = React.useState(null);
+    const [racechronoSelectedLaps, setRacechronoSelectedLaps] = React.useState([]);
+    const [racechronoVizMode, setRacechronoVizMode] = React.useState('speed');
+    const [racechronoOverlayVisible, setRacechronoOverlayVisible] = React.useState(true);
+    const [racechronoTransform, setRacechronoTransform] = React.useState(null);
+    const [racechronoImportProgress, setRacechronoImportProgress] = React.useState(null);
+    const [racechronoFrictionCircle, setRacechronoFrictionCircle] = React.useState(false);
+
+    // Map overlay state
+    const [mapOverlay, setMapOverlay] = React.useState(null);
+
     // Selection state
     const [selectedConeId, setSelectedConeId] = React.useState(null);
     const [selectedCornerNumberId, setSelectedCornerNumberId] = React.useState(null);
@@ -346,6 +358,82 @@ function App() {
         setCourse(prev => ({ ...prev, drivingLine: [] }));
     };
 
+    // RaceChrono handlers
+    const handleRacechronoImport = async (file) => {
+        try {
+            setRacechronoImportProgress(0);
+            const session = await RaceChronoImport.importCSV(file, (pct) => {
+                setRacechronoImportProgress(pct);
+            });
+            setRacechronoSession(session);
+            if (session.laps.length > 0) {
+                setRacechronoSelectedLaps([session.laps[0].lapNumber]);
+            }
+            const trackBounds = { x: 20, y: 82, w: 350, h: 120 };
+            const newTransform = GeoTransform.computeAutoFit(session.bounds, trackBounds);
+            setRacechronoTransform(Object.assign({}, newTransform, { _userScale: 1 }));
+            setRacechronoImportProgress(null);
+            showToast('Imported ' + session.laps.length + ' runs from RaceChrono');
+        } catch (error) {
+            setRacechronoImportProgress(null);
+            showToast('Import failed: ' + error.message, 'error');
+        }
+    };
+
+    const handleRacechronoClear = () => {
+        setRacechronoSession(null);
+        setRacechronoSelectedLaps([]);
+        setRacechronoTransform(null);
+        setRacechronoFrictionCircle(false);
+    };
+
+    const handleRacechronoLapToggle = (lapNumber) => {
+        setRacechronoSelectedLaps(prev =>
+            prev.includes(lapNumber)
+                ? prev.filter(n => n !== lapNumber)
+                : [...prev, lapNumber]
+        );
+    };
+
+    // Map overlay handlers
+    const handleMapOverlayLoad = async (file) => {
+        try {
+            const { src, naturalW, naturalH } = await MapOverlayUtils.loadImage(file);
+            const viewBox = { x: 0, y: 0, w: 431.8, h: 279.4 };
+            const fit = MapOverlayUtils.computeInitialFit(naturalW, naturalH, viewBox);
+            setMapOverlay({
+                src,
+                naturalW,
+                naturalH,
+                x: fit.x,
+                y: fit.y,
+                scale: fit.scale,
+                rotation: fit.rotation,
+                flipH: false,
+                flipV: false,
+                opacity: 0.4,
+                trackOpacity: 1.0,
+                locked: false,
+                visible: true,
+                onTop: false
+            });
+            showToast('Map overlay loaded');
+        } catch (error) {
+            showToast('Failed to load image: ' + error.message, 'error');
+        }
+    };
+
+    const handleMapOverlayChange = (updates) => {
+        setMapOverlay(prev => prev ? { ...prev, ...updates } : null);
+    };
+
+    const handleMapOverlayClear = () => {
+        if (mapOverlay && mapOverlay.src) {
+            URL.revokeObjectURL(mapOverlay.src);
+        }
+        setMapOverlay(null);
+    };
+
     // Curve cone placement
     const handleCurveAddPoint = (position) => {
         setCurvePoints(prev => [...prev, { x: position.x, y: position.y }]);
@@ -572,6 +660,21 @@ function App() {
                 onCarDeselect={() => setSelectedMarker(null)}
                 trackLibrary={TRACK_LIBRARY}
                 onLoadTrack={handleLoadTrackRequest}
+                racechronoSession={racechronoSession}
+                racechronoSelectedLaps={racechronoSelectedLaps}
+                racechronoVizMode={racechronoVizMode}
+                racechronoOverlayVisible={racechronoOverlayVisible}
+                racechronoTransform={racechronoTransform}
+                racechronoImportProgress={racechronoImportProgress}
+                racechronoFrictionCircle={racechronoFrictionCircle}
+                onRacechronoImport={handleRacechronoImport}
+                onRacechronoClear={handleRacechronoClear}
+                onRacechronoLapToggle={handleRacechronoLapToggle}
+                onRacechronoVizModeChange={setRacechronoVizMode}
+                onRacechronoOverlayVisibleChange={setRacechronoOverlayVisible}
+                onRacechronoTransformChange={setRacechronoTransform}
+                onRacechronoFrictionCircleChange={setRacechronoFrictionCircle}
+                onMapOverlayLoad={handleMapOverlayLoad}
             />
 
             <div className="main-content">
@@ -770,6 +873,16 @@ function App() {
                     onCurveApply={handleCurveApply}
                     onCurveUndoPoint={handleCurveUndoPoint}
                     onCurveCancel={handleCurveCancel}
+                    racechronoSession={racechronoSession}
+                    racechronoSelectedLaps={racechronoSelectedLaps}
+                    racechronoVizMode={racechronoVizMode}
+                    racechronoOverlayVisible={racechronoOverlayVisible}
+                    racechronoTransform={racechronoTransform}
+                    onRacechronoTransformChange={setRacechronoTransform}
+                    racechronoFrictionCircle={racechronoFrictionCircle}
+                    mapOverlay={mapOverlay}
+                    onMapOverlayChange={handleMapOverlayChange}
+                    onMapOverlayClear={handleMapOverlayClear}
                 />
             </div>
 

@@ -27,9 +27,25 @@ function Sidebar({
     carProfiles,
     onCarDeselect,
     trackLibrary,
-    onLoadTrack
+    onLoadTrack,
+    racechronoSession,
+    racechronoSelectedLaps,
+    racechronoVizMode,
+    racechronoOverlayVisible,
+    racechronoTransform,
+    racechronoImportProgress,
+    racechronoFrictionCircle,
+    onRacechronoImport,
+    onRacechronoClear,
+    onRacechronoLapToggle,
+    onRacechronoVizModeChange,
+    onRacechronoOverlayVisibleChange,
+    onRacechronoTransformChange,
+    onRacechronoFrictionCircleChange,
+    onMapOverlayLoad
 }) {
     const importInputRef = React.useRef(null);
+    const overlayInputRef = React.useRef(null);
 
     const handleImportClick = () => {
         importInputRef.current?.click();
@@ -39,6 +55,18 @@ function Sidebar({
         const file = e.target.files?.[0];
         if (file) {
             onImportJSON(file);
+            e.target.value = '';
+        }
+    };
+
+    const handleOverlayClick = () => {
+        overlayInputRef.current?.click();
+    };
+
+    const handleOverlayChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            onMapOverlayLoad(file);
             e.target.value = '';
         }
     };
@@ -235,6 +263,21 @@ function Sidebar({
                         className="hidden-input"
                         onChange={handleImportChange}
                     />
+                    <button className="action-btn" onClick={handleOverlayClick}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                        Trace Map
+                    </button>
+                    <input
+                        ref={overlayInputRef}
+                        type="file"
+                        accept=".png,.jpg,.jpeg"
+                        className="hidden-input"
+                        onChange={handleOverlayChange}
+                    />
                     <button className="action-btn danger" onClick={onClearCourse}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <polyline points="3 6 5 6 21 6"/>
@@ -295,6 +338,23 @@ function Sidebar({
                     <span className="stat-value">{drivingLinePointCount} pts</span>
                 </div>
             </div>
+
+            {React.createElement(RaceChronoPanel, {
+                session: racechronoSession,
+                onImportCSV: onRacechronoImport,
+                onSessionClear: onRacechronoClear,
+                selectedLaps: racechronoSelectedLaps,
+                onLapToggle: onRacechronoLapToggle,
+                vizMode: racechronoVizMode,
+                onVizModeChange: onRacechronoVizModeChange,
+                overlayVisible: racechronoOverlayVisible,
+                onOverlayVisibleChange: onRacechronoOverlayVisibleChange,
+                transform: racechronoTransform,
+                onTransformChange: onRacechronoTransformChange,
+                importProgress: racechronoImportProgress,
+                showFrictionCircle: racechronoFrictionCircle,
+                onFrictionCircleChange: onRacechronoFrictionCircleChange
+            })}
         </div>
     );
 }

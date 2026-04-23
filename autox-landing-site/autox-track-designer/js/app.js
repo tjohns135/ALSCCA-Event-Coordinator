@@ -1,6 +1,6 @@
 // Main App component for AutoX Track Designer
 
-// Real-life scale constants (from track_clean.svg reference elements)
+// Real-life scale constants (from track_clean_satellite.svg reference elements)
 const REAL_LIFE_CONE_RADIUS = 0.21447;
 const REAL_LIFE_LINE_LENGTH = 2.84;
 

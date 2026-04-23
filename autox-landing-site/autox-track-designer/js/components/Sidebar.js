@@ -128,6 +128,7 @@ function Sidebar({
                         <span>Place Car</span>
                     </button>
                 </div>
+                {/* Car-only controls: Edit/Drive, profile, Trace Path */}
                 {!!course.carMarker && React.createElement(React.Fragment, null,
                     React.createElement('div', { className: 'car-mode-selector', style: { marginTop: '8px' } },
                         React.createElement('button', { className: carMode === 'edit' ? 'active' : '', onClick: () => onCarModeChange('edit') }, 'Edit'),
@@ -141,36 +142,34 @@ function Sidebar({
                     }, carProfiles.map(p =>
                         React.createElement('option', { key: p.id, value: p.id }, p.name)
                     )),
-                    React.createElement(React.Fragment, null,
-                        React.createElement('div', { className: 'drive-controls', style: { marginTop: '8px' } },
-                            React.createElement('label', { className: 'trace-toggle' },
-                                React.createElement('input', {
-                                    type: 'checkbox',
-                                    checked: carDriveTrace,
-                                    onChange: (e) => onCarDriveTraceChange(e.target.checked)
-                                }),
-                                React.createElement('span', null, 'Trace Path')
-                            ),
-                            React.createElement('div', { className: 'tool-buttons', style: { marginTop: '4px' } },
-                                React.createElement('button', {
-                                    className: `tool-btn ${activeTool === 'driving-line' ? 'active' : ''}`,
-                                    onClick: () => onToolChange('driving-line'),
-                                    title: 'Manually Draw Driving Line'
-                                },
-                                    React.createElement('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2' },
-                                        React.createElement('path', { d: 'M3 17c3-6 6 6 9 0s6 6 9 0', strokeLinecap: 'round' })
-                                    ),
-                                    React.createElement('span', null, 'Manually Draw Driving Line')
-                                )
-                            ),
-                            React.createElement('button', {
-                                className: 'action-btn danger',
-                                onClick: onDrivingLineClear,
-                                style: { fontSize: '0.75rem', padding: '4px 8px', marginTop: '4px' }
-                            }, 'Reset Path')
-                        )
+                    React.createElement('label', { className: 'trace-toggle', style: { marginTop: '8px' } },
+                        React.createElement('input', {
+                            type: 'checkbox',
+                            checked: carDriveTrace,
+                            onChange: (e) => onCarDriveTraceChange(e.target.checked)
+                        }),
+                        React.createElement('span', null, 'Trace Path')
                     )
                 )}
+
+                {/* Always visible: manual driving-line drawing + reset */}
+                {React.createElement('div', { className: 'tool-buttons', style: { marginTop: '8px' } },
+                    React.createElement('button', {
+                        className: `tool-btn ${activeTool === 'driving-line' ? 'active' : ''}`,
+                        onClick: () => onToolChange('driving-line'),
+                        title: 'Manually Draw Driving Line'
+                    },
+                        React.createElement('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2' },
+                            React.createElement('path', { d: 'M3 17c3-6 6 6 9 0s6 6 9 0', strokeLinecap: 'round' })
+                        ),
+                        React.createElement('span', null, 'Manually Draw Driving Line')
+                    )
+                )}
+                {React.createElement('button', {
+                    className: 'action-btn danger',
+                    onClick: onDrivingLineClear,
+                    style: { fontSize: '0.75rem', padding: '4px 8px', marginTop: '4px' }
+                }, 'Reset Path')}
             </div>
 
             <Toolbar

@@ -51,20 +51,18 @@ const Memory = {
     const p = this.data.participants[key];
 
     if (eventInfo) {
+      const positions = Array.isArray(eventInfo.positions) ? eventInfo.positions : [];
       p.events.push({
         date: eventInfo.date || new Date().toISOString().split('T')[0],
         eventName: eventInfo.eventName || '',
-        position: eventInfo.position || '',
         class: eventInfo.class || '',
         pax: eventInfo.pax || '',
+        positions,
       });
 
-      if (eventInfo.position && !p.positions.includes(eventInfo.position)) {
-        p.positions.push(eventInfo.position);
-      }
-
-      if (eventInfo.position && eventInfo.position.includes('Captain')) {
-        p.captainCapable = true;
+      for (const pos of positions) {
+        if (pos && !p.positions.includes(pos)) p.positions.push(pos);
+        if (pos && pos.includes('Captain')) p.captainCapable = true;
       }
     }
   },
@@ -203,8 +201,8 @@ const Memory = {
   getPositionCount(name, positionType) {
     const p = this.getParticipant(name);
     if (!p) return 0;
-    return p.events.filter(
-      (e) => e.position && this._matchesPosition(e.position, positionType)
+    return p.events.filter((e) =>
+      (e.positions || []).some((pos) => this._matchesPosition(pos, positionType))
     ).length;
   },
 
@@ -234,7 +232,7 @@ const Memory = {
         captainCapable: p.captainCapable ? 'Yes' : 'No',
         lastEventDate: lastEvent ? lastEvent.date : '',
         lastEventName: lastEvent ? lastEvent.eventName : '',
-        lastPosition: lastEvent ? lastEvent.position : '',
+        lastPosition: lastEvent ? (lastEvent.positions || []).join(', ') : '',
       });
     }
 
@@ -245,6 +243,7 @@ const Memory = {
     const html = `<!DOCTYPE html>
 <html><head>
 <meta charset="UTF-8">
+<base href="${location.href}">
 <title>ALSCCA Memory Viewer</title>
 <script src="lib/jexcel.js"></script>
 <link rel="stylesheet" href="lib/jexcel.css" />

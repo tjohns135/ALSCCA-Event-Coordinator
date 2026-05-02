@@ -92,9 +92,10 @@ const Groups = {
 
   /**
    * Auto-assign classes to run groups trying all combinations for best balance.
+   * Counts every combo per-entrant via _getGroup so diffs match what split() actually produces.
    * @param {Array} entrants
    * @param {Object} [options] - { locked, maxGroupDiff, noviceMode, ladiesMode }
-   * @returns {{ assignments, bestDiff, validCount, totalCombos }}
+   * @returns {{ assignments, bestDiff, validCount, totalCombos, allValid }}
    */
   autoAssign(entrants, options) {
     const opts = options || {};
@@ -102,93 +103,46 @@ const Groups = {
     const maxGroupDiff = opts.maxGroupDiff !== undefined ? opts.maxGroupDiff : Infinity;
     const noviceMode = opts.noviceMode || 'follow';
     const ladiesMode = opts.ladiesMode || 'follow';
+    const groupOpts = { noviceMode, ladiesMode };
 
     const assignable = this._getActiveClasses(entrants, noviceMode, ladiesMode);
-    const classTotals = {};
-    for (const cls of assignable) {
-      classTotals[cls] = this._countClassTotal(entrants, cls, noviceMode, ladiesMode);
-    }
-
-    // Separate locked vs unlocked classes
     const unlocked = assignable.filter((cls) => locked[cls] === undefined);
     const n = unlocked.length;
 
-    // Pre-calculate locked class contributions
-    let lockedG1 = 0, lockedG2 = 0;
-
-    // Ladies in follow mode: count under their PAX class (already included)
-    // Ladies in separate mode: counted as class 'L' in assignable
-    // Ladies NOT in assignable and ladiesMode=follow: count them under PAX classes
-    if (ladiesMode === 'follow') {
-      // Ladies are counted under their PAX parent classes in _countClassTotal
-      // Nothing extra needed
-    }
-
-    for (const [cls, group] of Object.entries(locked)) {
-      if (!classTotals[cls]) continue;
-      if (group === 1) lockedG1 += classTotals[cls];
-      else lockedG2 += classTotals[cls];
-    }
-
-    // Count entrants not covered by any assignable class
-    // (ladies in follow mode who don't map to any class)
-    if (ladiesMode === 'follow') {
-      const ladiesEntrants = entrants.filter((e) => e.class === 'L');
-      for (const e of ladiesEntrants) {
-        const paxClass = this._getPaxParentClass(e.pax);
-        if (!paxClass || !assignable.includes(paxClass)) {
-          // Unmapped lady — default to group 1
-          lockedG1++;
-        }
-      }
-    }
-
     let bestAssignment = {};
     let bestDiff = Infinity;
-    let validCount = 0;
+    let bestG1 = 0, bestG2 = 0;
     const allValid = [];
 
     const totalCombos = 1 << n;
     for (let mask = 0; mask < totalCombos; mask++) {
-      let g1 = lockedG1;
-      let g2 = lockedG2;
-      const assignment = {};
-
-      // Apply locked assignments
-      for (const [cls, group] of Object.entries(locked)) {
-        assignment[cls] = group;
-      }
-
-      // Apply unlocked permutation
+      const assignment = { ...locked };
       for (let i = 0; i < n; i++) {
-        const cls = unlocked[i];
-        if (mask & (1 << i)) {
-          assignment[cls] = 1;
-          g1 += classTotals[cls];
-        } else {
-          assignment[cls] = 2;
-          g2 += classTotals[cls];
-        }
+        assignment[unlocked[i]] = (mask & (1 << i)) ? 1 : 2;
       }
 
-      const diff = Math.abs(g1 - g2);
+      const counts = this.computeGroupCounts(entrants, assignment, groupOpts);
+      const { g1, g2, diff } = counts;
+
       if (diff <= maxGroupDiff) {
-        validCount++;
-        allValid.push({ assignment: { ...assignment }, diff });
+        allValid.push({ assignment, diff, g1, g2 });
       }
       if (diff < bestDiff) {
         bestDiff = diff;
-        bestAssignment = { ...assignment };
+        bestAssignment = assignment;
+        bestG1 = g1;
+        bestG2 = g2;
       }
     }
 
-    // Sort valid combos: smallest diff first
     allValid.sort((a, b) => a.diff - b.diff);
 
     return {
       assignments: bestAssignment,
       bestDiff,
-      validCount,
+      bestG1,
+      bestG2,
+      validCount: allValid.length,
       totalCombos,
       allValid,
     };

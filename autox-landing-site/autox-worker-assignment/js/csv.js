@@ -57,7 +57,7 @@ const CSV = {
         classPaxNum: '', // formatted as Class_PAX_#
         running: '',
         working: '',
-        position: '',
+        positions: [],
         comments: '',
       };
 

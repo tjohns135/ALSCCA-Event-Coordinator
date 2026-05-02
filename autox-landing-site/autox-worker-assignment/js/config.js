@@ -33,8 +33,6 @@ const CONFIG = {
       { name: 'Starter 2', session: 2, perGroup: 1 },
       { name: 'Spotter 1', session: 1, perGroup: 1 },
       { name: 'Spotter 2', session: 2, perGroup: 1 },
-      { name: 'Grid 1', session: 1, perGroup: 1 },
-      { name: 'Grid 2', session: 2, perGroup: 1 },
     ],
     // Optional shadow positions — filled manually if needed, not by the algorithm
     shadow: [
@@ -75,6 +73,10 @@ const CONFIG = {
       { name: 'Announcer 2', session: 2 },
       { name: 'Sound 1', session: 1 },
       { name: 'Sound 2', session: 2 },
+    ]},
+    { name: 'Grid', positions: [
+      { name: 'Grid 1', session: 1 },
+      { name: 'Grid 2', session: 2 },
     ]},
   ],
 

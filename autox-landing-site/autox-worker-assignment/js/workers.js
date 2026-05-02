@@ -19,15 +19,15 @@ const Workers = {
     cornerCount = cornerCount || CONFIG.workerPositions.corner.defaultCornerCount;
 
     // Build sorting pool: only work session entrants without a position
-    const work1st = entrants.filter((e) => e.working === 'Work 1st' && !e.position);
-    const work2nd = entrants.filter((e) => e.working === 'Work 2nd' && !e.position);
+    const work1st = entrants.filter((e) => e.working === 'Work 1st' && !e.positions.length);
+    const work2nd = entrants.filter((e) => e.working === 'Work 2nd' && !e.positions.length);
 
     // Phase 1: Essential positions (most experienced wins)
     for (const pos of CONFIG.workerPositions.essential) {
       const pool = pos.session === 1 ? work1st : work2nd;
       const best = this._findMostExperienced(pool, pos.name);
       if (best) {
-        best.position = pos.name;
+        best.positions = [pos.name];
       }
     }
 
@@ -36,7 +36,7 @@ const Workers = {
       const pool = pos.session === 1 ? work1st : work2nd;
       const best = this._findMostExperienced(pool, pos.name);
       if (best) {
-        best.position = pos.name;
+        best.positions = [pos.name];
       }
     }
 
@@ -45,14 +45,14 @@ const Workers = {
       for (let c = 1; c <= cornerCount; c++) {
         const best = this._findMostExperienced(pool, 'Captain');
         if (best) {
-          best.position = `Corner ${c} Captain`;
+          best.positions = [`Corner ${c} Captain`];
         }
       }
     }
 
     // Phase 4: Corner Workers — most experienced first, round-robin, no cap
     for (const pool of [work1st, work2nd]) {
-      const remaining = pool.filter((e) => !e.position);
+      const remaining = pool.filter((e) => !e.positions.length);
 
       // Sort by most experienced first: event count desc, then alphabetical
       remaining.sort((a, b) => {
@@ -65,7 +65,7 @@ const Workers = {
       // Round-robin across corners until pool is empty
       for (let i = 0; i < remaining.length; i++) {
         const corner = (i % cornerCount) + 1;
-        remaining[i].position = `Corner ${corner} Worker`;
+        remaining[i].positions = [`Corner ${corner} Worker`];
       }
     }
   },
@@ -76,7 +76,7 @@ const Workers = {
    * Ranks by: position-specific experience → total events → alphabetical.
    */
   _findMostExperienced(pool, positionName) {
-    const eligible = pool.filter((e) => !e.position && e.class !== 'N');
+    const eligible = pool.filter((e) => !e.positions.length && e.class !== 'N');
     if (eligible.length === 0) return null;
 
     eligible.sort((a, b) => {
@@ -106,7 +106,7 @@ const Workers = {
     };
 
     for (const e of entrants) {
-      if (!e.position) {
+      if (!e.positions.length) {
         summary.unassigned.push(e);
         continue;
       }
@@ -118,15 +118,17 @@ const Workers = {
 
       const session = e.working === 'Work 1st' ? summary.work1st : summary.work2nd;
 
-      if (e.position.startsWith('Corner')) {
-        const match = e.position.match(/Corner (\d+)/);
-        if (match) {
-          const corner = match[1];
-          if (!session.corners[corner]) session.corners[corner] = [];
-          session.corners[corner].push(e);
+      for (const pos of e.positions) {
+        if (pos.startsWith('Corner')) {
+          const match = pos.match(/Corner (\d+)/);
+          if (match) {
+            const corner = match[1];
+            if (!session.corners[corner]) session.corners[corner] = [];
+            session.corners[corner].push(e);
+          }
+        } else {
+          session.specialized[pos] = e;
         }
-      } else {
-        session.specialized[e.position] = e;
       }
     }
 

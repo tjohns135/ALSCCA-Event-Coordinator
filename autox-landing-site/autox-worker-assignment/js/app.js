@@ -26,6 +26,9 @@ const App = {
     // Clear stale file inputs on page reload (browser keeps display but not data)
     document.getElementById('csv-file').value = '';
     document.getElementById('memory-file').value = '';
+    document.getElementById('savepoint-file').value = '';
+    // Offer to resume from localStorage save point if one exists
+    this._tryResumeFromLocalStorage();
   },
 
   // ── Event Title ──────────────────────────────────────────────
@@ -86,11 +89,28 @@ const App = {
     document.getElementById('btn-sample-csv').addEventListener('click', () => this.loadSampleCSV());
     document.getElementById('btn-sample-memory').addEventListener('click', () => this.loadSampleMemory());
 
-    document.getElementById('event-name').addEventListener('input', () => this._buildEventTitle());
-    document.getElementById('event-date').addEventListener('change', () => this._buildEventTitle());
+    document.getElementById('savepoint-file').addEventListener('change', async (e) => {
+      if (e.target.files[0]) {
+        document.getElementById('savepoint-file-label').textContent = '';
+        await this._loadProgressFromFile(e.target.files[0]);
+      }
+    });
+    document.getElementById('btn-save-progress').addEventListener('click', () => this._saveProgress());
+    document.getElementById('btn-view-savepoint').addEventListener('click', () => this._viewSavePoint());
+    document.getElementById('btn-reset-app').addEventListener('click', () => this._resetApp());
+
+    document.getElementById('event-name').addEventListener('input', () => {
+      this._buildEventTitle();
+      this._scheduleAutoSave();
+    });
+    document.getElementById('event-date').addEventListener('change', () => {
+      this._buildEventTitle();
+      this._scheduleAutoSave();
+    });
 
     document.getElementById('corner-count').addEventListener('change', (e) => {
       this.cornerCount = parseInt(e.target.value) || 4;
+      this._scheduleAutoSave();
     });
 
     // Sort: auto-sort A-Z on category selection
@@ -124,6 +144,7 @@ const App = {
       if (this.entrants.length > 0) {
         this._buildGroupAssignmentUI();
         this._buildManualAssignmentUI();
+        this._buildAlgorithmAssignmentUI();
       }
     });
 
@@ -142,6 +163,7 @@ const App = {
       this._autoSizeColumns();
       this._buildGroupAssignmentUI();
       this._buildManualAssignmentUI();
+      this._buildAlgorithmAssignmentUI();
       this._updateButtonStates();
     } catch (err) {
       this._showStatus(`Error loading CSV: ${err.message}`, 'error');
@@ -204,6 +226,7 @@ const App = {
         this.noviceMode = r.value;
         this._invalidateCombos();
         if (this.entrants.length > 0) this._buildGroupAssignmentUI();
+        this._scheduleAutoSave();
       });
     });
     toggles.appendChild(novDiv);
@@ -221,6 +244,7 @@ const App = {
         this.ladiesMode = r.value;
         this._invalidateCombos();
         if (this.entrants.length > 0) this._buildGroupAssignmentUI();
+        this._scheduleAutoSave();
       });
     });
     toggles.appendChild(ladDiv);
@@ -291,7 +315,7 @@ const App = {
 
     const data = this.entrants.map((e) => [
       e.competitor, e.class, e.pax, e.number,
-      e.running, e.working, e.position, e.comments,
+      e.running, e.working, e.positions.join(', '), e.comments,
     ]);
 
     this.table = jspreadsheet(container, {
@@ -321,21 +345,26 @@ const App = {
   },
 
   _checkDuplicatePositions() {
-    // Count by position + work session; corner workers are allowed multiples
+    // Count by position + work session; corner workers are allowed multiples.
+    // Each entrant.positions[] piece is counted independently so that one entrant
+    // holding multiple early roles never warns, but two entrants sharing a session
+    // role does.
     const counts = {};
     const seen = new Set();
 
     for (const e of this.entrants) {
-      if (!e.position || !e.working) continue;
-      if (e.position.endsWith('Worker')) continue;
-      const key = `${e.position}::${e.working}`;
-      counts[key] = (counts[key] || 0) + 1;
-      seen.add(`${e.competitor}::${key}`);
+      if (!e.positions.length || !e.working) continue;
+      for (const pos of e.positions) {
+        if (pos.endsWith('Worker')) continue;
+        const key = `${pos}::${e.working}`;
+        counts[key] = (counts[key] || 0) + 1;
+        seen.add(`${e.competitor}::${key}`);
+      }
     }
     // Count manual assignments not yet synced to entrants
     for (const [pos, worker] of this.manualAssignments) {
       if (pos.endsWith('Worker')) continue;
-      const working = document.querySelector(`#manual-assignments-table select[data-position="${pos}"]`)?.dataset.working || '';
+      const working = document.querySelector(`.manual-table select[data-position="${pos}"]`)?.dataset.working || '';
       const key = `${pos}::${working}`;
       if (seen.has(`${worker}::${key}`)) continue;
       counts[key] = (counts[key] || 0) + 1;
@@ -399,7 +428,7 @@ const App = {
       this.entrants.push({
         competitor: '', class: '', pax: '', number: '',
         sccaMember: '', classPaxNum: '', running: '',
-        working: '', position: '', comments: '',
+        working: '', positions: [], comments: '',
       });
     }
     this.entrants.length = data.length;
@@ -413,7 +442,7 @@ const App = {
       e.number = row[3] || '';
       e.running = row[4] || '';
       e.working = row[5] || '';
-      e.position = row[6] || '';
+      e.positions = (row[6] || '').split(',').map((s) => s.trim()).filter(Boolean);
       e.comments = row[7] || '';
       e.classPaxNum = `${e.class}_${e.pax}_${e.number}`;
     }
@@ -423,7 +452,7 @@ const App = {
     if (!this.table) return;
     const data = this.entrants.map((e) => [
       e.competitor, e.class, e.pax, e.number,
-      e.running, e.working, e.position, e.comments,
+      e.running, e.working, e.positions.join(', '), e.comments,
     ]);
     this.table.setData(data);
     this._autoSizeColumns();
@@ -442,15 +471,11 @@ const App = {
 
     const opts = this._getGroupOptions();
     const result = Groups.autoAssign(this.entrants, opts);
-    // Recompute diffs using per-entrant counting (source of truth) and re-filter
-    const validCombos = this._recomputeAndFilter(result.allValid, opts);
-    if (validCombos.length > 0) {
-      this.groupAssignments = validCombos[0].assignment;
-      this.validCombos = validCombos;
+    if (result.allValid.length > 0) {
+      this.groupAssignments = result.allValid[0].assignment;
+      this.validCombos = result.allValid;
       this.comboIndex = 0;
     } else {
-      // No valid combos — use best overall but recompute its diff too
-      const best = Groups.computeGroupCounts(this.entrants, result.assignments, opts);
       this.groupAssignments = result.assignments;
       this.validCombos = null;
     }
@@ -532,6 +557,7 @@ const App = {
         this._invalidateCombos();
         this._moveClassRows();
         this._updateGroupCounts();
+        this._buildManualAssignmentUI();
       });
 
       const lockCb = document.createElement('input');
@@ -625,28 +651,59 @@ const App = {
   // ── Manual Assignments (#1, #2, #3) ──────────────────────────
 
   _buildManualAssignmentUI() {
+    const sorted = [...this.entrants]
+      .filter((e) => e.competitor)
+      .sort((a, b) => a.competitor.localeCompare(b.competitor));
+
+    this._buildEarlyManualUI(sorted);
+    this._buildSessionManualUI(sorted);
+    this._updateManualDropdowns();
+  },
+
+  /** Show a section, preserving the user's collapse choice on rebuild. */
+  _restoreSectionVisibility(section, wasOpen, wasVisible) {
+    section.style.display = 'block';
+    const body = section.querySelector('.collapsible-body');
+    if (wasVisible) {
+      if (wasOpen) {
+        section.classList.add('open');
+        body.style.display = 'block';
+      } else {
+        section.classList.remove('open');
+        body.style.display = 'none';
+      }
+    } else {
+      // First render: open by default.
+      section.classList.add('open');
+      body.style.display = 'block';
+    }
+  },
+
+  _buildEarlyManualUI(sorted) {
     const section = document.getElementById('manual-assignment-section');
     const tableContainer = document.getElementById('manual-assignments-table');
     const wasOpen = section.classList.contains('open');
     const wasVisible = section.style.display !== 'none';
     tableContainer.innerHTML = '';
 
-    const sorted = [...this.entrants]
-      .filter((e) => e.competitor)
-      .sort((a, b) => a.competitor.localeCompare(b.competitor));
-
-    // Auto-fill button
     const autoFillBtn = document.createElement('button');
-    autoFillBtn.textContent = 'Auto-Fill Unassigned Positions';
+    autoFillBtn.textContent = 'Auto-Fill Early Positions';
     autoFillBtn.className = 'sample-btn';
+    autoFillBtn.style.marginRight = 'var(--space-sm)';
     autoFillBtn.style.marginBottom = 'var(--space-sm)';
-    autoFillBtn.addEventListener('click', () => this._autoFillManualAssignments());
+    autoFillBtn.addEventListener('click', () => this._autoFillEarlyAssignments());
     tableContainer.appendChild(autoFillBtn);
+
+    const clearBtn = document.createElement('button');
+    clearBtn.textContent = 'Clear Assignments';
+    clearBtn.className = 'danger';
+    clearBtn.style.marginBottom = 'var(--space-sm)';
+    clearBtn.addEventListener('click', () => this._clearEarlyAssignments());
+    tableContainer.appendChild(clearBtn);
 
     const table = document.createElement('table');
     table.className = 'manual-table';
 
-    // Early position groups
     for (const group of CONFIG.earlyPositionGroups) {
       const headerRow = document.createElement('tr');
       headerRow.className = 'manual-category-header';
@@ -657,11 +714,40 @@ const App = {
       table.appendChild(headerRow);
 
       for (const position of group.positions) {
-        table.appendChild(this._buildManualTableRow(position, sorted, 'Early'));
+        table.appendChild(this._buildManualTableRow(position, sorted, 'Early', null));
       }
     }
 
-    // Session-based manual positions (Timing, Safety Steward, Announcer, Sound)
+    tableContainer.appendChild(table);
+    this._restoreSectionVisibility(section, wasOpen, wasVisible);
+  },
+
+  _buildSessionManualUI(sorted) {
+    const section = document.getElementById('session-manual-section');
+    const tableContainer = document.getElementById('session-manual-table');
+    const wasOpen = section.classList.contains('open');
+    const wasVisible = section.style.display !== 'none';
+    tableContainer.innerHTML = '';
+
+    const autoFillBtn = document.createElement('button');
+    autoFillBtn.textContent = 'Auto-Fill Session-Based Positions';
+    autoFillBtn.className = 'sample-btn';
+    autoFillBtn.style.marginRight = 'var(--space-sm)';
+    autoFillBtn.style.marginBottom = 'var(--space-sm)';
+    autoFillBtn.addEventListener('click', () => this._autoFillSessionAssignments());
+    tableContainer.appendChild(autoFillBtn);
+
+    const clearBtn = document.createElement('button');
+    clearBtn.textContent = 'Clear Assignments';
+    clearBtn.className = 'danger';
+    clearBtn.style.marginBottom = 'var(--space-sm)';
+    clearBtn.addEventListener('click', () => this._clearSessionAssignments());
+    tableContainer.appendChild(clearBtn);
+
+    const table = document.createElement('table');
+    table.className = 'manual-table';
+
+    // Timing/Safety/Announcer/Sound/Grid groups
     for (const group of CONFIG.sessionPositionGroups) {
       const groupHeader = document.createElement('tr');
       groupHeader.className = 'manual-category-header';
@@ -673,11 +759,11 @@ const App = {
 
       for (const pos of group.positions) {
         const working = pos.session === 1 ? 'Work 1st' : 'Work 2nd';
-        table.appendChild(this._buildManualTableRow(pos.name, sorted, working));
+        table.appendChild(this._buildManualTableRow(pos.name, sorted, working, pos.session));
       }
     }
 
-    // Shadow positions group
+    // Shadow group (session-aware, user-filled only — never auto-filled)
     const shadowHeader = document.createElement('tr');
     shadowHeader.className = 'manual-category-header';
     const shadowTh = document.createElement('td');
@@ -688,32 +774,279 @@ const App = {
 
     for (const shadow of CONFIG.workerPositions.shadow) {
       const working = shadow.session === 1 ? 'Work 1st' : 'Work 2nd';
-      table.appendChild(this._buildManualTableRow(shadow.name, sorted, working));
+      table.appendChild(this._buildManualTableRow(shadow.name, sorted, working, shadow.session));
     }
 
     tableContainer.appendChild(table);
+    this._restoreSectionVisibility(section, wasOpen, wasVisible);
+  },
 
-    // Show section but preserve collapse state on rebuild
-    section.style.display = 'block';
-    if (wasVisible) {
-      if (wasOpen) {
-        section.classList.add('open');
-        section.querySelector('.collapsible-body').style.display = 'block';
-      } else {
-        section.classList.remove('open');
-        section.querySelector('.collapsible-body').style.display = 'none';
-      }
-    } else {
-      section.classList.add('open');
-      section.querySelector('.collapsible-body').style.display = 'block';
+  /**
+   * Set of competitor names currently holding any early role. Sourced from
+   * BOTH manualAssignments (mid-edit picks) and entrant.positions[] (post-sync
+   * state). Used to deprioritize early-already-assigned workers in the
+   * session/algorithm dropdowns.
+   */
+  _buildEarlyAssignedSet() {
+    const earlySet = new Set(CONFIG.earlyPositions);
+    const out = new Set();
+    for (const [pos, worker] of this.manualAssignments) {
+      if (earlySet.has(pos)) out.add(worker);
     }
+    for (const e of this.entrants) {
+      if (!e.competitor) continue;
+      if (e.positions.some((p) => earlySet.has(p))) out.add(e.competitor);
+    }
+    return out;
+  },
+
+  /**
+   * Build the Algorithm-Assigned Positions card. Rendered from Workers.getSummary
+   * so each row reflects the current entrant.positions[] state. Each row's
+   * dropdown supports per-slot swaps via _swapAlgorithmPosition.
+   */
+  _buildAlgorithmAssignmentUI() {
+    const section = document.getElementById('algorithm-assignment-section');
+    const tableContainer = document.getElementById('algorithm-assignments-table');
+    if (!section || !tableContainer) return;
+    const wasOpen = section.classList.contains('open');
+    const wasVisible = section.style.display !== 'none';
+    tableContainer.innerHTML = '';
+
+    const sorted = [...this.entrants]
+      .filter((e) => e.competitor)
+      .sort((a, b) => a.competitor.localeCompare(b.competitor));
+    const summary = Workers.getSummary(this.entrants);
+
+    for (const sessionNum of [1, 2]) {
+      const sessionKey = sessionNum === 1 ? 'work1st' : 'work2nd';
+      const working = sessionNum === 1 ? 'Work 1st' : 'Work 2nd';
+
+      const block = document.createElement('div');
+      block.className = 'algorithm-session-block';
+
+      const blockHeader = document.createElement('h3');
+      blockHeader.className = 'algorithm-session-header';
+      blockHeader.textContent = `Working ${sessionNum === 1 ? '1st' : '2nd'}`;
+      block.appendChild(blockHeader);
+
+      const table = document.createElement('table');
+      table.className = 'manual-table algorithm-table';
+
+      const addCategoryHeader = (text, extraClass) => {
+        const tr = document.createElement('tr');
+        tr.className = 'manual-category-header' + (extraClass ? ' ' + extraClass : '');
+        const td = document.createElement('td');
+        td.colSpan = 2;
+        td.textContent = text;
+        tr.appendChild(td);
+        table.appendChild(tr);
+      };
+      const addSpacer = () => {
+        const tr = document.createElement('tr');
+        tr.className = 'algorithm-corner-spacer';
+        const td = document.createElement('td');
+        td.colSpan = 2;
+        tr.appendChild(td);
+        table.appendChild(tr);
+      };
+
+      // Specialized positions (Starter, Spotter; future: anything in essential)
+      const specPositions = [
+        ...CONFIG.workerPositions.essential,
+        ...CONFIG.workerPositions.experienced,
+      ].filter((p) => p.session === sessionNum);
+      for (const sp of specPositions) {
+        const occupant = summary[sessionKey].specialized[sp.name];
+        const occupantName = occupant ? occupant.competitor : '';
+        table.appendChild(this._buildAlgorithmTableRow(sp.name, occupantName, sorted, working, sessionNum));
+      }
+
+      // Corner groups — Captain on top, Workers below, spacer between corners
+      for (let c = 1; c <= this.cornerCount; c++) {
+        addCategoryHeader(`Corner ${c}`, 'corner-header');
+
+        const cornerArr = summary[sessionKey].corners[String(c)] || [];
+        const captainPos = `Corner ${c} Captain`;
+        const workerPos = `Corner ${c} Worker`;
+        const captain = cornerArr.find((e) => e.positions.includes(captainPos));
+        const captainName = captain ? captain.competitor : '';
+        table.appendChild(this._buildAlgorithmTableRow(captainPos, captainName, sorted, working, sessionNum));
+
+        const workers = cornerArr.filter((e) => e.positions.includes(workerPos));
+        for (const w of workers) {
+          table.appendChild(this._buildAlgorithmTableRow(workerPos, w.competitor, sorted, working, sessionNum));
+        }
+
+        if (c < this.cornerCount) addSpacer();
+      }
+
+      block.appendChild(table);
+      tableContainer.appendChild(block);
+    }
+
+    this._restoreSectionVisibility(section, wasOpen, wasVisible);
     this._updateManualDropdowns();
   },
 
   /**
-   * Build a table row for manual assignment with optgroup dropdown (#3)
+   * Build a single algorithm-assignment row. Mirrors _buildManualTableRow but
+   * the source of truth is entrant.positions[]; the previous occupant's name
+   * is stashed on the select so _swapAlgorithmPosition knows which slot to
+   * vacate when the user picks someone different.
    */
-  _buildManualTableRow(position, sortedEntrants, workingValue) {
+  _buildAlgorithmTableRow(position, occupantName, sortedEntrants, workingValue, session) {
+    const tr = document.createElement('tr');
+    tr.className = 'manual-table-row algorithm-table-row';
+
+    const tdPos = document.createElement('td');
+    tdPos.className = 'manual-pos-cell';
+    tdPos.textContent = position;
+    tr.appendChild(tdPos);
+
+    const tdSel = document.createElement('td');
+    tdSel.className = 'manual-sel-cell';
+
+    const select = document.createElement('select');
+    select.dataset.position = position;
+    select.dataset.working = workingValue;
+    select.dataset.previousOccupant = occupantName || '';
+    select.dataset.algorithmRow = '1';
+
+    const blank = document.createElement('option');
+    blank.value = '';
+    blank.textContent = '— Unassigned —';
+    select.appendChild(blank);
+
+    const requiredRunGroup = session === 1 ? 2 : 1;
+    const groupOpts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
+    const earlyAssignedSet = this._buildEarlyAssignedSet();
+    const buckets = {};
+    for (const e of sortedEntrants) {
+      const posCount = Memory.getPositionCount(e.competitor, position);
+      const eventCount = Memory.getEventCount(e.competitor);
+      const tier = earlyAssignedSet.has(e.competitor)
+        ? 'early'
+        : (posCount > 0 ? 'eligible' : (eventCount >= 5 ? 'experienced' : 'inexperienced'));
+      const rg = Groups._getGroup(e, this.groupAssignments || {}, groupOpts);
+      const key = `RG${rg}-${tier}`;
+      if (!buckets[key]) buckets[key] = [];
+      buckets[key].push(e);
+    }
+
+    const tierLabel = { eligible: 'Eligible', experienced: 'Experienced', inexperienced: 'Inexperienced' };
+    const addOptgroup = (label, entrants, ineligible) => {
+      if (!entrants || entrants.length === 0) return;
+      const og = document.createElement('optgroup');
+      og.label = label;
+      for (const e of entrants) {
+        const opt = document.createElement('option');
+        opt.value = e.competitor;
+        opt.textContent = `${e.competitor} (${e.class}/${e.pax})`;
+        if (ineligible) {
+          opt.disabled = true;
+          opt.classList.add('wrong-run-group');
+        }
+        og.appendChild(opt);
+      }
+      select.appendChild(og);
+    };
+
+    const workLabel = (rg) => rg === 1 ? 'Work 2nd Group' : 'Work 1st Group';
+    const wrongRunGroup = requiredRunGroup === 1 ? 2 : 1;
+    // Correct group: 4 optgroups, with early-assigned workers deprioritized at the bottom
+    for (const tier of ['eligible', 'experienced', 'inexperienced']) {
+      addOptgroup(`${workLabel(requiredRunGroup)} — ${tierLabel[tier]}`, buckets[`RG${requiredRunGroup}-${tier}`], false);
+    }
+    addOptgroup(`${workLabel(requiredRunGroup)} — Has Early Role`, buckets[`RG${requiredRunGroup}-early`], false);
+    // Wrong group: single flat alphabetized optgroup, all disabled
+    const wrongAll = []
+      .concat(buckets[`RG${wrongRunGroup}-eligible`] || [])
+      .concat(buckets[`RG${wrongRunGroup}-experienced`] || [])
+      .concat(buckets[`RG${wrongRunGroup}-inexperienced`] || [])
+      .concat(buckets[`RG${wrongRunGroup}-early`] || []);
+    wrongAll.sort((a, b) => a.competitor.localeCompare(b.competitor));
+    addOptgroup(workLabel(wrongRunGroup), wrongAll, true);
+
+    if (occupantName) select.value = occupantName;
+
+    select.addEventListener('change', () => {
+      const newName = select.value;
+      const prevName = select.dataset.previousOccupant || '';
+      this._swapAlgorithmPosition(prevName, newName, position, workingValue);
+    });
+
+    tdSel.appendChild(select);
+
+    const rwLabel = document.createElement('span');
+    rwLabel.className = 'manual-rw-label';
+    tdSel.appendChild(rwLabel);
+
+    const updateLabel = () => {
+      const labelGroupOpts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
+      const workerName = select.value;
+      const entrant = workerName ? this.entrants.find((e) => e.competitor === workerName) : null;
+      const runGroup = entrant
+        ? Groups._getGroup(entrant, this.groupAssignments || {}, labelGroupOpts)
+        : (session === 1 ? 2 : 1);
+      const classPax = entrant ? `${entrant.class}(${entrant.pax})` : '—';
+      rwLabel.textContent = `R${runGroup}, W${session}; ${classPax}`;
+      const conflict = entrant && runGroup !== requiredRunGroup;
+      rwLabel.classList.toggle('manual-rw-label-conflict', !!conflict);
+    };
+    updateLabel();
+    tr._updateRwLabel = updateLabel;
+
+    tr.appendChild(tdSel);
+    return tr;
+  },
+
+  /**
+   * Swap a worker into an algorithm-assigned position slot. The previous occupant
+   * loses the position; if the new pick already had a session manual or algorithm
+   * position, that one is cleared (early roles stack and are preserved).
+   */
+  _swapAlgorithmPosition(prevName, newName, position, working) {
+    if (prevName) {
+      const prev = this.entrants.find((e) => e.competitor === prevName);
+      if (prev) {
+        prev.positions = prev.positions.filter((p) => p !== position);
+        if (!prev.positions.length) {
+          if (prev.running === 'Run 1st') prev.working = 'Work 2nd';
+          else if (prev.running === 'Run 2nd') prev.working = 'Work 1st';
+        }
+      }
+    }
+
+    if (newName) {
+      const next = this.entrants.find((e) => e.competitor === newName);
+      if (next) {
+        // Clear any non-early position the new pick currently holds (only one
+        // session/algorithm role per worker). Early roles stack and stay.
+        const toClear = next.positions.filter((p) => !CONFIG.earlyPositions.includes(p));
+        next.positions = next.positions.filter((p) => CONFIG.earlyPositions.includes(p));
+        for (const oldPos of toClear) {
+          if (this.manualAssignments.get(oldPos) === newName) {
+            this.manualAssignments.delete(oldPos);
+          }
+        }
+        next.positions.push(position);
+        next.working = working;
+      }
+    }
+
+    this._buildAlgorithmAssignmentUI();
+    this._buildManualAssignmentUI();
+  },
+
+  /**
+   * Build a table row for manual assignment with optgroup dropdown (#3).
+   * @param {string} position - position name
+   * @param {Array} sortedEntrants - alphabetized entrants for the dropdown
+   * @param {string} workingValue - 'Early', 'Work 1st', or 'Work 2nd'
+   * @param {number|null} session - 1, 2, or null for Early positions (drives the inline R/W label)
+   */
+  _buildManualTableRow(position, sortedEntrants, workingValue, session) {
     const tr = document.createElement('tr');
     tr.className = 'manual-table-row';
 
@@ -736,39 +1069,72 @@ const App = {
     blank.textContent = '— Unassigned —';
     select.appendChild(blank);
 
-    // Split entrants into optgroups: Eligible, Experienced, Inexperienced
-    const eligible = [];
-    const experienced = [];
-    const inexperienced = [];
+    // Bucket entrants by experience tier; for session/shadow rows, also by current run group.
+    // For session positions, the "required" run group sits on top so the user can pick from it easily.
+    // Workers already in an early role get a separate 'early' tier (session/shadow rows only)
+    // so they're deprioritized at the bottom of the correct work-group section.
+    const requiredRunGroup = session === null ? null : (session === 1 ? 2 : 1);
+    const groupOpts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
+    const earlyAssignedSet = session === null ? null : this._buildEarlyAssignedSet();
+    const buckets = {};  // bucketKey -> entrants[]
+    const bucketKey = (rg, tier) => session === null ? tier : `RG${rg}-${tier}`;
 
     for (const e of sortedEntrants) {
       const posCount = Memory.getPositionCount(e.competitor, position);
       const eventCount = Memory.getEventCount(e.competitor);
-      if (posCount > 0) {
-        eligible.push(e);
-      } else if (eventCount >= 5) {
-        experienced.push(e);
-      } else {
-        inexperienced.push(e);
-      }
+      const baseTier = posCount > 0 ? 'eligible' : (eventCount >= 5 ? 'experienced' : 'inexperienced');
+      const tier = (earlyAssignedSet && earlyAssignedSet.has(e.competitor)) ? 'early' : baseTier;
+      const rg = session === null ? null : Groups._getGroup(e, this.groupAssignments || {}, groupOpts);
+      const key = bucketKey(rg, tier);
+      if (!buckets[key]) buckets[key] = [];
+      buckets[key].push(e);
     }
 
-    const addOptgroup = (label, entrants) => {
-      if (entrants.length === 0) return;
+    const tierLabel = { eligible: 'Eligible', experienced: 'Experienced', inexperienced: 'Inexperienced' };
+
+    const addOptgroup = (label, entrants, { ineligible = false } = {}) => {
+      if (!entrants || entrants.length === 0) return;
       const og = document.createElement('optgroup');
       og.label = label;
       for (const e of entrants) {
         const opt = document.createElement('option');
         opt.value = e.competitor;
         opt.textContent = `${e.competitor} (${e.class}/${e.pax})`;
+        if (ineligible) {
+          opt.disabled = true;
+          opt.classList.add('wrong-run-group');
+        }
         og.appendChild(opt);
       }
       select.appendChild(og);
     };
 
-    addOptgroup('Eligible', eligible);
-    addOptgroup('Experienced', experienced);
-    addOptgroup('Inexperienced', inexperienced);
+    if (session === null) {
+      addOptgroup('Eligible', buckets['eligible']);
+      addOptgroup('Experienced', buckets['experienced']);
+      addOptgroup('Inexperienced', buckets['inexperienced']);
+    } else {
+      // Run Group 1 entrants run 1st → work 2nd; Run Group 2 entrants run 2nd → work 1st.
+      // Correct work group: 4 optgroups, with early-already-assigned workers
+      // deprioritized into a separate "Has Early Role" optgroup at the bottom
+      // (still selectable per the stacking rule). Wrong work group: a single
+      // flat alphabetized optgroup, all disabled.
+      const workLabel = (rg) => rg === 1 ? 'Work 2nd Group' : 'Work 1st Group';
+      const wrongRunGroup = requiredRunGroup === 1 ? 2 : 1;
+      for (const tier of ['eligible', 'experienced', 'inexperienced']) {
+        addOptgroup(`${workLabel(requiredRunGroup)} — ${tierLabel[tier]}`,
+                    buckets[`RG${requiredRunGroup}-${tier}`]);
+      }
+      addOptgroup(`${workLabel(requiredRunGroup)} — Has Early Role`,
+                  buckets[`RG${requiredRunGroup}-early`]);
+      const wrongAll = []
+        .concat(buckets[`RG${wrongRunGroup}-eligible`] || [])
+        .concat(buckets[`RG${wrongRunGroup}-experienced`] || [])
+        .concat(buckets[`RG${wrongRunGroup}-inexperienced`] || [])
+        .concat(buckets[`RG${wrongRunGroup}-early`] || []);
+      wrongAll.sort((a, b) => a.competitor.localeCompare(b.competitor));
+      addOptgroup(workLabel(wrongRunGroup), wrongAll, { ineligible: true });
+    }
 
     // Restore previous selection
     const prev = this.manualAssignments.get(position);
@@ -782,12 +1148,50 @@ const App = {
         return;
       }
 
-      // Check if this worker is already assigned elsewhere
+      // For session/shadow positions, reject picks whose run group doesn't match the position
+      if (requiredRunGroup !== null) {
+        const entrant = this.entrants.find((e) => e.competitor === selectedWorker);
+        if (entrant) {
+          const entrantRg = Groups._getGroup(entrant, this.groupAssignments || {}, groupOpts);
+          if (entrantRg !== requiredRunGroup) {
+            const prevValue = this.manualAssignments.get(position) || '';
+            select.value = prevValue;
+            alert(
+              `${entrant.competitor} is in ${entrant.class}(${entrant.pax}), run group ${entrantRg}. ` +
+              `Please select a person from run group ${requiredRunGroup}.`
+            );
+            return;
+          }
+        }
+      }
+
+      // Check if this worker is already assigned elsewhere. Stacking rule:
+      // any number of early roles plus at most ONE non-early role (session
+      // manual, shadow, or algorithm) per worker. Algorithm positions live on
+      // entrant.positions[] (not in manualAssignments) so we have to check both.
+      const targetIsEarly = CONFIG.earlyPositions.includes(position);
       let existingPosition = null;
-      for (const [pos, worker] of this.manualAssignments) {
-        if (worker === selectedWorker && pos !== position) {
-          existingPosition = pos;
-          break;
+      if (!targetIsEarly) {
+        // Pending manual assignments not yet synced to entrants
+        for (const [pos, worker] of this.manualAssignments) {
+          if (worker !== selectedWorker || pos === position) continue;
+          if (!CONFIG.earlyPositions.includes(pos)) {
+            existingPosition = pos;
+            break;
+          }
+        }
+        // Algorithm positions and synced manual positions on the entrant itself
+        if (!existingPosition) {
+          const entrant = this.entrants.find((e) => e.competitor === selectedWorker);
+          if (entrant) {
+            for (const p of entrant.positions) {
+              if (p === position) continue;
+              if (!CONFIG.earlyPositions.includes(p)) {
+                existingPosition = p;
+                break;
+              }
+            }
+          }
         }
       }
 
@@ -803,6 +1207,38 @@ const App = {
     });
 
     tdSel.appendChild(select);
+
+    // Inline R#, W#; class(PAX) badge — always visible, refreshed on selection or split change
+    const rwLabel = document.createElement('span');
+    rwLabel.className = 'manual-rw-label';
+    tdSel.appendChild(rwLabel);
+
+    const updateLabel = () => {
+      const labelGroupOpts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
+      const workerName = select.value;
+      const entrant = workerName ? this.entrants.find((e) => e.competitor === workerName) : null;
+
+      let runGroup;
+      if (entrant) {
+        runGroup = Groups._getGroup(entrant, this.groupAssignments || {}, labelGroupOpts);
+      } else if (session !== null) {
+        runGroup = session === 1 ? 2 : 1;
+      } else {
+        runGroup = '—';
+      }
+
+      const workGroup = session === null ? 'E' : String(session);
+      const classPax = entrant ? `${entrant.class}(${entrant.pax})` : '—';
+      rwLabel.textContent = `R${runGroup}, W${workGroup}; ${classPax}`;
+
+      // Flag rows where the assigned entrant's run group disagrees with the position session
+      const required = session === null ? null : (session === 1 ? 2 : 1);
+      const conflict = entrant && required !== null && runGroup !== required;
+      rwLabel.classList.toggle('manual-rw-label-conflict', !!conflict);
+    };
+    updateLabel();
+    select.addEventListener('change', updateLabel);
+    tr._updateRwLabel = updateLabel;
 
     // Chalk liner checkbox for Course Setup positions
     if (position.startsWith('Course Setup')) {
@@ -821,15 +1257,45 @@ const App = {
     return tr;
   },
 
+  /**
+   * Refresh every manual row's inline R/W badge — call after the run-group split changes.
+   */
+  _refreshManualLabels() {
+    const rows = document.querySelectorAll('.manual-table tr.manual-table-row');
+    for (const row of rows) {
+      if (typeof row._updateRwLabel === 'function') row._updateRwLabel();
+    }
+  },
+
   _updateManualDropdowns() {
-    const assigned = new Set(this.manualAssignments.values());
-    const selects = document.querySelectorAll('#manual-assignments-table select');
+    // Stacking rule means an early-position worker can still take a session role
+    // (and vice versa). Only mark workers as "assigned elsewhere" when picking
+    // them would collide — i.e. they hold a session role and the current select
+    // is also a session/shadow position.
+    const sessionAssigned = new Set();
+    for (const [pos, worker] of this.manualAssignments) {
+      if (!CONFIG.earlyPositions.includes(pos)) sessionAssigned.add(worker);
+    }
+    // Algorithm-assigned positions live on entrant.positions[] (not in
+    // manualAssignments). Include their holders so they show up grayed across
+    // every non-early dropdown, mirroring the session-manual gray-out.
+    for (const e of this.entrants) {
+      if (!e.competitor) continue;
+      for (const p of e.positions) {
+        if (!CONFIG.earlyPositions.includes(p)) {
+          sessionAssigned.add(e.competitor);
+          break;
+        }
+      }
+    }
+    const selects = document.querySelectorAll('.manual-table select');
 
     for (const select of selects) {
       const currentVal = select.value;
+      const selectIsEarly = select.dataset.working === 'Early';
       for (const opt of select.options) {
         if (!opt.value) continue;
-        const isElsewhere = assigned.has(opt.value) && opt.value !== currentVal;
+        const isElsewhere = !selectIsEarly && sessionAssigned.has(opt.value) && opt.value !== currentVal;
         opt.disabled = false;
         opt.classList.toggle('assigned-elsewhere', isElsewhere);
       }
@@ -839,11 +1305,18 @@ const App = {
       if (row) row.classList.toggle('unassigned', !select.value);
     }
     this._checkDuplicatePositions();
+    this._scheduleAutoSave();
   },
 
   _showReassignModal(workerName, fromPosition, toPosition) {
     const existing = document.getElementById('reassign-modal');
     if (existing) existing.remove();
+
+    // fromPosition can be a manual (early/session/shadow) position OR an
+    // algorithm position (Starter, Spotter, Corner Captain/Worker). Algorithm
+    // positions live on entrant.positions[] and don't support backfill from
+    // this modal; the user can re-run Assign Workers to refill the slot.
+    const fromIsManual = CONFIG.isManualPosition(fromPosition);
 
     const overlay = document.createElement('div');
     overlay.id = 'reassign-modal';
@@ -890,12 +1363,7 @@ const App = {
     backfillOptions += buildOptgroup('Experienced', experienced);
     backfillOptions += buildOptgroup('Inexperienced', inexperienced);
 
-    modal.innerHTML = `
-      <h3>Reassign Worker</h3>
-      <p class="reassign-modal-text">
-        <strong>${workerName}</strong> is currently assigned to <strong>${fromPosition}</strong>.<br>
-        Reassign to <strong>${toPosition}</strong>?
-      </p>
+    const backfillBlock = fromIsManual ? `
       <div class="reassign-backfill">
         <label>
           <input type="checkbox" id="reassign-backfill-cb">
@@ -904,19 +1372,30 @@ const App = {
         <select id="reassign-backfill-select" style="display:none">
           ${backfillOptions}
         </select>
-      </div>
+      </div>` : `
+      <p class="reassign-modal-note"><em>${fromPosition} will be left empty; click Assign Workers to refill.</em></p>`;
+
+    modal.innerHTML = `
+      <h3>Reassign Worker</h3>
+      <p class="reassign-modal-text">
+        <strong>${workerName}</strong> is currently assigned to <strong>${fromPosition}</strong>.<br>
+        Reassign to <strong>${toPosition}</strong>?
+      </p>
+      ${backfillBlock}
       <div class="reassign-modal-buttons">
         <button class="btn-cancel">No</button>
         <button class="btn-confirm">Yes, Reassign</button>
       </div>
     `;
 
-    // Backfill checkbox toggles dropdown
+    // Backfill checkbox toggles dropdown (only present when fromPosition is manual)
     const backfillCb = modal.querySelector('#reassign-backfill-cb');
     const backfillSelect = modal.querySelector('#reassign-backfill-select');
-    backfillCb.addEventListener('change', () => {
-      backfillSelect.style.display = backfillCb.checked ? '' : 'none';
-    });
+    if (backfillCb && backfillSelect) {
+      backfillCb.addEventListener('change', () => {
+        backfillSelect.style.display = backfillCb.checked ? '' : 'none';
+      });
+    }
 
     // Cancel
     modal.querySelector('.btn-cancel').addEventListener('click', () => {
@@ -928,23 +1407,46 @@ const App = {
 
     // Confirm reassignment
     modal.querySelector('.btn-confirm').addEventListener('click', () => {
-      // Remove worker from old position
-      this.manualAssignments.delete(fromPosition);
+      // Remove worker from old position — manual map vs algorithm positions[]
+      if (fromIsManual) {
+        this.manualAssignments.delete(fromPosition);
+      } else {
+        const entrant = this.entrants.find((e) => e.competitor === workerName);
+        if (entrant) {
+          entrant.positions = entrant.positions.filter((p) => p !== fromPosition);
+          if (!entrant.positions.length) {
+            if (entrant.running === 'Run 1st') entrant.working = 'Work 2nd';
+            else if (entrant.running === 'Run 2nd') entrant.working = 'Work 1st';
+          }
+        }
+      }
 
-      // Assign worker to new position
+      // Assign worker to new manual position
       this.manualAssignments.set(toPosition, workerName);
 
-      // Backfill old position if checked and a worker was selected
-      if (backfillCb.checked && backfillSelect.value) {
+      // Backfill old manual position if requested
+      if (fromIsManual && backfillCb && backfillCb.checked && backfillSelect && backfillSelect.value) {
         this.manualAssignments.set(fromPosition, backfillSelect.value);
       }
 
-      // Sync all dropdown values with manualAssignments
-      const selects = document.querySelectorAll('#manual-assignments-table select');
+      // Sync manual-only dropdown values with manualAssignments. Algorithm rows
+      // are driven directly from entrant.positions and rebuilt elsewhere.
+      const selects = document.querySelectorAll('#manual-assignments-table select, #session-manual-table select');
       for (const sel of selects) {
         const pos = sel.dataset.position;
         sel.value = this.manualAssignments.get(pos) || '';
       }
+
+      // Flush manualAssignments into entrant.positions so the spreadsheet and
+      // R/W badges reflect the swap immediately. Programmatic select.value
+      // assignments above don't fire 'change', so the per-row updateLabel
+      // closures are stale until _refreshManualLabels runs.
+      this._syncManualAssignments();
+      this._updateTable();
+      this._refreshManualLabels();
+
+      // Algorithm UI must rebuild if we cleared an algorithm slot
+      if (!fromIsManual) this._buildAlgorithmAssignmentUI();
 
       this._updateManualDropdowns();
       overlay.remove();
@@ -954,84 +1456,145 @@ const App = {
     document.body.appendChild(overlay);
   },
 
-  _autoFillManualAssignments() {
-    const sorted = [...this.entrants]
+  /** Pool of entrants alphabetized for the auto-fill picker. */
+  _autoFillCandidates() {
+    return [...this.entrants]
       .filter((e) => e.competitor)
       .sort((a, b) => a.competitor.localeCompare(b.competitor));
+  },
+
+  /**
+   * Pick the best available entrant for a position.
+   * Tier order: eligible (prior history) > experienced (>=5 events). No
+   * inexperienced fallback. For session/shadow positions, requiredRunGroup
+   * is the work-group filter (no wrong-group fallback).
+   */
+  _pickAutoFillCandidate(sorted, assigned, position, requiredRunGroup) {
+    const groupOpts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
+    const eligible = [];
+    const experienced = [];
+    for (const e of sorted) {
+      if (assigned.has(e.competitor)) continue;
+      if (requiredRunGroup !== null) {
+        const rg = Groups._getGroup(e, this.groupAssignments || {}, groupOpts);
+        if (rg !== requiredRunGroup) continue;
+      }
+      const posCount = Memory.getPositionCount(e.competitor, position);
+      const eventCount = Memory.getEventCount(e.competitor);
+      if (posCount > 0) eligible.push(e);
+      else if (eventCount >= 5) experienced.push(e);
+    }
+    return eligible[0] || experienced[0] || null;
+  },
+
+  _autoFillEarlyAssignments() {
+    const sorted = this._autoFillCandidates();
     const assigned = new Set(this.manualAssignments.values());
-
-    // Collect all manual positions in order (early + session + shadow)
-    const positions = [];
     for (const group of CONFIG.earlyPositionGroups) {
-      for (const pos of group.positions) {
-        positions.push(pos);
-      }
-    }
-    for (const group of CONFIG.sessionPositionGroups) {
-      for (const pos of group.positions) {
-        positions.push(pos.name);
-      }
-    }
-    for (const shadow of CONFIG.workerPositions.shadow) {
-      positions.push(shadow.name);
-    }
-
-    for (const position of positions) {
-      // Skip already assigned positions
-      if (this.manualAssignments.has(position)) continue;
-
-      // Categorize available entrants
-      const eligible = [];
-      const experienced = [];
-      for (const e of sorted) {
-        if (assigned.has(e.competitor)) continue;
-        const posCount = Memory.getPositionCount(e.competitor, position);
-        const eventCount = Memory.getEventCount(e.competitor);
-        if (posCount > 0) {
-          eligible.push(e);
-        } else if (eventCount >= 5) {
-          experienced.push(e);
+      for (const position of group.positions) {
+        if (this.manualAssignments.has(position)) continue;
+        const pick = this._pickAutoFillCandidate(sorted, assigned, position, null);
+        if (pick) {
+          this.manualAssignments.set(position, pick.competitor);
+          assigned.add(pick.competitor);
         }
       }
-
-      // Pick best available: eligible first, then experienced, skip if only inexperienced
-      const pick = eligible[0] || experienced[0] || null;
-      if (pick) {
-        this.manualAssignments.set(position, pick.competitor);
-        assigned.add(pick.competitor);
-      }
     }
-
-    // Rebuild UI to reflect selections
     this._buildManualAssignmentUI();
   },
 
+  _autoFillSessionAssignments() {
+    const sorted = this._autoFillCandidates();
+    const assigned = new Set(this.manualAssignments.values());
+    const groupOpts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
+    // Shadow positions are user-fill only and intentionally skipped here.
+    for (const group of CONFIG.sessionPositionGroups) {
+      for (const pos of group.positions) {
+        const requiredRunGroup = pos.session === 1 ? 2 : 1;
+        const currentWorker = this.manualAssignments.get(pos.name);
+        if (currentWorker) {
+          // Keep the existing pick only if the worker exists AND their current
+          // run group matches the position. Otherwise clear and refill.
+          const entrant = this.entrants.find((e) => e.competitor === currentWorker);
+          const rg = entrant ? Groups._getGroup(entrant, this.groupAssignments || {}, groupOpts) : null;
+          if (rg === requiredRunGroup) continue;
+          this.manualAssignments.delete(pos.name);
+          assigned.delete(currentWorker);
+        }
+        const pick = this._pickAutoFillCandidate(sorted, assigned, pos.name, requiredRunGroup);
+        if (pick) {
+          this.manualAssignments.set(pos.name, pick.competitor);
+          assigned.add(pick.competitor);
+        }
+      }
+    }
+    this._buildManualAssignmentUI();
+  },
+
+  _clearEarlyAssignments() {
+    if (!confirm('Clear all early-position assignments? This cannot be undone.')) return;
+    for (const pos of CONFIG.earlyPositions) {
+      this.manualAssignments.delete(pos);
+    }
+    this._buildManualAssignmentUI();
+    this._showStatus('Early-position assignments cleared.', 'success');
+  },
+
+  _clearSessionAssignments() {
+    if (!confirm('Clear all session-based assignments (including shadows)? This cannot be undone.')) return;
+    for (const group of CONFIG.sessionPositionGroups) {
+      for (const pos of group.positions) {
+        this.manualAssignments.delete(pos.name);
+      }
+    }
+    for (const shadow of CONFIG.workerPositions.shadow) {
+      this.manualAssignments.delete(shadow.name);
+    }
+    this._buildManualAssignmentUI();
+    this._showStatus('Session-based assignments cleared.', 'success');
+  },
+
   _syncManualAssignments() {
+    // Phase 1: drop any previously assigned manual roles. If an entrant has no
+    // remaining roles, restore their working session from their running session.
     for (const e of this.entrants) {
-      if (e.position && CONFIG.isManualPosition(e.position)) {
-        e.position = '';
+      if (!e.positions.length) continue;
+      e.positions = e.positions.filter((p) => !CONFIG.isManualPosition(p));
+      if (!e.positions.length) {
         if (e.running === 'Run 1st') e.working = 'Work 2nd';
         else if (e.running === 'Run 2nd') e.working = 'Work 1st';
       }
     }
 
-    const selects = document.querySelectorAll('#manual-assignments-table select');
+    // Phase 2: collect every manual selection per worker so a single entrant can
+    // hold multiple early roles plus at most one session/shadow role.
+    const workerRoles = new Map();
+    // Manual-section selects only — algorithm rows write to entrant.positions
+    // directly via _swapAlgorithmPosition and must not be re-read here.
+    const selects = document.querySelectorAll('#manual-assignments-table select, #session-manual-table select');
     for (const select of selects) {
       if (!select.value) continue;
       const position = select.dataset.position;
       const working = select.dataset.working;
-      const entrant = this.entrants.find((e) => e.competitor === select.value);
-      if (entrant) {
-        entrant.position = position;
-        entrant.working = working;
-        entrant.chalkLiner = false;
-        if (position.startsWith('Course Setup')) {
-          const cb = document.querySelector(`#chalk-liner-${position.replace(/\s+/g, '-')}`);
-          if (cb && cb.checked) {
-            entrant.chalkLiner = true;
-          }
-        }
+      const roles = workerRoles.get(select.value) ?? { early: [], session: null, sessionWorking: null, chalk: false };
+      if (working === 'Early') {
+        roles.early.push(position);
+      } else {
+        roles.session = position;
+        roles.sessionWorking = working;
       }
+      if (position.startsWith('Course Setup')) {
+        const cb = document.querySelector(`#chalk-liner-${position.replace(/\s+/g, '-')}`);
+        if (cb && cb.checked) roles.chalk = true;
+      }
+      workerRoles.set(select.value, roles);
+    }
+    for (const [name, roles] of workerRoles) {
+      const entrant = this.entrants.find((e) => e.competitor === name);
+      if (!entrant) continue;
+      entrant.positions = [...roles.early, ...(roles.session ? [roles.session] : [])];
+      entrant.working = roles.sessionWorking ?? 'Early';
+      entrant.chalkLiner = roles.chalk;
     }
   },
 
@@ -1108,6 +1671,107 @@ const App = {
     };
   },
 
+  /**
+   * Resolve session number for a manual position, or null for Early positions.
+   */
+  _getPositionSession(position) {
+    for (const group of CONFIG.sessionPositionGroups) {
+      for (const p of group.positions) {
+        if (p.name === position) return p.session;
+      }
+    }
+    for (const s of CONFIG.workerPositions.shadow) {
+      if (s.name === position) return s.session;
+    }
+    return null;
+  },
+
+  /**
+   * Determine the class that the run-group split actually assigns for this entrant,
+   * mirroring Groups._getGroup's bucketing for novices/ladies in follow mode.
+   */
+  _effectiveClassForLock(entrant) {
+    const cls = entrant.class;
+    if (cls === 'L' && this.ladiesMode !== 'separate') {
+      const paxClass = Groups._getPaxParentClass(entrant.pax);
+      return paxClass || 'L';
+    }
+    if (cls === 'N' && this.noviceMode !== 'separate') {
+      const paxClass = Groups._getPaxParentClass(entrant.pax);
+      return paxClass || 'N';
+    }
+    return cls;
+  },
+
+  /**
+   * Build implicit class locks from manual session-based assignments.
+   * Each session-based manual position forces its assigned worker's class to a specific run group.
+   * Returns { locks, conflicts } where conflicts lists same-class manual picks pulling opposite groups.
+   */
+  _getManualClassLocks() {
+    const locks = {};
+    const lockSources = {};
+    const conflicts = [];
+    for (const [position, workerName] of this.manualAssignments) {
+      const session = this._getPositionSession(position);
+      if (session === null) continue;
+      const group = session === 1 ? 2 : 1;
+      const entrant = this.entrants.find((e) => e.competitor === workerName);
+      if (!entrant) continue;
+      const effectiveClass = this._effectiveClassForLock(entrant);
+      if (locks[effectiveClass] !== undefined && locks[effectiveClass] !== group) {
+        conflicts.push({
+          class: effectiveClass,
+          workerA: lockSources[effectiveClass].worker,
+          positionA: lockSources[effectiveClass].position,
+          groupA: locks[effectiveClass],
+          workerB: workerName,
+          positionB: position,
+          groupB: group,
+        });
+      } else {
+        locks[effectiveClass] = group;
+        lockSources[effectiveClass] = { worker: workerName, position };
+      }
+    }
+    return { locks, conflicts, lockSources };
+  },
+
+  /**
+   * Merge explicit user locks with implicit manual-worker locks.
+   * Explicit locks win; disagreements are appended to conflicts.
+   */
+  _mergeLocks(explicit, manual) {
+    const merged = { ...manual.locks };
+    const conflicts = [...manual.conflicts];
+    for (const [cls, group] of Object.entries(explicit)) {
+      if (merged[cls] !== undefined && merged[cls] !== group) {
+        const src = manual.lockSources[cls];
+        conflicts.push({
+          class: cls,
+          explicit: group,
+          implicit: merged[cls],
+          worker: src ? src.worker : null,
+          position: src ? src.position : null,
+        });
+      }
+      merged[cls] = group;
+    }
+    return { merged, conflicts };
+  },
+
+  _formatLockConflicts(conflicts) {
+    return conflicts.map((c) => {
+      if (c.workerA && c.workerB) {
+        return `${c.class}: ${c.workerA} (${c.positionA} → R${c.groupA}) vs ${c.workerB} (${c.positionB} → R${c.groupB})`;
+      }
+      if (c.worker) {
+        return `${c.class}: explicit lock R${c.explicit} overrides ${c.worker} (${c.position} → R${c.implicit})`;
+      }
+      return `${c.class}: lock conflict`;
+    }).join('; ');
+  },
+
   _getGroupDifference() {
     const groupOpts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
     let g1 = 0, g2 = 0;
@@ -1117,27 +1781,6 @@ const App = {
       else g2++;
     }
     return Math.abs(g1 - g2);
-  },
-
-  /**
-   * Recompute diffs for allValid combos using per-entrant counting and re-filter by maxGroupDiff.
-   * autoAssign uses class-based totals which can miss entrants that don't map to any class.
-   */
-  _recomputeAndFilter(allValid, opts) {
-    const groupOpts = { noviceMode: opts.noviceMode || this.noviceMode, ladiesMode: opts.ladiesMode || this.ladiesMode };
-    const maxDiff = opts.maxGroupDiff !== undefined ? opts.maxGroupDiff : this.maxGroupDiff;
-    const result = [];
-    for (const combo of allValid) {
-      const counts = Groups.computeGroupCounts(this.entrants, combo.assignment, groupOpts);
-      combo.diff = counts.diff;
-      combo.g1 = counts.g1;
-      combo.g2 = counts.g2;
-      if (counts.diff <= maxDiff) {
-        result.push(combo);
-      }
-    }
-    result.sort((a, b) => a.diff - b.diff);
-    return result;
   },
 
   _invalidateCombos() {
@@ -1160,7 +1803,7 @@ const App = {
     if (!this.validCombos) {
       const opts = { ...this._getGroupOptions(), locked };
       const result = Groups.autoAssign(this.entrants, opts);
-      this.validCombos = this._recomputeAndFilter(result.allValid, opts);
+      this.validCombos = result.allValid;
       this.comboIndex = 0;
     } else {
       this.comboIndex = (this.comboIndex + 1) % this.validCombos.length;
@@ -1187,10 +1830,12 @@ const App = {
     for (const e of this.entrants) {
       e.running = '';
       e.working = '';
-      e.position = '';
+      e.positions = [];
     }
     this._updateTable();
     this._updateGroupCounts();
+    this._buildManualAssignmentUI();
+    this._buildAlgorithmAssignmentUI();
   },
 
   /** Combined split + assign */
@@ -1200,7 +1845,7 @@ const App = {
 
     // Check for existing algorithm assignments before modifying anything
     const hasAlgoAssigned = this.entrants.some(
-      (e) => e.position && !CONFIG.isManualPosition(e.position)
+      (e) => e.positions.some((p) => !CONFIG.isManualPosition(p))
     );
     if (hasAlgoAssigned) {
       const choice = confirm(
@@ -1208,9 +1853,7 @@ const App = {
       );
       if (choice) {
         for (const e of this.entrants) {
-          if (e.position && !CONFIG.isManualPosition(e.position)) {
-            e.position = '';
-          }
+          e.positions = e.positions.filter((p) => CONFIG.isManualPosition(p));
         }
       }
     }
@@ -1219,8 +1862,8 @@ const App = {
 
     const preserved = new Map();
     for (const e of this.entrants) {
-      if (e.position && CONFIG.isManualPosition(e.position)) {
-        preserved.set(e.competitor, { position: e.position, working: e.working });
+      if (e.positions.length && e.positions.every((p) => CONFIG.isManualPosition(p))) {
+        preserved.set(e.competitor, { positions: [...e.positions], working: e.working });
       }
     }
 
@@ -1230,7 +1873,7 @@ const App = {
     for (const e of this.entrants) {
       const saved = preserved.get(e.competitor);
       if (saved) {
-        e.position = saved.position;
+        e.positions = saved.positions;
         e.working = saved.working;
       }
     }
@@ -1239,6 +1882,8 @@ const App = {
     this._updateTable();
     this._updateGroupCounts();
     this._checkDuplicatePositions();
+    this._buildManualAssignmentUI();
+    this._buildAlgorithmAssignmentUI();
 
     const diff = this._getGroupDifference();
     if (diff > this.maxGroupDiff) {
@@ -1256,6 +1901,7 @@ const App = {
 
   generateWorkerPDF() {
     this._syncFromTable();
+    this._syncManualAssignments();
     try {
       const opts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
       const doc = PDF.generateWorkerAssignments(this.entrants, this.groupAssignments || {}, this.eventTitle, this.hasLadies, opts);
@@ -1269,6 +1915,7 @@ const App = {
 
   generateGroupsPDF() {
     this._syncFromTable();
+    this._syncManualAssignments();
     try {
       const opts = { noviceMode: this.noviceMode, ladiesMode: this.ladiesMode };
       const doc = PDF.generateGroupsPage(this.entrants, this.groupAssignments || {}, this.eventTitle, this.cornerCount, this.hasLadies, opts);
@@ -1283,11 +1930,11 @@ const App = {
   downloadMemory() {
     this._syncFromTable();
     for (const e of this.entrants) {
-      if (e.competitor && e.position) {
+      if (e.competitor && e.positions.length) {
         Memory.updateParticipant(e.competitor, {
           date: document.getElementById('event-date').value || new Date().toISOString().split('T')[0],
           eventName: this.eventTitle,
-          position: e.position,
+          positions: [...e.positions],
           class: e.class,
           pax: e.pax,
         });
@@ -1377,6 +2024,7 @@ const App = {
     const html = `<!DOCTYPE html>
 <html><head>
 <meta charset="UTF-8">
+<base href="${location.href}">
 <title>ALSCCA Entry List</title>
 <script src="lib/jexcel.js"><\/script>
 <link rel="stylesheet" href="lib/jexcel.css" />
@@ -1408,6 +2056,189 @@ var table = jspreadsheet(document.getElementById('spreadsheet'), {
     const blob = new Blob([html], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     window.open(url, '_blank');
+  },
+
+  // ── Save Point (auto-saved snapshot of current event work) ───
+
+  _autoSaveTimer: null,
+  _suppressAutoSave: false,
+
+  /** Debounced auto-save to localStorage. Called from every state-mutation site. */
+  _scheduleAutoSave() {
+    if (this._suppressAutoSave) {
+      this._suppressAutoSave = false;
+      return;
+    }
+    if (this._autoSaveTimer) clearTimeout(this._autoSaveTimer);
+    this._autoSaveTimer = setTimeout(() => {
+      this._autoSaveTimer = null;
+      if (!this.entrants || this.entrants.length === 0) return;
+      const payload = SavePoint.build(this);
+      SavePoint.saveToLocalStorage(payload);
+    }, 500);
+  },
+
+  _saveProgress() {
+    if (this.entrants.length === 0) {
+      this._showStatus('Load a CSV first.', 'error');
+      return;
+    }
+    const payload = SavePoint.build(this);
+    SavePoint.saveToLocalStorage(payload);
+    SavePoint.download(payload);
+    this._showStatus('Progress saved and downloaded.', 'success');
+  },
+
+  async _loadProgressFromFile(file) {
+    try {
+      const text = await file.text();
+      const payload = SavePoint.parse(text);
+      if (!payload) {
+        this._showStatus('Failed to parse save point file.', 'error');
+        return;
+      }
+      this._applySavePoint(payload, 'file');
+    } catch (err) {
+      this._showStatus(`Error loading save point: ${err.message}`, 'error');
+    }
+  },
+
+  /** Apply a payload, rebuild every UI section, and write it to localStorage. */
+  _applySavePoint(payload, source) {
+    const { warnings } = SavePoint.restore(payload, this);
+    this._buildEventTitle();
+    this._buildPaxClassUI();
+    if (this.entrants.length > 0) {
+      this._renderTable();
+      this._autoSizeColumns();
+      this._buildGroupAssignmentUI();
+      this._buildManualAssignmentUI();
+      this._buildAlgorithmAssignmentUI();
+      this._updateGroupCounts();
+    }
+    this._updateButtonStates();
+    SavePoint.saveToLocalStorage(payload);
+    this._updateSavePointIndicator(payload);
+    const entrantCount = this.entrants?.length || 0;
+    const warnSuffix = warnings.length ? ` Warnings: ${warnings.join(' ')}` : '';
+    this._showStatus(`Save point restored from ${source}: ${entrantCount} entrants.${warnSuffix}`, 'success');
+  },
+
+  _viewSavePoint() {
+    if (!this.entrants || this.entrants.length === 0) {
+      this._showStatus('Nothing to view yet — load a CSV or save point first.', 'error');
+      return;
+    }
+    const payload = SavePoint.build(this);
+    this._showSavePointSummaryModal(payload);
+  },
+
+  _showSavePointSummaryModal(payload) {
+    const summary = SavePoint.summary(payload);
+    if (!summary) return;
+    const existing = document.getElementById('savepoint-summary-modal');
+    if (existing) existing.remove();
+    const overlay = document.createElement('div');
+    overlay.id = 'savepoint-summary-modal';
+    overlay.className = 'modal-overlay';
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+    const modal = document.createElement('div');
+    modal.className = 'modal-content savepoint-summary';
+    let html = '<h3>Save Point Summary</h3>';
+    html += '<table class="savepoint-summary-table">';
+    for (const r of summary.rows) {
+      html += `<tr><th>${r.label}</th><td>${this._escapeHtml(r.value)}</td></tr>`;
+    }
+    html += '</table>';
+    for (const sec of summary.assignments) {
+      html += `<h4>${this._escapeHtml(sec.section)} (${sec.items.length})</h4>`;
+      html += '<ul class="savepoint-summary-list">';
+      for (const item of sec.items) html += `<li>${this._escapeHtml(item)}</li>`;
+      html += '</ul>';
+    }
+    html += '<button class="modal-close">Close</button>';
+    modal.innerHTML = html;
+    modal.querySelector('.modal-close').addEventListener('click', () => overlay.remove());
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+  },
+
+  _escapeHtml(s) {
+    return String(s ?? '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  },
+
+  _resetApp() {
+    if (!confirm('This will clear all current work and reset the app. Continue?')) return;
+    this._suppressAutoSave = true;
+    if (this._autoSaveTimer) {
+      clearTimeout(this._autoSaveTimer);
+      this._autoSaveTimer = null;
+    }
+    SavePoint.clearLocalStorage();
+
+    // Reset App state
+    this.entrants = [];
+    this.rawCsvText = '';
+    this.manualAssignments = new Map();
+    this.groupAssignments = null;
+    this.lockedClasses = new Set();
+    this.validCombos = null;
+    this.comboIndex = 0;
+    this.cornerCount = 4;
+    this.maxGroupDiff = 4;
+    this.noviceMode = 'follow';
+    this.ladiesMode = 'follow';
+    this.eventTitle = '';
+    this.hasLadies = false;
+
+    // Reset DOM
+    document.getElementById('csv-file').value = '';
+    document.getElementById('csv-file-label').textContent = '';
+    document.getElementById('memory-file').value = '';
+    document.getElementById('memory-file-label').textContent = '';
+    document.getElementById('savepoint-file').value = '';
+    document.getElementById('savepoint-file-label').textContent = '';
+    const cornerInput = document.getElementById('corner-count');
+    if (cornerInput) cornerInput.value = 4;
+    document.getElementById('group-assignment').innerHTML = '';
+    if (this.table) {
+      document.getElementById('spreadsheet').innerHTML = '';
+      this.table = null;
+    }
+    for (const id of ['manual-assignment-section', 'session-manual-section', 'algorithm-assignment-section']) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    }
+
+    CONFIG.resetClasses();
+    this._setDefaultTitle();
+    this._buildPaxClassUI();
+    this._updateButtonStates();
+    this._updateSavePointIndicator(null);
+    this._showStatus('App reset. Save point cleared.', 'success');
+  },
+
+  _tryResumeFromLocalStorage() {
+    const payload = SavePoint.loadFromLocalStorage();
+    if (!payload) return;
+    this._applySavePoint(payload, 'localStorage');
+  },
+
+  /** Update the savepoint indicator label after a restore or auto-save tick. */
+  _updateSavePointIndicator(payload) {
+    const el = document.getElementById('savepoint-indicator');
+    if (!el) return;
+    const baseLive = 'Save point: live (auto-saved as you work)';
+    if (!payload || !payload.savedAt) {
+      el.textContent = baseLive;
+      el.className = 'memory-indicator none';
+      return;
+    }
+    const ts = new Date(payload.savedAt).toLocaleString();
+    el.textContent = `${baseLive} — restored from ${ts}`;
+    el.className = 'memory-indicator loaded';
   },
 };
 

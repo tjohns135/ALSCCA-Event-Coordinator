@@ -54,7 +54,7 @@ const PDF = {
       `${e.class}_${e.pax}_${e.number}`,
       e.running,
       e.working,
-      e.position,
+      e.positions.join(', '),
       e.comments || '',
     ]);
 
@@ -123,7 +123,9 @@ const PDF = {
     for (const e of earlyEntrants) {
       let name = e.competitor;
       if (e.chalkLiner) name += ' (Chalk Liner)';
-      grid[e.position] = name;
+      for (const pos of e.positions) {
+        grid[pos] = name;
+      }
     }
     return grid;
   },
@@ -174,7 +176,7 @@ const PDF = {
    * Draw a work session section with corners showing workers in same column as captain
    */
   _drawWorkSection(doc, entrants, workSession, title, cornerCount, startY) {
-    const workers = entrants.filter((e) => e.working === workSession && e.position);
+    const workers = entrants.filter((e) => e.working === workSession && e.positions.length);
 
     let y = startY;
     doc.setFontSize(9);
@@ -195,15 +197,15 @@ const PDF = {
       .map((p) => p.name);
 
     const specData = sessionPositions.map((pos) => {
-      const worker = workers.find((w) => w.position === pos);
+      const worker = workers.find((w) => w.positions.includes(pos));
       return [pos, worker ? worker.competitor : ''];
     });
 
     // Corner data
     const cornerData = [];
     for (let c = 1; c <= cornerCount; c++) {
-      const captain = workers.find((w) => w.position === `Corner ${c} Captain`);
-      const cornerWorkers = workers.filter((w) => w.position === `Corner ${c} Worker`);
+      const captain = workers.find((w) => w.positions.includes(`Corner ${c} Captain`));
+      const cornerWorkers = workers.filter((w) => w.positions.includes(`Corner ${c} Worker`));
       cornerData.push({
         corner: c,
         captain: captain ? captain.competitor : '',

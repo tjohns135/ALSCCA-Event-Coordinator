@@ -611,6 +611,106 @@ button.danger:hover:not(:disabled) {
   color: var(--text-primary);
 }
 
+.manual-table option.wrong-run-group {
+  color: var(--text-dimmed);
+  font-style: italic;
+}
+
+/* Algorithm-assignment table — visible gap between corner groups */
+.algorithm-corner-spacer td {
+  height: var(--space-md);
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.algorithm-table .corner-header td {
+  background: var(--bg-tertiary);
+}
+
+/* Per-session sub-block inside the Algorithm-Assigned Positions card */
+.algorithm-session-block {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.algorithm-session-block:last-child {
+  margin-bottom: 0;
+}
+
+.algorithm-session-header {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+/* Save Point summary modal */
+.modal-content.savepoint-summary {
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.savepoint-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-md);
+}
+
+.savepoint-summary-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 4px var(--space-sm) 4px 0;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.savepoint-summary-table td {
+  padding: 4px 0;
+  color: var(--text-primary);
+}
+
+.savepoint-summary h4 {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin: var(--space-sm) 0 var(--space-xs);
+}
+
+.savepoint-summary-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.savepoint-summary-list li {
+  padding: 2px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.manual-rw-label {
+  display: inline-block;
+  margin-left: var(--space-sm);
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  white-space: nowrap;
+}
+
+.manual-rw-label-conflict {
+  color: #fff;
+  background-color: #8a2424;
+  border-color: #b03030;
+}
+
 .chalk-liner-flag {
   display: flex;
   align-items: center;
